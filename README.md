@@ -1,3 +1,4 @@
+
 # Resdy Backend
 
 Welcome to Resdy, a powerful RESTful API built with Prisma ORM, Node.js, TSOA, and TypeScript. This API serves as a robust backend for our application, providing seamless data management and powerful endpoint interactions. With TypeScript's typing and TSOA's automatic routing, this project ensures a scalable and maintainable codebase.
@@ -33,6 +34,8 @@ To set up this API for the first time, you have to follow these steps:
 
 	 `npm run seed`
 
-And you will be ready to work!
+	Once all it configured. You can start using the API locally by running:
 
+	`npm run dev`
 
+	You can look up all routes by going to http://localhost:3000/docs/
