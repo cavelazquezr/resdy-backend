@@ -7,15 +7,21 @@ Welcome to Resdy, a powerful RESTful API built with Prisma ORM, Node.js, TSOA, a
  - Prisma ORM ([Go to docs](https://www.prisma.io/docs))
  - TSOA ([Go to docs](https://tsoa-community.github.io/docs/))
 
+## VSCode Extensions needed
+
+ - ESLint ([Download](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint))
+ - Prisma ([Download](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma))
+ - Prettier ([Download](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode))
+
 ## Once you got the repo cloned
 
-To setup this API for first time, you have to follow these steps:
+To set up this API for the first time, you have to follow these steps:
 
  1. Install dependencies:
  
 	 `npm install`
 
- 2. Ensure that you have Docker installed in your computer. Once you have it, run this comand in the terminal and you should have your container built.
+ 2. Ensure that you have Docker installed on your computer. Once you have it, run this command in the terminal and you should have your container built.
 
 	 `npm run setupDb`
 
