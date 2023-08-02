@@ -35,10 +35,4 @@ To set up this API for the first time, you have to follow these steps:
 
 And you will be ready to work!
 
-## Time to start
-
-Once all is configured, run the command:
-
-	 `npm run dev`
-
 
