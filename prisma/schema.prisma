@@ -1,0 +1,103 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["auth", "webs", "food_menus"]
+}
+
+model User {
+  id          String   @id @default(uuid()) @db.VarChar(36)
+  email       String   @unique @db.VarChar(254)
+  firstname   String   @db.VarChar(20)
+  lastname    String   @db.VarChar(20)
+  password    String   @db.VarChar(20)
+  dateCreated DateTime @default(now())
+  isActive    Boolean  @default(true)
+  webs        Web[]
+
+  @@map("users")
+  @@schema("auth")
+}
+
+model Web {
+  id                String             @id @default(uuid()) @db.VarChar(36)
+  name              String             @unique @db.VarChar(20)
+  admin             User               @relation(fields: [adminId], references: [id])
+  adminId           String
+  customization     Customization?
+  webInformation    WebInformation?
+  dishesCategories  DishesCategories?
+  dishes            Dishes[]
+  restaurantRatings RestaurantRatings?
+
+  @@map("webs")
+  @@schema("webs")
+}
+
+model Customization {
+  colorPalette       Json     @db.Json
+  fontFamilies       Json     @db.Json
+  extraCustomization Json?    @db.Json
+  logoUrl            String?  @db.VarChar(65529)
+  name               String   @db.VarChar(20)
+  updatedAt          DateTime @updatedAt
+  web                Web      @relation(fields: [webId], references: [id])
+  webId              String   @unique
+
+  @@map("customization")
+  @@schema("webs")
+}
+
+model WebInformation {
+  phone            String?  @db.VarChar(10)
+  address          String?  @db.VarChar(30)
+  city             String?  @db.VarChar(30)
+  country          String?  @db.VarChar(30)
+  socialMedia      Json?    @db.Json
+  restaurantType   String?  @db.VarChar(30)
+  location         Json?    @db.Json
+  extraInformation Json?    @db.Json
+  updatedAt        DateTime @updatedAt
+  web              Web      @relation(fields: [webId], references: [id])
+  webId            String   @unique
+
+  @@map("web_information")
+  @@schema("webs")
+}
+
+model RestaurantRatings {
+  ratings Json?  @db.Json
+  web     Web    @relation(fields: [webId], references: [id])
+  webId   String @unique
+
+  @@map("ratings")
+  @@schema("webs")
+}
+
+model DishesCategories {
+  categories Json?  @db.Json
+  web        Web    @relation(fields: [webId], references: [id])
+  webId      String @unique
+
+  @@map("categories")
+  @@schema("food_menus")
+}
+
+model Dishes {
+  id          String   @id @default(uuid()) @db.VarChar(36)
+  name        String   @db.VarChar(30)
+  category    String   @db.VarChar(30)
+  photoUrl    String?  @db.VarChar(65529)
+  price       Decimal  @db.Decimal(10, 2)
+  description String?  @db.VarChar(400)
+  allergen    String[] @default(["noAllergens"]) @db.VarChar(30)
+  web         Web      @relation(fields: [webId], references: [id])
+  webId       String
+
+  @@map("dishes")
+  @@schema("food_menus")
+}
