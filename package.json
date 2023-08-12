@@ -7,7 +7,7 @@
     "build": "tsc",
     "prestart": "npm run build",
     "dev": "concurrently \"npx nodemon\" \"npx nodemon -x tsoa spec-and-routes\"",
-    "setupDb": "docker-compose -f docker-compose.test.yml up -d --renew-anon-volumes && prisma migrate dev",
+    "setupDb": "docker-compose -f docker-compose.test.yml up -d --renew-anon-volumes",
     "test": "jest --passWithNoTests --runInBand",
     "teardownDb": "docker-compose -f docker-compose.test.yml down",
     "seed": "ts-node seeds/seed.ts"

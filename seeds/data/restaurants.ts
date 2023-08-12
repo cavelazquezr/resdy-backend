@@ -1,8 +1,9 @@
 import { Prisma } from "@prisma/client";
 
-export const restaurants: Prisma.WebCreateWithoutAdminInput[] = [
+export const restaurants: Prisma.WebCreateInput[] = [
 	{
 		name: "adminrestaurant",
+		admin: { connect: { email: "admin@resdy.net" } },
 		customization: {
 			create: {
 				colorPalette: {
@@ -111,6 +112,7 @@ export const restaurants: Prisma.WebCreateWithoutAdminInput[] = [
 	},
 	{
 		name: "testrestaurant",
+		admin: { connect: { email: "admin@resdy.net" } },
 		customization: {
 			create: {
 				colorPalette: {
