@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const tslib_1 = require("tslib");
-const client_1 = require("@prisma/client");
 const tsoa_1 = require("tsoa");
 const users_model_get_1 = require("./users.model.get");
 const users_model_post_1 = require("./users.model.post");
@@ -62,6 +61,6 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], UsersController.prototype, "deleteUser", null);
 exports.UsersController = UsersController = tslib_1.__decorate([
-    (0, tsoa_1.Tags)("Users module"),
+    (0, tsoa_1.Tags)("Authentication service"),
     (0, tsoa_1.Route)("users")
 ], UsersController);

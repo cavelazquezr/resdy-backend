@@ -15,7 +15,7 @@ import {
 import { getRestaurantHandler } from "./webs.model.get";
 import { postRestaurantHandler } from "./webs.model.post";
 import { deleteRestaurantHandler } from "./webs.model.delete";
-import { CreateRestaurantInput, RestautantOutput } from "../../types/webs";
+import { CreateRestaurantInput, RestautantOutput } from "../../types/restaurant";
 
 @Tags("Restaurant service")
 @Route("restaurant")

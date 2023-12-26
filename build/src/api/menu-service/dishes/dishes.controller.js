@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DishesController = void 0;
 const tslib_1 = require("tslib");
-const client_1 = require("@prisma/client");
 const tsoa_1 = require("tsoa");
 const dishes_model_get_1 = require("./dishes.model.get");
 const dishes_model_post_1 = require("./dishes.model.post");
@@ -35,6 +34,6 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:returntype", Promise)
 ], DishesController.prototype, "postDishes", null);
 exports.DishesController = DishesController = tslib_1.__decorate([
-    (0, tsoa_1.Tags)("Menu module"),
+    (0, tsoa_1.Tags)("Menu service"),
     (0, tsoa_1.Route)("webs")
 ], DishesController);

@@ -17,9 +17,9 @@ import { getUsersHandler } from "./users.model.get";
 import { postUserHandler } from "./users.model.post";
 import { putUserHandler } from "./users.model.put";
 import { deleteUserHandler } from "./users.model.delete";
-import { UpdateUser } from "../../types/users";
+import { UpdateUserInput, CreateUserInput } from "../../types/user";
 
-@Tags("Users module")
+@Tags("Authentication service")
 @Route("users")
 export class UsersController extends Controller {
 	@Get()
@@ -36,14 +36,14 @@ export class UsersController extends Controller {
 	}
 
 	@Post()
-	public async postUser(@Body() user: Prisma.UserCreateInput): Promise<User> {
+	public async postUser(@Body() user: CreateUserInput): Promise<User> {
 		return postUserHandler(user);
 	}
 
 	@Put()
 	public async putUser(
 		@Header() authorization: string,
-		@Body() user: UpdateUser,
+		@Body() user: UpdateUserInput,
 		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 	): Promise<User | string> {
 		return putUserHandler(authorization, user, unauthorizedCallback);

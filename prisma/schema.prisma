@@ -35,7 +35,7 @@ model Restaurant {
   admin_id               String
   customization          Customization?
   restaurant_information RestaurantInformation?
-  dishes_categories      DishesCategories?
+  dishes_categories      DishesCategories[]
   dishes                 Dishes[]
   ratings                Rating?
   reservation            Reservation?
@@ -115,12 +115,13 @@ model DishesCategories {
   id            String     @id @default(uuid()) @db.VarChar(36)
   label         String     @db.VarChar(30)
   restaurant    Restaurant @relation(fields: [restaurant_id], references: [id])
-  restaurant_id String     @unique
+  restaurant_id String
   dishes        Dishes[]
 
   @@map("category")
   @@schema("menu")
 }
+
 
 model Dishes {
   id            String           @id @default(uuid()) @db.VarChar(36)
@@ -128,7 +129,7 @@ model Dishes {
   photo_url     String?          @db.VarChar(65529)
   price         Decimal          @db.Decimal(10, 2)
   description   String?          @db.VarChar(400)
-  allergen      String[]         @default(["noAllergens"]) @db.VarChar(30)
+  allergen      String?          @db.VarChar(400)
   restaurant    Restaurant       @relation(fields: [restaurant_id], references: [id])
   restaurant_id String
   category      DishesCategories @relation(fields: [category_id], references: [id])

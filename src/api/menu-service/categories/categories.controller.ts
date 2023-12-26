@@ -16,6 +16,7 @@ import { putCategoryHandler } from "./categories.model.put";
 import { CategoryOutput } from "../../../types/categories";
 import { getCategoriesHandler } from "./categories.model.get";
 import { deleteCategoryHandler } from "./categories.model.delete";
+import { UpdateCategoryInput } from "../../../types/menu";
 
 @Tags("Menu service")
 @Route("menu")
@@ -32,7 +33,7 @@ export class CategoriesController extends Controller {
 	public async putCategory(
 		@Header() authorization: string,
 		@Path() category_id: string,
-		@Body() category: Prisma.DishesCategoriesUpdateWithoutRestaurantInput,
+		@Body() category: UpdateCategoryInput,
 		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 	): Promise<DishesCategories | string> {
 		return putCategoryHandler(authorization, category_id, category, unauthorizedCallback);

@@ -3,11 +3,12 @@ import { client } from "../../../services/prisma";
 import { TsoaResponse } from "tsoa";
 import { isAdminOfCurrentRestaurant } from "../../../services/access";
 import { UserStatus } from "../../../types/messages";
+import { UpdateCategoryInput } from "../../../types/menu";
 
 export const putCategoryHandler = async (
 	authorization: string,
 	category_id: string,
-	category: Prisma.DishesCategoriesUpdateWithoutRestaurantInput,
+	category: UpdateCategoryInput,
 	unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 ): Promise<DishesCategories | string> => {
 	try {

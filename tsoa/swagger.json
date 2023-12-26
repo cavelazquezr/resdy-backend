@@ -1,0 +1,1728 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"UserCredentials": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CategoryOutput": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"label": {
+						"type": "string"
+					},
+					"hasRecordUsingCategory": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"id",
+					"label"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"%24Result.DefaultSelection_Prisma.%24DishesCategoriesPayload_": {
+				"properties": {
+					"restaurant_id": {
+						"type": "string"
+					},
+					"label": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"restaurant_id",
+					"label",
+					"id"
+				],
+				"type": "object"
+			},
+			"DishesCategories": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24DishesCategoriesPayload_",
+				"description": "Model DishesCategories"
+			},
+			"UpdateCategoryInput": {
+				"properties": {
+					"label": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"label"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Decimal": {
+				"type": "string"
+			},
+			"DishOutput": {
+				"properties": {
+					"allergen": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"photo_url": {
+						"type": "string"
+					},
+					"price": {
+						"$ref": "#/components/schemas/Decimal"
+					},
+					"description": {
+						"type": "string"
+					},
+					"restaurant_id": {
+						"type": "string"
+					},
+					"category_id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"allergen",
+					"id",
+					"name",
+					"price",
+					"restaurant_id",
+					"category_id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"%24Result.DefaultSelection_Prisma.%24DishesPayload_": {
+				"properties": {
+					"category_id": {
+						"type": "string"
+					},
+					"restaurant_id": {
+						"type": "string"
+					},
+					"allergen": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"price": {
+						"$ref": "#/components/schemas/Decimal"
+					},
+					"photo_url": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"category_id",
+					"restaurant_id",
+					"allergen",
+					"description",
+					"price",
+					"photo_url",
+					"name",
+					"id"
+				],
+				"type": "object"
+			},
+			"Dishes": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24DishesPayload_",
+				"description": "Model Dishes"
+			},
+			"CreateDishInput": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"photo_url": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"description": {
+						"type": "string"
+					},
+					"allergen": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"price"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"JsonObject": {
+				"properties": {},
+				"type": "object",
+				"description": "From https://github.com/sindresorhus/type-fest/\nMatches a JSON object.\nThis type can be useful to enforce some input to be JSON-compatible or as a super-type to be extended from."
+			},
+			"JsonArray": {
+				"description": "From https://github.com/sindresorhus/type-fest/\nMatches a JSON array.",
+				"properties": {},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"JsonValue": {
+				"anyOf": [
+					{
+						"type": "string"
+					},
+					{
+						"type": "number",
+						"format": "double"
+					},
+					{
+						"type": "boolean"
+					},
+					{
+						"$ref": "#/components/schemas/JsonObject"
+					},
+					{
+						"$ref": "#/components/schemas/JsonArray"
+					}
+				],
+				"nullable": true,
+				"description": "From https://github.com/sindresorhus/type-fest/\nMatches any valid JSON value."
+			},
+			"%24Result.DefaultSelection_Prisma.%24CustomizationPayload_": {
+				"properties": {
+					"restaurant_id": {
+						"type": "string"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"name": {
+						"type": "string"
+					},
+					"header_url": {
+						"type": "string"
+					},
+					"logo_url": {
+						"type": "string"
+					},
+					"extra_customization": {
+						"$ref": "#/components/schemas/JsonValue"
+					},
+					"font_families": {
+						"$ref": "#/components/schemas/JsonValue"
+					},
+					"color_palette": {
+						"$ref": "#/components/schemas/JsonValue"
+					}
+				},
+				"required": [
+					"restaurant_id",
+					"updated_at",
+					"name",
+					"header_url",
+					"logo_url",
+					"extra_customization",
+					"font_families",
+					"color_palette"
+				],
+				"type": "object"
+			},
+			"Customization": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24CustomizationPayload_",
+				"description": "Model Customization"
+			},
+			"DbNull": {
+				"description": "Type of `Prisma.DbNull`.\n\nYou cannot use other instances of this class. Please use the `Prisma.DbNull` value.",
+				"properties": {},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"JsonNull": {
+				"description": "Type of `Prisma.JsonNull`.\n\nYou cannot use other instances of this class. Please use the `Prisma.JsonNull` value.",
+				"properties": {},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"NullableJsonNullValueInput": {
+				"anyOf": [
+					{
+						"$ref": "#/components/schemas/DbNull"
+					},
+					{
+						"$ref": "#/components/schemas/JsonNull"
+					}
+				]
+			},
+			"InputJsonObject": {
+				"properties": {},
+				"type": "object",
+				"description": "Matches a JSON object.\nUnlike `JsonObject`, this type allows undefined and read-only properties."
+			},
+			"InputJsonArray": {
+				"description": "Matches a JSON array.\nUnlike `JsonArray`, readonly arrays are assignable to this type.",
+				"properties": {},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"InputJsonValue": {
+				"anyOf": [
+					{
+						"type": "string"
+					},
+					{
+						"type": "number",
+						"format": "double"
+					},
+					{
+						"type": "boolean"
+					},
+					{
+						"$ref": "#/components/schemas/InputJsonObject"
+					},
+					{
+						"$ref": "#/components/schemas/InputJsonArray"
+					},
+					{
+						"properties": {},
+						"type": "object"
+					}
+				],
+				"description": "Matches any valid value that can be used as an input for operations like\ncreate and update as the value of a JSON field. Unlike `JsonValue`, this\ntype allows read-only arrays and read-only object properties and disallows\n`null` at the top level.\n\n`null` cannot be used as the value of a JSON field because its meaning\nwould be ambiguous. Use `Prisma.JsonNull` to store the JSON null value or\n`Prisma.DbNull` to clear the JSON value and set the field to the database\nNULL value instead."
+			},
+			"Prisma.CustomizationCreateManyInput": {
+				"properties": {
+					"restaurant_id": {
+						"type": "string"
+					},
+					"updated_at": {
+						"anyOf": [
+							{
+								"type": "string",
+								"format": "date-time"
+							},
+							{
+								"type": "string"
+							}
+						]
+					},
+					"name": {
+						"type": "string",
+						"nullable": true
+					},
+					"header_url": {
+						"type": "string",
+						"nullable": true
+					},
+					"logo_url": {
+						"type": "string",
+						"nullable": true
+					},
+					"extra_customization": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					},
+					"font_families": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					},
+					"color_palette": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					}
+				},
+				"required": [
+					"restaurant_id"
+				],
+				"type": "object"
+			},
+			"%24Result.DefaultSelection_Prisma.%24RestaurantInformationPayload_": {
+				"properties": {
+					"restaurant_id": {
+						"type": "string"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"extra_information": {
+						"$ref": "#/components/schemas/JsonValue"
+					},
+					"location": {
+						"$ref": "#/components/schemas/JsonValue"
+					},
+					"restaurant_type": {
+						"type": "string"
+					},
+					"social_media": {
+						"$ref": "#/components/schemas/JsonValue"
+					},
+					"country": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"address": {
+						"type": "string"
+					},
+					"phone": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"restaurant_id",
+					"updated_at",
+					"extra_information",
+					"location",
+					"restaurant_type",
+					"social_media",
+					"country",
+					"city",
+					"address",
+					"phone"
+				],
+				"type": "object"
+			},
+			"RestaurantInformation": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24RestaurantInformationPayload_",
+				"description": "Model RestaurantInformation"
+			},
+			"Prisma.RestaurantInformationCreateManyInput": {
+				"properties": {
+					"restaurant_id": {
+						"type": "string"
+					},
+					"updated_at": {
+						"anyOf": [
+							{
+								"type": "string",
+								"format": "date-time"
+							},
+							{
+								"type": "string"
+							}
+						]
+					},
+					"extra_information": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					},
+					"location": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					},
+					"restaurant_type": {
+						"type": "string",
+						"nullable": true
+					},
+					"social_media": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					},
+					"country": {
+						"type": "string",
+						"nullable": true
+					},
+					"city": {
+						"type": "string",
+						"nullable": true
+					},
+					"address": {
+						"type": "string",
+						"nullable": true
+					},
+					"phone": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": [
+					"restaurant_id"
+				],
+				"type": "object"
+			},
+			"Prisma.JsonObject": {
+				"properties": {},
+				"type": "object",
+				"description": "From https://github.com/sindresorhus/type-fest/\nMatches a JSON object.\nThis type can be useful to enforce some input to be JSON-compatible or as a super-type to be extended from."
+			},
+			"RestautantOutput": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"brand_name": {
+						"type": "string"
+					},
+					"phone": {
+						"type": "string"
+					},
+					"address": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"restaurant_type": {
+						"type": "string"
+					},
+					"location": {
+						"$ref": "#/components/schemas/Prisma.JsonObject"
+					},
+					"price_average": {
+						"type": "number",
+						"format": "double"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"rating_count": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"price_average"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"%24Result.DefaultSelection_Prisma.%24RestaurantPayload_": {
+				"properties": {
+					"admin_id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"admin_id",
+					"name",
+					"id"
+				],
+				"type": "object"
+			},
+			"Restaurant": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24RestaurantPayload_",
+				"description": "Model Restaurant"
+			},
+			"Prisma.CustomizationCreateWithoutRestaurantInput": {
+				"properties": {
+					"updated_at": {
+						"anyOf": [
+							{
+								"type": "string",
+								"format": "date-time"
+							},
+							{
+								"type": "string"
+							}
+						]
+					},
+					"name": {
+						"type": "string",
+						"nullable": true
+					},
+					"header_url": {
+						"type": "string",
+						"nullable": true
+					},
+					"logo_url": {
+						"type": "string",
+						"nullable": true
+					},
+					"extra_customization": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					},
+					"font_families": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					},
+					"color_palette": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					}
+				},
+				"type": "object"
+			},
+			"Prisma.RestaurantInformationCreateWithoutRestaurantInput": {
+				"properties": {
+					"updated_at": {
+						"anyOf": [
+							{
+								"type": "string",
+								"format": "date-time"
+							},
+							{
+								"type": "string"
+							}
+						]
+					},
+					"extra_information": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					},
+					"location": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					},
+					"restaurant_type": {
+						"type": "string",
+						"nullable": true
+					},
+					"social_media": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					},
+					"country": {
+						"type": "string",
+						"nullable": true
+					},
+					"city": {
+						"type": "string",
+						"nullable": true
+					},
+					"address": {
+						"type": "string",
+						"nullable": true
+					},
+					"phone": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"type": "object"
+			},
+			"CreateRestaurantInput": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"customization": {
+						"$ref": "#/components/schemas/Prisma.CustomizationCreateWithoutRestaurantInput"
+					},
+					"restaurant_information": {
+						"$ref": "#/components/schemas/Prisma.RestaurantInformationCreateWithoutRestaurantInput"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"%24Result.DefaultSelection_Prisma.%24UserPayload_": {
+				"properties": {
+					"is_owner": {
+						"type": "boolean"
+					},
+					"is_active": {
+						"type": "boolean"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"password": {
+						"type": "string"
+					},
+					"avatar_url": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string"
+					},
+					"firstname": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"is_owner",
+					"is_active",
+					"created_at",
+					"password",
+					"avatar_url",
+					"lastname",
+					"firstname",
+					"email",
+					"id"
+				],
+				"type": "object"
+			},
+			"User": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24UserPayload_",
+				"description": "Model User"
+			},
+			"CreateUserInput": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"firstname": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"is_owner": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"email",
+					"firstname",
+					"lastname",
+					"password",
+					"is_owner"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateUserInput": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"firstname": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "resdy-back",
+		"version": "1.0.0",
+		"description": "Rest API with Nodejs and Prisma",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {
+			"name": "Carlos Velázquez"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/authentication": {
+			"post": {
+				"operationId": "LogIn",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"token": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"token"
+											],
+											"type": "object"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication module"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserCredentials"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/menu/category/{restaurant_id}": {
+			"get": {
+				"operationId": "GetCategories",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/CategoryOutput"
+											},
+											"type": "array"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Menu service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "restaurant_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/menu/category/{category_id}": {
+			"put": {
+				"operationId": "PutCategory",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/DishesCategories"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Menu service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "category_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateCategoryInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/menu/categories/{webId}": {
+			"delete": {
+				"operationId": "DeleteWeb",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Menu service"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/webs/dishes/{restaurant_id}": {
+			"get": {
+				"operationId": "GetDishes",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/DishOutput"
+											},
+											"type": "array"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Menu service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "restaurant_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/webs/dishes/{restaurant_id}/{category_id}": {
+			"post": {
+				"operationId": "PostDishes",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/components/schemas/Dishes"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Menu service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "restaurant_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "category_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateDishInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/restautant/customization": {
+			"put": {
+				"operationId": "PutCustomization",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/Customization"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Restaurant service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Prisma.CustomizationCreateManyInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/restautant/information": {
+			"put": {
+				"operationId": "PutInformation",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/RestaurantInformation"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Restaurant service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Prisma.RestaurantInformationCreateManyInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/restaurant": {
+			"get": {
+				"operationId": "GetRestaurant",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/RestautantOutput"
+											},
+											"type": "array"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Restaurant service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "name",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "city",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "restaurant_type",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "country",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "PostRestaurant",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/Restaurant"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Restaurant service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateRestaurantInput"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteWeb",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Restaurant service"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/users": {
+			"get": {
+				"operationId": "GetUsers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/User"
+											},
+											"type": "array"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "lastname",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "firstname",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "email",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "PostUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication service"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateUserInput"
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"operationId": "PutUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/User"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateUserInput"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/User"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

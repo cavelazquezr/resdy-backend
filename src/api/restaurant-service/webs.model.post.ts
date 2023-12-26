@@ -3,7 +3,7 @@ import { client } from "../../services/prisma";
 import { verifyToken } from "../../services/access";
 import { UserStatus } from "../../types/messages";
 import { TsoaResponse } from "tsoa";
-import { CreateRestaurantInput } from "../../types/webs";
+import { CreateRestaurantInput } from "../../types/restaurant";
 
 export const postRestaurantHandler = async (
 	authorization: string,

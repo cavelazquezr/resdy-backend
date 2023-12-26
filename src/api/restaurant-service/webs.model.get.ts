@@ -2,7 +2,7 @@ import { Dishes, Prisma } from "@prisma/client";
 import { client } from "../../services/prisma";
 import { UserStatus } from "../../types/messages";
 import { TsoaResponse } from "tsoa";
-import { RestautantOutput } from "../../types/webs";
+import { RestautantOutput } from "../../types/restaurant";
 
 export const getRestaurantHandler = async (
 	unauthorizedCallback: TsoaResponse<403, { reason: string }>,

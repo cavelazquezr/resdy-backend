@@ -3,12 +3,13 @@ import { TsoaResponse } from "tsoa";
 import { isAdminOfCurrentRestaurant, verifyToken } from "../../../services/access";
 import { client } from "../../../services/prisma";
 import { UserStatus } from "../../../types/messages";
+import { CreateDishInput } from "../../../types/menu";
 
 export const postDishesHandler = async (
 	authorization: string,
 	restaurant_id: string,
 	category_id: string,
-	dish: Prisma.DishesCreateInput,
+	dish: CreateDishInput,
 	unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 ): Promise<Dishes | string> => {
 	try {
@@ -21,6 +22,7 @@ export const postDishesHandler = async (
 		const createdDish = await client.dishes.create({
 			data: {
 				...dish,
+				allergen: dish.allergen?.toString(),
 				restaurant: { connect: { id: restaurant_id } },
 				category: { connect: { id: category_id } },
 			},

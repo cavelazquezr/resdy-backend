@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoriesController = void 0;
 const tslib_1 = require("tslib");
-const client_1 = require("@prisma/client");
 const tsoa_1 = require("tsoa");
 const categories_model_put_1 = require("./categories.model.put");
 const categories_model_get_1 = require("./categories.model.get");

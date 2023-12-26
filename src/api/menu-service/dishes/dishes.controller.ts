@@ -4,26 +4,25 @@ import {
 	Controller,
 	Res,
 	Body,
-	Put,
 	Route,
 	Tags,
 	Path,
 	TsoaResponse,
-	Delete,
 	Post,
 	Get,
 } from "tsoa";
 import { getDishesHandler } from "./dishes.model.get";
 import { postDishesHandler } from "./dishes.model.post";
+import { CreateDishInput, DishOutput } from "../../../types/menu";
 
-@Tags("Menu module")
+@Tags("Menu service")
 @Route("webs")
 export class DishesController extends Controller {
 	@Get("/dishes/{restaurant_id}")
 	public async getDishes(
 		@Path() restaurant_id: string,
 		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
-	): Promise<Dishes[] | string> {
+	): Promise<DishOutput[] | string> {
 		return getDishesHandler(restaurant_id, unauthorizedCallback);
 	}
 
@@ -32,7 +31,7 @@ export class DishesController extends Controller {
 		@Header() authorization: string,
 		@Path() restaurant_id: string,
 		@Path() category_id: string,
-		@Body() dish: Prisma.DishesCreateInput,
+		@Body() dish: CreateDishInput,
 		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 	): Promise<string | Dishes> {
 		return postDishesHandler(

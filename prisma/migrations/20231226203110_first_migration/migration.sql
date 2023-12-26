@@ -42,8 +42,8 @@ CREATE TABLE "restaurant"."restaurants" (
 
 -- CreateTable
 CREATE TABLE "restaurant"."customization" (
-    "color_palette" JSON NOT NULL,
-    "font_families" JSON NOT NULL,
+    "color_palette" JSON,
+    "font_families" JSON,
     "extra_customization" JSON,
     "logo_url" VARCHAR(65529),
     "header_url" VARCHAR(65529),
@@ -112,7 +112,7 @@ CREATE TABLE "menu"."dish" (
     "photo_url" VARCHAR(65529),
     "price" DECIMAL(10,2) NOT NULL,
     "description" VARCHAR(400),
-    "allergen" VARCHAR(30)[] DEFAULT ARRAY['noAllergens']::VARCHAR(30)[],
+    "allergen" VARCHAR(400),
     "restaurant_id" TEXT NOT NULL,
     "category_id" TEXT NOT NULL,
 
@@ -154,9 +154,6 @@ CREATE UNIQUE INDEX "rating_restaurant_id_key" ON "rating"."rating"("restaurant_
 
 -- CreateIndex
 CREATE UNIQUE INDEX "reservation_restaurant_id_key" ON "booking"."reservation"("restaurant_id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "category_restaurant_id_key" ON "menu"."category"("restaurant_id");
 
 -- AddForeignKey
 ALTER TABLE "restaurant"."restaurants" ADD CONSTRAINT "restaurants_admin_id_fkey" FOREIGN KEY ("admin_id") REFERENCES "auth"."users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
