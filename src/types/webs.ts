@@ -1,21 +1,27 @@
 import { Prisma } from "@prisma/client";
 
-export interface WebOutput {
-	id?: string;
+export interface RestautantOutput {
 	name?: string;
+	brand_name?: string;
 	phone?: string;
 	address?: string;
 	country?: string;
 	city?: string;
-	restaurantType?: string;
+	restaurant_type?: string;
 	location?: Prisma.JsonObject;
-	priceAverage: number;
-	ratings?: number;
-	ratingStarts?: number;
+	price_average: number;
+	rating?: number;
+	rating_count?: number;
+}
+
+export interface CreateRestaurantInput {
+	name: string;
+	customization?: Prisma.CustomizationCreateWithoutRestaurantInput;
+	restaurant_information?: Prisma.RestaurantInformationCreateWithoutRestaurantInput;
 }
 
 export interface RestaurantRatingsRecord {
-	authorId: string; //id of the user
-	authorRating: number; //from 1 to 5
-	authorComment: string;
+	user_id: string; //id of the user
+	rating: number; //from 1 to 5
+	comment: string;
 }
