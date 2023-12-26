@@ -22,23 +22,175 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"CategoryCollection": {
+			"CategoryOutput": {
 				"properties": {
-					"hasRecordUsingCategory": {
-						"type": "boolean"
-					},
-					"value": {
+					"id": {
 						"type": "string"
 					},
+					"label": {
+						"type": "string"
+					},
+					"hasRecordUsingCategory": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"id",
+					"label"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"%24Result.DefaultSelection_Prisma.%24DishesCategoriesPayload_": {
+				"properties": {
+					"restaurant_id": {
+						"type": "string"
+					},
+					"label": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"restaurant_id",
+					"label",
+					"id"
+				],
+				"type": "object"
+			},
+			"DishesCategories": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24DishesCategoriesPayload_",
+				"description": "Model DishesCategories"
+			},
+			"UpdateCategoryInput": {
+				"properties": {
 					"label": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"value",
 					"label"
 				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Decimal": {
+				"type": "string"
+			},
+			"DishOutput": {
+				"properties": {
+					"allergen": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"photo_url": {
+						"type": "string"
+					},
+					"price": {
+						"$ref": "#/components/schemas/Decimal"
+					},
+					"description": {
+						"type": "string"
+					},
+					"restaurant_id": {
+						"type": "string"
+					},
+					"category_id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"allergen",
+					"id",
+					"name",
+					"price",
+					"restaurant_id",
+					"category_id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"%24Result.DefaultSelection_Prisma.%24DishesPayload_": {
+				"properties": {
+					"category_id": {
+						"type": "string"
+					},
+					"restaurant_id": {
+						"type": "string"
+					},
+					"allergen": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"price": {
+						"$ref": "#/components/schemas/Decimal"
+					},
+					"photo_url": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"category_id",
+					"restaurant_id",
+					"allergen",
+					"description",
+					"price",
+					"photo_url",
+					"name",
+					"id"
+				],
 				"type": "object"
+			},
+			"Dishes": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24DishesPayload_",
+				"description": "Model Dishes"
+			},
+			"CreateDishInput": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"photo_url": {
+						"type": "string"
+					},
+					"price": {
+						"type": "number",
+						"format": "double"
+					},
+					"description": {
+						"type": "string"
+					},
+					"allergen": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"price"
+				],
+				"type": "object",
+				"additionalProperties": false
 			},
 			"JsonObject": {
 				"properties": {},
@@ -51,7 +203,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Prisma.JsonValue": {
+			"JsonValue": {
 				"anyOf": [
 					{
 						"type": "string"
@@ -73,226 +225,55 @@
 				"nullable": true,
 				"description": "From https://github.com/sindresorhus/type-fest/\nMatches any valid JSON value."
 			},
-			"DishesCategories": {
+			"%24Result.DefaultSelection_Prisma.%24CustomizationPayload_": {
 				"properties": {
-					"webId": {
+					"restaurant_id": {
 						"type": "string"
 					},
-					"categories": {
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Prisma.JsonValue"
-							}
-						],
-						"nullable": true
-					}
-				},
-				"required": [
-					"webId",
-					"categories"
-				],
-				"type": "object",
-				"description": "Model DishesCategories"
-			},
-			"Prisma.Decimal": {
-				"type": "string"
-			},
-			"Dishes": {
-				"properties": {
-					"webId": {
-						"type": "string"
-					},
-					"allergen": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
-					"description": {
-						"type": "string",
-						"nullable": true
-					},
-					"price": {
-						"$ref": "#/components/schemas/Prisma.Decimal"
-					},
-					"photoUrl": {
-						"type": "string",
-						"nullable": true
-					},
-					"category": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
-					},
-					"id": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"webId",
-					"allergen",
-					"description",
-					"price",
-					"photoUrl",
-					"category",
-					"name",
-					"id"
-				],
-				"type": "object",
-				"description": "Model Dishes"
-			},
-			"Decimal": {
-				"type": "string"
-			},
-			"runtime.DecimalJsLike": {
-				"description": "Interface for any Decimal.js-like library\r\nAllows us to accept Decimal.js from different\r\nversions and some compatible alternatives",
-				"properties": {
-					"d": {
-						"items": {
-							"type": "number",
-							"format": "double"
-						},
-						"type": "array"
-					},
-					"e": {
-						"type": "number",
-						"format": "double"
-					},
-					"s": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"d",
-					"e",
-					"s"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"DecimalJsLike": {
-				"$ref": "#/components/schemas/runtime.DecimalJsLike"
-			},
-			"Enumerable_string_": {
-				"anyOf": [
-					{
-						"type": "string"
-					},
-					{
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					}
-				]
-			},
-			"DishesCreateallergenInput": {
-				"properties": {
-					"set": {
-						"$ref": "#/components/schemas/Enumerable_string_"
-					}
-				},
-				"required": [
-					"set"
-				],
-				"type": "object"
-			},
-			"Prisma.DishesCreateWithoutWebInput": {
-				"properties": {
-					"allergen": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/DishesCreateallergenInput"
-							},
-							{
-								"$ref": "#/components/schemas/Enumerable_string_"
-							}
-						]
-					},
-					"description": {
-						"type": "string",
-						"nullable": true
-					},
-					"price": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/Decimal"
-							},
-							{
-								"$ref": "#/components/schemas/DecimalJsLike"
-							},
-							{
-								"type": "number",
-								"format": "double"
-							},
-							{
-								"type": "string"
-							}
-						]
-					},
-					"photoUrl": {
-						"type": "string",
-						"nullable": true
-					},
-					"category": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
-					},
-					"id": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"price",
-					"category",
-					"name"
-				],
-				"type": "object"
-			},
-			"User": {
-				"properties": {
-					"isActive": {
-						"type": "boolean"
-					},
-					"dateCreated": {
+					"updated_at": {
 						"type": "string",
 						"format": "date-time"
 					},
-					"password": {
+					"name": {
 						"type": "string"
 					},
-					"lastname": {
+					"header_url": {
 						"type": "string"
 					},
-					"firstname": {
+					"logo_url": {
 						"type": "string"
 					},
-					"email": {
-						"type": "string"
+					"extra_customization": {
+						"$ref": "#/components/schemas/JsonValue"
 					},
-					"id": {
-						"type": "string"
+					"font_families": {
+						"$ref": "#/components/schemas/JsonValue"
+					},
+					"color_palette": {
+						"$ref": "#/components/schemas/JsonValue"
 					}
 				},
 				"required": [
-					"isActive",
-					"dateCreated",
-					"password",
-					"lastname",
-					"firstname",
-					"email",
-					"id"
+					"restaurant_id",
+					"updated_at",
+					"name",
+					"header_url",
+					"logo_url",
+					"extra_customization",
+					"font_families",
+					"color_palette"
 				],
-				"type": "object",
-				"description": "Model User"
-			},
-			"Without_any.any_": {
-				"properties": {},
 				"type": "object"
+			},
+			"Customization": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24CustomizationPayload_",
+				"description": "Model Customization"
+			},
+			"DbNull": {
+				"description": "Type of `Prisma.DbNull`.\n\nYou cannot use other instances of this class. Please use the `Prisma.DbNull` value.",
+				"properties": {},
+				"type": "object",
+				"additionalProperties": false
 			},
 			"JsonNull": {
 				"description": "Type of `Prisma.JsonNull`.\n\nYou cannot use other instances of this class. Please use the `Prisma.JsonNull` value.",
@@ -300,8 +281,15 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"JsonNullValueInput": {
-				"$ref": "#/components/schemas/JsonNull"
+			"NullableJsonNullValueInput": {
+				"anyOf": [
+					{
+						"$ref": "#/components/schemas/DbNull"
+					},
+					{
+						"$ref": "#/components/schemas/JsonNull"
+					}
+				]
 			},
 			"InputJsonObject": {
 				"properties": {},
@@ -331,29 +319,20 @@
 					},
 					{
 						"$ref": "#/components/schemas/InputJsonArray"
+					},
+					{
+						"properties": {},
+						"type": "object"
 					}
 				],
 				"description": "Matches any valid value that can be used as an input for operations like\ncreate and update as the value of a JSON field. Unlike `JsonValue`, this\ntype allows read-only arrays and read-only object properties and disallows\n`null` at the top level.\n\n`null` cannot be used as the value of a JSON field because its meaning\nwould be ambiguous. Use `Prisma.JsonNull` to store the JSON null value or\n`Prisma.DbNull` to clear the JSON value and set the field to the database\nNULL value instead."
 			},
-			"DbNull": {
-				"description": "Type of `Prisma.DbNull`.\n\nYou cannot use other instances of this class. Please use the `Prisma.DbNull` value.",
-				"properties": {},
-				"type": "object",
-				"additionalProperties": false
-			},
-			"NullableJsonNullValueInput": {
-				"anyOf": [
-					{
-						"$ref": "#/components/schemas/JsonNull"
-					},
-					{
-						"$ref": "#/components/schemas/DbNull"
-					}
-				]
-			},
-			"CustomizationUncheckedCreateWithoutWebInput": {
+			"Prisma.CustomizationCreateManyInput": {
 				"properties": {
-					"updatedAt": {
+					"restaurant_id": {
+						"type": "string"
+					},
+					"updated_at": {
 						"anyOf": [
 							{
 								"type": "string",
@@ -365,13 +344,18 @@
 						]
 					},
 					"name": {
-						"type": "string"
-					},
-					"logoUrl": {
 						"type": "string",
 						"nullable": true
 					},
-					"extraCustomization": {
+					"header_url": {
+						"type": "string",
+						"nullable": true
+					},
+					"logo_url": {
+						"type": "string",
+						"nullable": true
+					},
+					"extra_customization": {
 						"anyOf": [
 							{
 								"$ref": "#/components/schemas/NullableJsonNullValueInput"
@@ -381,20 +365,20 @@
 							}
 						]
 					},
-					"fontFamilies": {
+					"font_families": {
 						"anyOf": [
 							{
-								"$ref": "#/components/schemas/JsonNullValueInput"
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
 							},
 							{
 								"$ref": "#/components/schemas/InputJsonValue"
 							}
 						]
 					},
-					"colorPalette": {
+					"color_palette": {
 						"anyOf": [
 							{
-								"$ref": "#/components/schemas/JsonNullValueInput"
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
 							},
 							{
 								"$ref": "#/components/schemas/InputJsonValue"
@@ -403,15 +387,68 @@
 					}
 				},
 				"required": [
-					"name",
-					"fontFamilies",
-					"colorPalette"
+					"restaurant_id"
 				],
 				"type": "object"
 			},
-			"CustomizationCreateWithoutWebInput": {
+			"%24Result.DefaultSelection_Prisma.%24RestaurantInformationPayload_": {
 				"properties": {
-					"updatedAt": {
+					"restaurant_id": {
+						"type": "string"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"extra_information": {
+						"$ref": "#/components/schemas/JsonValue"
+					},
+					"location": {
+						"$ref": "#/components/schemas/JsonValue"
+					},
+					"restaurant_type": {
+						"type": "string"
+					},
+					"social_media": {
+						"$ref": "#/components/schemas/JsonValue"
+					},
+					"country": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"address": {
+						"type": "string"
+					},
+					"phone": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"restaurant_id",
+					"updated_at",
+					"extra_information",
+					"location",
+					"restaurant_type",
+					"social_media",
+					"country",
+					"city",
+					"address",
+					"phone"
+				],
+				"type": "object"
+			},
+			"RestaurantInformation": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24RestaurantInformationPayload_",
+				"description": "Model RestaurantInformation"
+			},
+			"Prisma.RestaurantInformationCreateManyInput": {
+				"properties": {
+					"restaurant_id": {
+						"type": "string"
+					},
+					"updated_at": {
 						"anyOf": [
 							{
 								"type": "string",
@@ -422,127 +459,7 @@
 							}
 						]
 					},
-					"name": {
-						"type": "string"
-					},
-					"logoUrl": {
-						"type": "string",
-						"nullable": true
-					},
-					"extraCustomization": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					},
-					"fontFamilies": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/JsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					},
-					"colorPalette": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/JsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					}
-				},
-				"required": [
-					"name",
-					"fontFamilies",
-					"colorPalette"
-				],
-				"type": "object"
-			},
-			"XOR_CustomizationCreateWithoutWebInput.CustomizationUncheckedCreateWithoutWebInput_": {
-				"anyOf": [
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"$ref": "#/components/schemas/CustomizationUncheckedCreateWithoutWebInput"
-							}
-						]
-					},
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"$ref": "#/components/schemas/CustomizationCreateWithoutWebInput"
-							}
-						]
-					}
-				],
-				"description": "XOR is needed to have a real mutually exclusive union type\nhttps://stackoverflow.com/questions/42123407/does-typescript-support-mutually-exclusive-types"
-			},
-			"CustomizationWhereUniqueInput": {
-				"properties": {
-					"webId": {
-						"type": "string"
-					}
-				},
-				"type": "object"
-			},
-			"CustomizationCreateOrConnectWithoutWebInput": {
-				"properties": {
-					"create": {
-						"$ref": "#/components/schemas/XOR_CustomizationCreateWithoutWebInput.CustomizationUncheckedCreateWithoutWebInput_"
-					},
-					"where": {
-						"$ref": "#/components/schemas/CustomizationWhereUniqueInput"
-					}
-				},
-				"required": [
-					"create",
-					"where"
-				],
-				"type": "object"
-			},
-			"CustomizationUncheckedCreateNestedOneWithoutWebInput": {
-				"properties": {
-					"connect": {
-						"$ref": "#/components/schemas/CustomizationWhereUniqueInput"
-					},
-					"connectOrCreate": {
-						"$ref": "#/components/schemas/CustomizationCreateOrConnectWithoutWebInput"
-					},
-					"create": {
-						"$ref": "#/components/schemas/XOR_CustomizationCreateWithoutWebInput.CustomizationUncheckedCreateWithoutWebInput_"
-					}
-				},
-				"type": "object"
-			},
-			"WebInformationUncheckedCreateWithoutWebInput": {
-				"properties": {
-					"updatedAt": {
-						"anyOf": [
-							{
-								"type": "string",
-								"format": "date-time"
-							},
-							{
-								"type": "string"
-							}
-						]
-					},
-					"extraInformation": {
+					"extra_information": {
 						"anyOf": [
 							{
 								"$ref": "#/components/schemas/NullableJsonNullValueInput"
@@ -562,11 +479,11 @@
 							}
 						]
 					},
-					"restaurantType": {
+					"restaurant_type": {
 						"type": "string",
 						"nullable": true
 					},
-					"socialMedia": {
+					"social_media": {
 						"anyOf": [
 							{
 								"$ref": "#/components/schemas/NullableJsonNullValueInput"
@@ -593,1046 +510,22 @@
 						"nullable": true
 					}
 				},
-				"type": "object"
-			},
-			"WebInformationCreateWithoutWebInput": {
-				"properties": {
-					"updatedAt": {
-						"anyOf": [
-							{
-								"type": "string",
-								"format": "date-time"
-							},
-							{
-								"type": "string"
-							}
-						]
-					},
-					"extraInformation": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					},
-					"location": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					},
-					"restaurantType": {
-						"type": "string",
-						"nullable": true
-					},
-					"socialMedia": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					},
-					"country": {
-						"type": "string",
-						"nullable": true
-					},
-					"city": {
-						"type": "string",
-						"nullable": true
-					},
-					"address": {
-						"type": "string",
-						"nullable": true
-					},
-					"phone": {
-						"type": "string",
-						"nullable": true
-					}
-				},
-				"type": "object"
-			},
-			"XOR_WebInformationCreateWithoutWebInput.WebInformationUncheckedCreateWithoutWebInput_": {
-				"anyOf": [
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"$ref": "#/components/schemas/WebInformationUncheckedCreateWithoutWebInput"
-							}
-						]
-					},
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"$ref": "#/components/schemas/WebInformationCreateWithoutWebInput"
-							}
-						]
-					}
-				],
-				"description": "XOR is needed to have a real mutually exclusive union type\nhttps://stackoverflow.com/questions/42123407/does-typescript-support-mutually-exclusive-types"
-			},
-			"WebInformationWhereUniqueInput": {
-				"properties": {
-					"webId": {
-						"type": "string"
-					}
-				},
-				"type": "object"
-			},
-			"WebInformationCreateOrConnectWithoutWebInput": {
-				"properties": {
-					"create": {
-						"$ref": "#/components/schemas/XOR_WebInformationCreateWithoutWebInput.WebInformationUncheckedCreateWithoutWebInput_"
-					},
-					"where": {
-						"$ref": "#/components/schemas/WebInformationWhereUniqueInput"
-					}
-				},
 				"required": [
-					"create",
-					"where"
+					"restaurant_id"
 				],
 				"type": "object"
-			},
-			"WebInformationUncheckedCreateNestedOneWithoutWebInput": {
-				"properties": {
-					"connect": {
-						"$ref": "#/components/schemas/WebInformationWhereUniqueInput"
-					},
-					"connectOrCreate": {
-						"$ref": "#/components/schemas/WebInformationCreateOrConnectWithoutWebInput"
-					},
-					"create": {
-						"$ref": "#/components/schemas/XOR_WebInformationCreateWithoutWebInput.WebInformationUncheckedCreateWithoutWebInput_"
-					}
-				},
-				"type": "object"
-			},
-			"DishesCategoriesUncheckedCreateWithoutWebInput": {
-				"properties": {
-					"categories": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					}
-				},
-				"type": "object"
-			},
-			"DishesCategoriesCreateWithoutWebInput": {
-				"properties": {
-					"categories": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					}
-				},
-				"type": "object"
-			},
-			"XOR_DishesCategoriesCreateWithoutWebInput.DishesCategoriesUncheckedCreateWithoutWebInput_": {
-				"anyOf": [
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"$ref": "#/components/schemas/DishesCategoriesUncheckedCreateWithoutWebInput"
-							}
-						]
-					},
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"$ref": "#/components/schemas/DishesCategoriesCreateWithoutWebInput"
-							}
-						]
-					}
-				],
-				"description": "XOR is needed to have a real mutually exclusive union type\nhttps://stackoverflow.com/questions/42123407/does-typescript-support-mutually-exclusive-types"
-			},
-			"DishesCategoriesWhereUniqueInput": {
-				"properties": {
-					"webId": {
-						"type": "string"
-					}
-				},
-				"type": "object"
-			},
-			"DishesCategoriesCreateOrConnectWithoutWebInput": {
-				"properties": {
-					"create": {
-						"$ref": "#/components/schemas/XOR_DishesCategoriesCreateWithoutWebInput.DishesCategoriesUncheckedCreateWithoutWebInput_"
-					},
-					"where": {
-						"$ref": "#/components/schemas/DishesCategoriesWhereUniqueInput"
-					}
-				},
-				"required": [
-					"create",
-					"where"
-				],
-				"type": "object"
-			},
-			"DishesCategoriesUncheckedCreateNestedOneWithoutWebInput": {
-				"properties": {
-					"connect": {
-						"$ref": "#/components/schemas/DishesCategoriesWhereUniqueInput"
-					},
-					"connectOrCreate": {
-						"$ref": "#/components/schemas/DishesCategoriesCreateOrConnectWithoutWebInput"
-					},
-					"create": {
-						"$ref": "#/components/schemas/XOR_DishesCategoriesCreateWithoutWebInput.DishesCategoriesUncheckedCreateWithoutWebInput_"
-					}
-				},
-				"type": "object"
-			},
-			"DishesUncheckedCreateWithoutWebInput": {
-				"properties": {
-					"allergen": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/DishesCreateallergenInput"
-							},
-							{
-								"$ref": "#/components/schemas/Enumerable_string_"
-							}
-						]
-					},
-					"description": {
-						"type": "string",
-						"nullable": true
-					},
-					"price": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/Decimal"
-							},
-							{
-								"$ref": "#/components/schemas/DecimalJsLike"
-							},
-							{
-								"type": "number",
-								"format": "double"
-							},
-							{
-								"type": "string"
-							}
-						]
-					},
-					"photoUrl": {
-						"type": "string",
-						"nullable": true
-					},
-					"category": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
-					},
-					"id": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"price",
-					"category",
-					"name"
-				],
-				"type": "object"
-			},
-			"DishesCreateWithoutWebInput": {
-				"properties": {
-					"allergen": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/DishesCreateallergenInput"
-							},
-							{
-								"$ref": "#/components/schemas/Enumerable_string_"
-							}
-						]
-					},
-					"description": {
-						"type": "string",
-						"nullable": true
-					},
-					"price": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/Decimal"
-							},
-							{
-								"$ref": "#/components/schemas/DecimalJsLike"
-							},
-							{
-								"type": "number",
-								"format": "double"
-							},
-							{
-								"type": "string"
-							}
-						]
-					},
-					"photoUrl": {
-						"type": "string",
-						"nullable": true
-					},
-					"category": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
-					},
-					"id": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"price",
-					"category",
-					"name"
-				],
-				"type": "object"
-			},
-			"XOR_Enumerable_DishesCreateWithoutWebInput_.Enumerable_DishesUncheckedCreateWithoutWebInput__": {
-				"anyOf": [
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"$ref": "#/components/schemas/DishesUncheckedCreateWithoutWebInput"
-							}
-						]
-					},
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"$ref": "#/components/schemas/DishesCreateWithoutWebInput"
-							}
-						]
-					},
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"items": {
-									"$ref": "#/components/schemas/DishesUncheckedCreateWithoutWebInput"
-								},
-								"type": "array"
-							}
-						]
-					},
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"items": {
-									"$ref": "#/components/schemas/DishesCreateWithoutWebInput"
-								},
-								"type": "array"
-							}
-						]
-					}
-				],
-				"description": "XOR is needed to have a real mutually exclusive union type\nhttps://stackoverflow.com/questions/42123407/does-typescript-support-mutually-exclusive-types"
-			},
-			"DishesWhereUniqueInput": {
-				"properties": {
-					"id": {
-						"type": "string"
-					}
-				},
-				"type": "object"
-			},
-			"XOR_DishesCreateWithoutWebInput.DishesUncheckedCreateWithoutWebInput_": {
-				"anyOf": [
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"$ref": "#/components/schemas/DishesUncheckedCreateWithoutWebInput"
-							}
-						]
-					},
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"$ref": "#/components/schemas/DishesCreateWithoutWebInput"
-							}
-						]
-					}
-				],
-				"description": "XOR is needed to have a real mutually exclusive union type\nhttps://stackoverflow.com/questions/42123407/does-typescript-support-mutually-exclusive-types"
-			},
-			"DishesCreateOrConnectWithoutWebInput": {
-				"properties": {
-					"create": {
-						"$ref": "#/components/schemas/XOR_DishesCreateWithoutWebInput.DishesUncheckedCreateWithoutWebInput_"
-					},
-					"where": {
-						"$ref": "#/components/schemas/DishesWhereUniqueInput"
-					}
-				},
-				"required": [
-					"create",
-					"where"
-				],
-				"type": "object"
-			},
-			"Enumerable_DishesCreateOrConnectWithoutWebInput_": {
-				"anyOf": [
-					{
-						"$ref": "#/components/schemas/DishesCreateOrConnectWithoutWebInput"
-					},
-					{
-						"items": {
-							"$ref": "#/components/schemas/DishesCreateOrConnectWithoutWebInput"
-						},
-						"type": "array"
-					}
-				]
-			},
-			"DishesCreateManyWebInput": {
-				"properties": {
-					"allergen": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/DishesCreateallergenInput"
-							},
-							{
-								"$ref": "#/components/schemas/Enumerable_string_"
-							}
-						]
-					},
-					"description": {
-						"type": "string",
-						"nullable": true
-					},
-					"price": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/Decimal"
-							},
-							{
-								"$ref": "#/components/schemas/DecimalJsLike"
-							},
-							{
-								"type": "number",
-								"format": "double"
-							},
-							{
-								"type": "string"
-							}
-						]
-					},
-					"photoUrl": {
-						"type": "string",
-						"nullable": true
-					},
-					"category": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
-					},
-					"id": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"price",
-					"category",
-					"name"
-				],
-				"type": "object"
-			},
-			"Enumerable_DishesCreateManyWebInput_": {
-				"anyOf": [
-					{
-						"$ref": "#/components/schemas/DishesCreateManyWebInput"
-					},
-					{
-						"items": {
-							"$ref": "#/components/schemas/DishesCreateManyWebInput"
-						},
-						"type": "array"
-					}
-				]
-			},
-			"DishesCreateManyWebInputEnvelope": {
-				"properties": {
-					"skipDuplicates": {
-						"type": "boolean"
-					},
-					"data": {
-						"$ref": "#/components/schemas/Enumerable_DishesCreateManyWebInput_"
-					}
-				},
-				"required": [
-					"data"
-				],
-				"type": "object"
-			},
-			"Enumerable_DishesWhereUniqueInput_": {
-				"anyOf": [
-					{
-						"$ref": "#/components/schemas/DishesWhereUniqueInput"
-					},
-					{
-						"items": {
-							"$ref": "#/components/schemas/DishesWhereUniqueInput"
-						},
-						"type": "array"
-					}
-				]
-			},
-			"DishesUncheckedCreateNestedManyWithoutWebInput": {
-				"properties": {
-					"connect": {
-						"$ref": "#/components/schemas/Enumerable_DishesWhereUniqueInput_"
-					},
-					"createMany": {
-						"$ref": "#/components/schemas/DishesCreateManyWebInputEnvelope"
-					},
-					"connectOrCreate": {
-						"$ref": "#/components/schemas/Enumerable_DishesCreateOrConnectWithoutWebInput_"
-					},
-					"create": {
-						"$ref": "#/components/schemas/XOR_Enumerable_DishesCreateWithoutWebInput_.Enumerable_DishesUncheckedCreateWithoutWebInput__"
-					}
-				},
-				"type": "object"
-			},
-			"RestaurantRatingsUncheckedCreateWithoutWebInput": {
-				"properties": {
-					"ratings": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					}
-				},
-				"type": "object"
-			},
-			"RestaurantRatingsCreateWithoutWebInput": {
-				"properties": {
-					"ratings": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					}
-				},
-				"type": "object"
-			},
-			"XOR_RestaurantRatingsCreateWithoutWebInput.RestaurantRatingsUncheckedCreateWithoutWebInput_": {
-				"anyOf": [
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"$ref": "#/components/schemas/RestaurantRatingsUncheckedCreateWithoutWebInput"
-							}
-						]
-					},
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"$ref": "#/components/schemas/RestaurantRatingsCreateWithoutWebInput"
-							}
-						]
-					}
-				],
-				"description": "XOR is needed to have a real mutually exclusive union type\nhttps://stackoverflow.com/questions/42123407/does-typescript-support-mutually-exclusive-types"
-			},
-			"RestaurantRatingsWhereUniqueInput": {
-				"properties": {
-					"webId": {
-						"type": "string"
-					}
-				},
-				"type": "object"
-			},
-			"RestaurantRatingsCreateOrConnectWithoutWebInput": {
-				"properties": {
-					"create": {
-						"$ref": "#/components/schemas/XOR_RestaurantRatingsCreateWithoutWebInput.RestaurantRatingsUncheckedCreateWithoutWebInput_"
-					},
-					"where": {
-						"$ref": "#/components/schemas/RestaurantRatingsWhereUniqueInput"
-					}
-				},
-				"required": [
-					"create",
-					"where"
-				],
-				"type": "object"
-			},
-			"RestaurantRatingsUncheckedCreateNestedOneWithoutWebInput": {
-				"properties": {
-					"connect": {
-						"$ref": "#/components/schemas/RestaurantRatingsWhereUniqueInput"
-					},
-					"connectOrCreate": {
-						"$ref": "#/components/schemas/RestaurantRatingsCreateOrConnectWithoutWebInput"
-					},
-					"create": {
-						"$ref": "#/components/schemas/XOR_RestaurantRatingsCreateWithoutWebInput.RestaurantRatingsUncheckedCreateWithoutWebInput_"
-					}
-				},
-				"type": "object"
-			},
-			"WebUncheckedCreateWithoutAdminInput": {
-				"properties": {
-					"restaurantRatings": {
-						"$ref": "#/components/schemas/RestaurantRatingsUncheckedCreateNestedOneWithoutWebInput"
-					},
-					"dishes": {
-						"$ref": "#/components/schemas/DishesUncheckedCreateNestedManyWithoutWebInput"
-					},
-					"dishesCategories": {
-						"$ref": "#/components/schemas/DishesCategoriesUncheckedCreateNestedOneWithoutWebInput"
-					},
-					"webInformation": {
-						"$ref": "#/components/schemas/WebInformationUncheckedCreateNestedOneWithoutWebInput"
-					},
-					"customization": {
-						"$ref": "#/components/schemas/CustomizationUncheckedCreateNestedOneWithoutWebInput"
-					},
-					"name": {
-						"type": "string"
-					},
-					"id": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"name"
-				],
-				"type": "object"
-			},
-			"CustomizationCreateNestedOneWithoutWebInput": {
-				"properties": {
-					"connect": {
-						"$ref": "#/components/schemas/CustomizationWhereUniqueInput"
-					},
-					"connectOrCreate": {
-						"$ref": "#/components/schemas/CustomizationCreateOrConnectWithoutWebInput"
-					},
-					"create": {
-						"$ref": "#/components/schemas/XOR_CustomizationCreateWithoutWebInput.CustomizationUncheckedCreateWithoutWebInput_"
-					}
-				},
-				"type": "object"
-			},
-			"WebInformationCreateNestedOneWithoutWebInput": {
-				"properties": {
-					"connect": {
-						"$ref": "#/components/schemas/WebInformationWhereUniqueInput"
-					},
-					"connectOrCreate": {
-						"$ref": "#/components/schemas/WebInformationCreateOrConnectWithoutWebInput"
-					},
-					"create": {
-						"$ref": "#/components/schemas/XOR_WebInformationCreateWithoutWebInput.WebInformationUncheckedCreateWithoutWebInput_"
-					}
-				},
-				"type": "object"
-			},
-			"DishesCategoriesCreateNestedOneWithoutWebInput": {
-				"properties": {
-					"connect": {
-						"$ref": "#/components/schemas/DishesCategoriesWhereUniqueInput"
-					},
-					"connectOrCreate": {
-						"$ref": "#/components/schemas/DishesCategoriesCreateOrConnectWithoutWebInput"
-					},
-					"create": {
-						"$ref": "#/components/schemas/XOR_DishesCategoriesCreateWithoutWebInput.DishesCategoriesUncheckedCreateWithoutWebInput_"
-					}
-				},
-				"type": "object"
-			},
-			"DishesCreateNestedManyWithoutWebInput": {
-				"properties": {
-					"connect": {
-						"$ref": "#/components/schemas/Enumerable_DishesWhereUniqueInput_"
-					},
-					"createMany": {
-						"$ref": "#/components/schemas/DishesCreateManyWebInputEnvelope"
-					},
-					"connectOrCreate": {
-						"$ref": "#/components/schemas/Enumerable_DishesCreateOrConnectWithoutWebInput_"
-					},
-					"create": {
-						"$ref": "#/components/schemas/XOR_Enumerable_DishesCreateWithoutWebInput_.Enumerable_DishesUncheckedCreateWithoutWebInput__"
-					}
-				},
-				"type": "object"
-			},
-			"RestaurantRatingsCreateNestedOneWithoutWebInput": {
-				"properties": {
-					"connect": {
-						"$ref": "#/components/schemas/RestaurantRatingsWhereUniqueInput"
-					},
-					"connectOrCreate": {
-						"$ref": "#/components/schemas/RestaurantRatingsCreateOrConnectWithoutWebInput"
-					},
-					"create": {
-						"$ref": "#/components/schemas/XOR_RestaurantRatingsCreateWithoutWebInput.RestaurantRatingsUncheckedCreateWithoutWebInput_"
-					}
-				},
-				"type": "object"
-			},
-			"WebCreateWithoutAdminInput": {
-				"properties": {
-					"restaurantRatings": {
-						"$ref": "#/components/schemas/RestaurantRatingsCreateNestedOneWithoutWebInput"
-					},
-					"dishes": {
-						"$ref": "#/components/schemas/DishesCreateNestedManyWithoutWebInput"
-					},
-					"dishesCategories": {
-						"$ref": "#/components/schemas/DishesCategoriesCreateNestedOneWithoutWebInput"
-					},
-					"webInformation": {
-						"$ref": "#/components/schemas/WebInformationCreateNestedOneWithoutWebInput"
-					},
-					"customization": {
-						"$ref": "#/components/schemas/CustomizationCreateNestedOneWithoutWebInput"
-					},
-					"name": {
-						"type": "string"
-					},
-					"id": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"name"
-				],
-				"type": "object"
-			},
-			"XOR_Enumerable_WebCreateWithoutAdminInput_.Enumerable_WebUncheckedCreateWithoutAdminInput__": {
-				"anyOf": [
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"$ref": "#/components/schemas/WebUncheckedCreateWithoutAdminInput"
-							}
-						]
-					},
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"$ref": "#/components/schemas/WebCreateWithoutAdminInput"
-							}
-						]
-					},
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"items": {
-									"$ref": "#/components/schemas/WebUncheckedCreateWithoutAdminInput"
-								},
-								"type": "array"
-							}
-						]
-					},
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"items": {
-									"$ref": "#/components/schemas/WebCreateWithoutAdminInput"
-								},
-								"type": "array"
-							}
-						]
-					}
-				],
-				"description": "XOR is needed to have a real mutually exclusive union type\nhttps://stackoverflow.com/questions/42123407/does-typescript-support-mutually-exclusive-types"
-			},
-			"WebWhereUniqueInput": {
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"id": {
-						"type": "string"
-					}
-				},
-				"type": "object"
-			},
-			"XOR_WebCreateWithoutAdminInput.WebUncheckedCreateWithoutAdminInput_": {
-				"anyOf": [
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"$ref": "#/components/schemas/WebUncheckedCreateWithoutAdminInput"
-							}
-						]
-					},
-					{
-						"allOf": [
-							{
-								"$ref": "#/components/schemas/Without_any.any_"
-							},
-							{
-								"$ref": "#/components/schemas/WebCreateWithoutAdminInput"
-							}
-						]
-					}
-				],
-				"description": "XOR is needed to have a real mutually exclusive union type\nhttps://stackoverflow.com/questions/42123407/does-typescript-support-mutually-exclusive-types"
-			},
-			"WebCreateOrConnectWithoutAdminInput": {
-				"properties": {
-					"create": {
-						"$ref": "#/components/schemas/XOR_WebCreateWithoutAdminInput.WebUncheckedCreateWithoutAdminInput_"
-					},
-					"where": {
-						"$ref": "#/components/schemas/WebWhereUniqueInput"
-					}
-				},
-				"required": [
-					"create",
-					"where"
-				],
-				"type": "object"
-			},
-			"Enumerable_WebCreateOrConnectWithoutAdminInput_": {
-				"anyOf": [
-					{
-						"$ref": "#/components/schemas/WebCreateOrConnectWithoutAdminInput"
-					},
-					{
-						"items": {
-							"$ref": "#/components/schemas/WebCreateOrConnectWithoutAdminInput"
-						},
-						"type": "array"
-					}
-				]
-			},
-			"WebCreateManyAdminInput": {
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"id": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"name"
-				],
-				"type": "object"
-			},
-			"Enumerable_WebCreateManyAdminInput_": {
-				"anyOf": [
-					{
-						"$ref": "#/components/schemas/WebCreateManyAdminInput"
-					},
-					{
-						"items": {
-							"$ref": "#/components/schemas/WebCreateManyAdminInput"
-						},
-						"type": "array"
-					}
-				]
-			},
-			"WebCreateManyAdminInputEnvelope": {
-				"properties": {
-					"skipDuplicates": {
-						"type": "boolean"
-					},
-					"data": {
-						"$ref": "#/components/schemas/Enumerable_WebCreateManyAdminInput_"
-					}
-				},
-				"required": [
-					"data"
-				],
-				"type": "object"
-			},
-			"Enumerable_WebWhereUniqueInput_": {
-				"anyOf": [
-					{
-						"$ref": "#/components/schemas/WebWhereUniqueInput"
-					},
-					{
-						"items": {
-							"$ref": "#/components/schemas/WebWhereUniqueInput"
-						},
-						"type": "array"
-					}
-				]
-			},
-			"WebCreateNestedManyWithoutAdminInput": {
-				"properties": {
-					"connect": {
-						"$ref": "#/components/schemas/Enumerable_WebWhereUniqueInput_"
-					},
-					"createMany": {
-						"$ref": "#/components/schemas/WebCreateManyAdminInputEnvelope"
-					},
-					"connectOrCreate": {
-						"$ref": "#/components/schemas/Enumerable_WebCreateOrConnectWithoutAdminInput_"
-					},
-					"create": {
-						"$ref": "#/components/schemas/XOR_Enumerable_WebCreateWithoutAdminInput_.Enumerable_WebUncheckedCreateWithoutAdminInput__"
-					}
-				},
-				"type": "object"
-			},
-			"Prisma.UserCreateInput": {
-				"properties": {
-					"webs": {
-						"$ref": "#/components/schemas/WebCreateNestedManyWithoutAdminInput"
-					},
-					"isActive": {
-						"type": "boolean"
-					},
-					"dateCreated": {
-						"anyOf": [
-							{
-								"type": "string",
-								"format": "date-time"
-							},
-							{
-								"type": "string"
-							}
-						]
-					},
-					"password": {
-						"type": "string"
-					},
-					"lastname": {
-						"type": "string"
-					},
-					"firstname": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"id": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"password",
-					"lastname",
-					"firstname",
-					"email"
-				],
-				"type": "object"
-			},
-			"UpdateUser": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"firstname": {
-						"type": "string"
-					},
-					"lastname": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"id"
-				],
-				"type": "object",
-				"additionalProperties": false
 			},
 			"Prisma.JsonObject": {
 				"properties": {},
 				"type": "object",
 				"description": "From https://github.com/sindresorhus/type-fest/\nMatches a JSON object.\nThis type can be useful to enforce some input to be JSON-compatible or as a super-type to be extended from."
 			},
-			"WebOutput": {
+			"RestautantOutput": {
 				"properties": {
-					"id": {
+					"name": {
 						"type": "string"
 					},
-					"name": {
+					"brand_name": {
 						"type": "string"
 					},
 					"phone": {
@@ -1647,34 +540,34 @@
 					"city": {
 						"type": "string"
 					},
-					"restaurantType": {
+					"restaurant_type": {
 						"type": "string"
 					},
 					"location": {
 						"$ref": "#/components/schemas/Prisma.JsonObject"
 					},
-					"priceAverage": {
+					"price_average": {
 						"type": "number",
 						"format": "double"
 					},
-					"ratings": {
+					"rating": {
 						"type": "number",
 						"format": "double"
 					},
-					"ratingStarts": {
+					"rating_count": {
 						"type": "number",
 						"format": "double"
 					}
 				},
 				"required": [
-					"priceAverage"
+					"price_average"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Web": {
+			"%24Result.DefaultSelection_Prisma.%24RestaurantPayload_": {
 				"properties": {
-					"adminId": {
+					"admin_id": {
 						"type": "string"
 					},
 					"name": {
@@ -1685,54 +578,270 @@
 					}
 				},
 				"required": [
-					"adminId",
+					"admin_id",
 					"name",
 					"id"
 				],
-				"type": "object",
-				"description": "Model Web"
+				"type": "object"
 			},
-			"Prisma.WebCreateWithoutAdminInput": {
+			"Restaurant": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24RestaurantPayload_",
+				"description": "Model Restaurant"
+			},
+			"Prisma.CustomizationCreateWithoutRestaurantInput": {
 				"properties": {
-					"restaurantRatings": {
-						"$ref": "#/components/schemas/RestaurantRatingsCreateNestedOneWithoutWebInput"
+					"updated_at": {
+						"anyOf": [
+							{
+								"type": "string",
+								"format": "date-time"
+							},
+							{
+								"type": "string"
+							}
+						]
 					},
-					"dishes": {
-						"$ref": "#/components/schemas/DishesCreateNestedManyWithoutWebInput"
+					"name": {
+						"type": "string",
+						"nullable": true
 					},
-					"dishesCategories": {
-						"$ref": "#/components/schemas/DishesCategoriesCreateNestedOneWithoutWebInput"
+					"header_url": {
+						"type": "string",
+						"nullable": true
 					},
-					"webInformation": {
-						"$ref": "#/components/schemas/WebInformationCreateNestedOneWithoutWebInput"
+					"logo_url": {
+						"type": "string",
+						"nullable": true
 					},
-					"customization": {
-						"$ref": "#/components/schemas/CustomizationCreateNestedOneWithoutWebInput"
+					"extra_customization": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
 					},
+					"font_families": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					},
+					"color_palette": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					}
+				},
+				"type": "object"
+			},
+			"Prisma.RestaurantInformationCreateWithoutRestaurantInput": {
+				"properties": {
+					"updated_at": {
+						"anyOf": [
+							{
+								"type": "string",
+								"format": "date-time"
+							},
+							{
+								"type": "string"
+							}
+						]
+					},
+					"extra_information": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					},
+					"location": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					},
+					"restaurant_type": {
+						"type": "string",
+						"nullable": true
+					},
+					"social_media": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/NullableJsonNullValueInput"
+							},
+							{
+								"$ref": "#/components/schemas/InputJsonValue"
+							}
+						]
+					},
+					"country": {
+						"type": "string",
+						"nullable": true
+					},
+					"city": {
+						"type": "string",
+						"nullable": true
+					},
+					"address": {
+						"type": "string",
+						"nullable": true
+					},
+					"phone": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"type": "object"
+			},
+			"CreateRestaurantInput": {
+				"properties": {
 					"name": {
 						"type": "string"
 					},
-					"id": {
-						"type": "string"
+					"customization": {
+						"$ref": "#/components/schemas/Prisma.CustomizationCreateWithoutRestaurantInput"
+					},
+					"restaurant_information": {
+						"$ref": "#/components/schemas/Prisma.RestaurantInformationCreateWithoutRestaurantInput"
 					}
 				},
 				"required": [
 					"name"
 				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"%24Result.DefaultSelection_Prisma.%24UserPayload_": {
+				"properties": {
+					"is_owner": {
+						"type": "boolean"
+					},
+					"is_active": {
+						"type": "boolean"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"password": {
+						"type": "string"
+					},
+					"avatar_url": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string"
+					},
+					"firstname": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"is_owner",
+					"is_active",
+					"created_at",
+					"password",
+					"avatar_url",
+					"lastname",
+					"firstname",
+					"email",
+					"id"
+				],
 				"type": "object"
+			},
+			"User": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24UserPayload_",
+				"description": "Model User"
+			},
+			"CreateUserInput": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"firstname": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"is_owner": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"email",
+					"firstname",
+					"lastname",
+					"password",
+					"is_owner"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateUserInput": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"firstname": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
 	},
 	"info": {
-		"title": "resdy-back",
+		"title": "TSOA",
 		"version": "1.0.0",
-		"description": "Rest API with Nodejs and Prisma",
+		"description": "Build swagger-compliant REST APIs using TypeScript and Node",
 		"license": {
-			"name": "ISC"
+			"name": "MIT"
 		},
 		"contact": {
-			"name": "Carlos Velázquez"
+			"name": "unknown"
 		}
 	},
 	"openapi": "3.0.0",
@@ -1802,7 +911,7 @@
 				}
 			}
 		},
-		"/webs/categories/{webId}": {
+		"/menu/category/{restaurant_id}": {
 			"get": {
 				"operationId": "GetCategories",
 				"responses": {
@@ -1814,7 +923,7 @@
 									"anyOf": [
 										{
 											"items": {
-												"$ref": "#/components/schemas/CategoryCollection"
+												"$ref": "#/components/schemas/CategoryOutput"
 											},
 											"type": "array"
 										},
@@ -1846,20 +955,22 @@
 					}
 				},
 				"tags": [
-					"Menu module"
+					"Menu service"
 				],
 				"security": [],
 				"parameters": [
 					{
 						"in": "path",
-						"name": "webId",
+						"name": "restaurant_id",
 						"required": true,
 						"schema": {
 							"type": "string"
 						}
 					}
 				]
-			},
+			}
+		},
+		"/menu/category/{category_id}": {
 			"put": {
 				"operationId": "PutCategory",
 				"responses": {
@@ -1900,7 +1011,7 @@
 					}
 				},
 				"tags": [
-					"Menu module"
+					"Menu service"
 				],
 				"security": [],
 				"parameters": [
@@ -1914,7 +1025,7 @@
 					},
 					{
 						"in": "path",
-						"name": "webId",
+						"name": "category_id",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -1926,12 +1037,14 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/CategoryCollection"
+								"$ref": "#/components/schemas/UpdateCategoryInput"
 							}
 						}
 					}
 				}
-			},
+			}
+		},
+		"/menu/categories/{webId}": {
 			"delete": {
 				"operationId": "DeleteWeb",
 				"responses": {
@@ -1947,13 +1060,13 @@
 					}
 				},
 				"tags": [
-					"Menu module"
+					"Menu service"
 				],
 				"security": [],
 				"parameters": []
 			}
 		},
-		"/webs/dishes/{webId}": {
+		"/webs/dishes/{restaurant_id}": {
 			"get": {
 				"operationId": "GetDishes",
 				"responses": {
@@ -1965,7 +1078,7 @@
 									"anyOf": [
 										{
 											"items": {
-												"$ref": "#/components/schemas/Dishes"
+												"$ref": "#/components/schemas/DishOutput"
 											},
 											"type": "array"
 										},
@@ -1997,20 +1110,22 @@
 					}
 				},
 				"tags": [
-					"Menu module"
+					"Menu service"
 				],
 				"security": [],
 				"parameters": [
 					{
 						"in": "path",
-						"name": "webId",
+						"name": "restaurant_id",
 						"required": true,
 						"schema": {
 							"type": "string"
 						}
 					}
 				]
-			},
+			}
+		},
+		"/webs/dishes/{restaurant_id}/{category_id}": {
 			"post": {
 				"operationId": "PostDishes",
 				"responses": {
@@ -2051,7 +1166,7 @@
 					}
 				},
 				"tags": [
-					"Menu module"
+					"Menu service"
 				],
 				"security": [],
 				"parameters": [
@@ -2065,7 +1180,15 @@
 					},
 					{
 						"in": "path",
-						"name": "webId",
+						"name": "restaurant_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "category_id",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -2077,11 +1200,310 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Prisma.DishesCreateWithoutWebInput"
+								"$ref": "#/components/schemas/CreateDishInput"
 							}
 						}
 					}
 				}
+			}
+		},
+		"/restautant/customization": {
+			"put": {
+				"operationId": "PutCustomization",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/Customization"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Restaurant service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Prisma.CustomizationCreateManyInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/restautant/information": {
+			"put": {
+				"operationId": "PutInformation",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/RestaurantInformation"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Restaurant service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Prisma.RestaurantInformationCreateManyInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/restaurant": {
+			"get": {
+				"operationId": "GetRestaurant",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/RestautantOutput"
+											},
+											"type": "array"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Restaurant service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "name",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "city",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "restaurant_type",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "country",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "PostRestaurant",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/Restaurant"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Restaurant service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateRestaurantInput"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteWeb",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Restaurant service"
+				],
+				"security": [],
+				"parameters": []
 			}
 		},
 		"/users": {
@@ -2110,7 +1532,7 @@
 					}
 				},
 				"tags": [
-					"Users module"
+					"Authentication service"
 				],
 				"security": [],
 				"parameters": [
@@ -2155,7 +1577,7 @@
 					}
 				},
 				"tags": [
-					"Users module"
+					"Authentication service"
 				],
 				"security": [],
 				"parameters": [],
@@ -2164,7 +1586,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Prisma.UserCreateInput"
+								"$ref": "#/components/schemas/CreateUserInput"
 							}
 						}
 					}
@@ -2210,7 +1632,7 @@
 					}
 				},
 				"tags": [
-					"Users module"
+					"Authentication service"
 				],
 				"security": [],
 				"parameters": [
@@ -2228,7 +1650,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/UpdateUser"
+								"$ref": "#/components/schemas/UpdateUserInput"
 							}
 						}
 					}
@@ -2274,7 +1696,7 @@
 					}
 				},
 				"tags": [
-					"Users module"
+					"Authentication service"
 				],
 				"security": [],
 				"parameters": [
@@ -2295,237 +1717,6 @@
 						}
 					}
 				]
-			}
-		},
-		"/webs/customization": {
-			"put": {
-				"operationId": "PutCustomization",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Webs module"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/webs/information": {
-			"put": {
-				"operationId": "PutInformation",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Webs module"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/webs": {
-			"get": {
-				"operationId": "GetWebs",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/WebOutput"
-											},
-											"type": "array"
-										},
-										{
-											"type": "string"
-										}
-									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Webs module"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "name",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "city",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "restautantType",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "country",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			},
-			"post": {
-				"operationId": "PostWeb",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/Web"
-										},
-										{
-											"type": "string"
-										}
-									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Webs module"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/Prisma.WebCreateWithoutAdminInput"
-							}
-						}
-					}
-				}
-			},
-			"put": {
-				"operationId": "PutWeb",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Webs module"
-				],
-				"security": [],
-				"parameters": []
-			},
-			"delete": {
-				"operationId": "DeleteWeb",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Webs module"
-				],
-				"security": [],
-				"parameters": []
 			}
 		}
 	},

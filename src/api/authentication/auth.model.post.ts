@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { client } from "../../services/prisma";
-import { UserCredentials } from "../../types/users";
+import { UserCredentials } from "../../types/user";
 import { TsoaResponse } from "tsoa";
 import { UserStatus } from "../../types/messages";
 

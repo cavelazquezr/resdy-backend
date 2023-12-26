@@ -1,0 +1,14 @@
+id:UUID,email:String,firstname:String,lastname:String,avatar_url:String,password:String,created_at:Date,is_active:Boolean,is_owner:Boolean
+696e38a2-a3f0-11ee-a506-0242ac120002,admin@resdy.net,admin,admin,,123456,2023-02-03T12:00:00,TRUE,FALSE
+cd14af6b-e6ce-4457-9460-52a7f50d7175,johnsmith@resdy.net,John F,Smith,,123456,2023-02-03T12:00:00,TRUE,TRUE
+78241aea-faf5-4b08-96e9-71a0332cc7b4,meryjane@resdy.net,Mery,Jane,,123456,2023-02-03T12:00:00,TRUE,TRUE
+3e3107d1-b702-46b8-b716-a0666624c5db,migueljose@resdy.net,Miguel,Jose,,123456,2023-02-03T12:00:00,TRUE,TRUE
+28c9710a-eeda-4678-9607-03d5a9af8396,josedelgado@resdy.net,Jose,Delgado,,123456,2023-02-03T12:00:00,TRUE,TRUE
+5abaacfa-c0c2-46a2-998d-023bcce68526,josecontreras@resdy.net,Jose,Conteras,,123456,2023-02-03T12:00:00,TRUE,TRUE
+87746521-7d95-4dba-957d-4fb41ff4780e,carlosvelazquez@resdy.net,Carlos,Velazquez,,123456,2023-02-03T12:00:00,TRUE,TRUE
+fb75c6de-8c1f-4d96-998d-b9d8a3c0ce5f,emmajohnson@resdy.net,Emma,Johnson,,123456,2023-02-03T12:00:00,TRUE,TRUE
+215a251e-14a5-451e-a03f-9ceda2c9a220,evamartinez@resdy.net,Eva,Martinez,,123456,2023-02-03T12:00:00,TRUE,TRUE
+631f3c18-5c77-4ed9-a46d-5e7d338b95ac,liamrodriguez@resdy.net,Liam,Rodriguez,,123456,2023-02-03T12:00:00,TRUE,TRUE
+cffcb4c8-a169-4db6-bc5b-89fb953658ae,isabellasmith@resdy.net,Isabella,Smith,,123456,2023-02-03T12:00:00,TRUE,TRUE
+ba9394da-5c98-47c6-83d5-77c81fbd9e33,jameswilson@resdy.net,James,Wilson,,123456,2023-02-03T12:00:00,TRUE,TRUE
+5b783b53-5531-4679-ba77-c80c2f8364dc,oliviawilliams@resdy.net,Olivia,Williams,,123456,2023-02-03T12:00:00,TRUE,TRUE

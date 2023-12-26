@@ -1,5 +1,5 @@
 import { Controller, Res, Post, Body, Route, Tags, TsoaResponse } from "tsoa";
-import { UserCredentials } from "../../types/users";
+import { UserCredentials } from "../../types/user";
 import { authenticateUserHandler } from "./auth.model.post";
 
 @Tags("Authentication module")
