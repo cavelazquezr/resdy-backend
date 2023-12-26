@@ -834,14 +834,14 @@
 		"securitySchemes": {}
 	},
 	"info": {
-		"title": "TSOA",
+		"title": "resdy-back",
 		"version": "1.0.0",
-		"description": "Build swagger-compliant REST APIs using TypeScript and Node",
+		"description": "Rest API with Nodejs and Prisma",
 		"license": {
-			"name": "MIT"
+			"name": "ISC"
 		},
 		"contact": {
-			"name": "unknown"
+			"name": "Carlos Velázquez"
 		}
 	},
 	"openapi": "3.0.0",

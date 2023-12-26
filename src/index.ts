@@ -11,7 +11,7 @@ const app: Application = express();
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(bodyParser.json({ limit: "50mb" }));
 
-const PORT = 3000;
+const PORT = 8000;
 
 app.get("/", (_req, res) => {
 	res.json({ msg: "Welcome to your Rest API" });
