@@ -1,9 +1,5 @@
-export type allowedCategoriesRecord = {
-	allowedCategories: CategoryCollection[];
-};
-
-export type CategoryCollection = {
+export interface CategoryOutput {
+	id: string;
 	label: string;
-	value: string;
-	hasRecordUsingCategory?: boolean; // Add optional property here
-};
+	hasRecordUsingCategory?: boolean;
+}
