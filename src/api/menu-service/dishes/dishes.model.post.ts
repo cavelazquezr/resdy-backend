@@ -1,6 +1,6 @@
 import { Dishes, Prisma } from "@prisma/client";
 import { TsoaResponse } from "tsoa";
-import { isAdminOfCurrentRestaurant, verifyToken } from "../../../services/access";
+import { isAdminOfCurrentRestaurant } from "../../../services/access";
 import { client } from "../../../services/prisma";
 import { UserStatus } from "../../../types/messages";
 import { CreateDishInput } from "../../../types/menu";

@@ -1,13 +1,13 @@
-import { Prisma } from "@prisma/client";
-
 export interface UserOutput {
 	id: string;
 	email: string;
+	avatar_url: string;
 	firstname: string;
 	lastname: string;
 	password: string;
-	dateCreated: Date;
-	isActive: boolean;
+	created_at: Date;
+	is_active: boolean;
+	is_owner: boolean;
 }
 
 export interface CreateUserInput {
