@@ -30,18 +30,17 @@ export const getRestaurantHandler = async (
 					select: {
 						name: true,
 						logo_url: true,
+						header_url: true,
 					},
 				},
 				dishes: true,
 			},
 			where: {
+				name: { equals: name },
 				restaurant_information: {
 					city: { contains: city },
 					country: { contains: country },
 					restaurant_type: { contains: restautantType },
-				},
-				customization: {
-					name: { contains: name },
 				},
 			},
 		});
@@ -69,6 +68,7 @@ export const getRestaurantHandler = async (
 				name: name,
 				brand_name: customization?.name ?? undefined,
 				logo_url: customization?.logo_url ?? undefined,
+				header_url: customization?.header_url ?? undefined,
 				city: restaurant_information?.city ?? undefined,
 				address: restaurant_information?.address ?? undefined,
 				phone: restaurant_information?.phone ?? undefined,

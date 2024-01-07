@@ -1,14 +1,14 @@
 color_palette:JSON,font_families:JSON,extra_customization:JSON,logo_url:String,header_url:string,name:String,restaurant:UUID
-,,,,,American Diner,bcb04385-33b0-4446-8aa0-b59f2b98c089
-,,,,,The Italian,a438e975-2682-4426-9f62-6db7de0ca1ae
-,,,,,The Pizzeria,38e957c9-3be1-4918-b81d-c26847788fab
-,,,,,Cafe Sevilla,46fa430e-2a16-4e38-abdc-983e478bc5f7
-,,,,,Route 66,3ab2514c-65a2-4f01-a00c-eb245f718670
-,,,,,Paella Paradise,b6522ed7-e2ff-42b1-a7ab-c6e5a87d37d0
-,,,,,Capy Burger,45ca645e-b0e6-4c25-a96c-04e013b25eb3
-,,,,,Sangria Sunset,ab0420e1-9a2d-4287-9e88-963b3645ffdc
-,,,,,Zen Fusion,af9b370c-1f9a-43c0-b568-852e9a7f9d79
-,,,,,Dragon Wok,3c926ba7-a059-4d0b-a470-c76271ffcd37
-,,,,,Thai Orchid Garden,c370f78d-d566-4077-99c0-e695af99e5e2
-,,,,,Cucina Romana,d3680578-4e18-4e71-86db-503560d5c070
-,,,,,Pasta Amore,b17ac992-e957-4b71-87a2-a4a0eecd45b4
+,,,,https://images.pexels.com/photos/1449773/pexels-photo-1449773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1,American Diner,bcb04385-33b0-4446-8aa0-b59f2b98c089
+,,,,https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1,The Italian,a438e975-2682-4426-9f62-6db7de0ca1ae
+,,,,https://images.pexels.com/photos/1581384/pexels-photo-1581384.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1,The Pizzeria,38e957c9-3be1-4918-b81d-c26847788fab
+,,,,https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1,Cafe Sevilla,46fa430e-2a16-4e38-abdc-983e478bc5f7
+,,,,https://images.pexels.com/photos/914388/pexels-photo-914388.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1,Route 66,3ab2514c-65a2-4f01-a00c-eb245f718670
+,,,,https://images.pexels.com/photos/1581554/pexels-photo-1581554.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1,Paella Paradise,b6522ed7-e2ff-42b1-a7ab-c6e5a87d37d0
+,,,,https://images.pexels.com/photos/1307698/pexels-photo-1307698.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1,Capy Burger,45ca645e-b0e6-4c25-a96c-04e013b25eb3
+,,,,https://images.pexels.com/photos/1058277/pexels-photo-1058277.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1,Sangria Sunset,ab0420e1-9a2d-4287-9e88-963b3645ffdc
+,,,,https://images.pexels.com/photos/16388598/pexels-photo-16388598/free-photo-of-restaurante-hombre-comida-chef.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1,Zen Fusion,af9b370c-1f9a-43c0-b568-852e9a7f9d79
+,,,,https://images.pexels.com/photos/776538/pexels-photo-776538.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1,Dragon Wok,3c926ba7-a059-4d0b-a470-c76271ffcd37
+,,,,https://images.pexels.com/photos/2290753/pexels-photo-2290753.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1,Thai Orchid Garden,c370f78d-d566-4077-99c0-e695af99e5e2
+,,,,https://images.pexels.com/photos/984888/pexels-photo-984888.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1,Cucina Romana,d3680578-4e18-4e71-86db-503560d5c070
+,,,,https://images.pexels.com/photos/2253643/pexels-photo-2253643.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1,Pasta Amore,b17ac992-e957-4b71-87a2-a4a0eecd45b4

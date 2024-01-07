@@ -154,7 +154,7 @@ const seedModel = async (seedData: Record<string, any[]>) => {
 		);
 		console.log("🌱 Database seeded 🌱");
 	} catch (err) {
-		console.error("Error seeding database:", err);
+		console.error("❌ Error seeding database ❌:", err);
 	} finally {
 		await client.$disconnect();
 	}

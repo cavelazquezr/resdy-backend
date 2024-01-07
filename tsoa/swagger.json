@@ -6,6 +6,48 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"UserOutput": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"avatar_url": {
+						"type": "string",
+						"nullable": true
+					},
+					"firstname": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"is_active": {
+						"type": "boolean"
+					},
+					"is_owner": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"id",
+					"email",
+					"avatar_url",
+					"firstname",
+					"lastname",
+					"created_at",
+					"is_active",
+					"is_owner"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"UserCredentials": {
 				"properties": {
 					"email": {
@@ -13,11 +55,42 @@
 					},
 					"password": {
 						"type": "string"
+					},
+					"remember": {
+						"type": "boolean"
 					}
 				},
 				"required": [
 					"email",
 					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateUserInput": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"firstname": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"is_owner": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"email",
+					"firstname",
+					"lastname",
+					"password",
+					"is_owner"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -729,106 +802,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"%24Result.DefaultSelection_Prisma.%24UserPayload_": {
-				"properties": {
-					"is_owner": {
-						"type": "boolean"
-					},
-					"is_active": {
-						"type": "boolean"
-					},
-					"created_at": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"password": {
-						"type": "string"
-					},
-					"avatar_url": {
-						"type": "string"
-					},
-					"lastname": {
-						"type": "string"
-					},
-					"firstname": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"id": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"is_owner",
-					"is_active",
-					"created_at",
-					"password",
-					"avatar_url",
-					"lastname",
-					"firstname",
-					"email",
-					"id"
-				],
-				"type": "object"
-			},
-			"User": {
-				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24UserPayload_",
-				"description": "Model User"
-			},
-			"CreateUserInput": {
-				"properties": {
-					"email": {
-						"type": "string"
-					},
-					"firstname": {
-						"type": "string"
-					},
-					"lastname": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					},
-					"is_owner": {
-						"type": "boolean"
-					}
-				},
-				"required": [
-					"email",
-					"firstname",
-					"lastname",
-					"password",
-					"is_owner"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"UpdateUserInput": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"firstname": {
-						"type": "string"
-					},
-					"lastname": {
-						"type": "string"
-					},
-					"password": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"id"
-				],
-				"type": "object",
-				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -846,7 +819,63 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/authentication": {
+		"/authentication/current_user": {
+			"get": {
+				"operationId": "GetCurrentUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/UserOutput"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/authentication/login": {
 			"post": {
 				"operationId": "LogIn",
 				"responses": {
@@ -895,7 +924,7 @@
 					}
 				},
 				"tags": [
-					"Authentication module"
+					"Authentication service"
 				],
 				"security": [],
 				"parameters": [],
@@ -905,6 +934,56 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/UserCredentials"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/authentication/create_user": {
+			"post": {
+				"operationId": "PostUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserOutput"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication service"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateUserInput"
 							}
 						}
 					}
@@ -1504,219 +1583,6 @@
 				],
 				"security": [],
 				"parameters": []
-			}
-		},
-		"/users": {
-			"get": {
-				"operationId": "GetUsers",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/User"
-											},
-											"type": "array"
-										},
-										{
-											"type": "string"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Authentication service"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "lastname",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "firstname",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "email",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			},
-			"post": {
-				"operationId": "PostUser",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/User"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Authentication service"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/CreateUserInput"
-							}
-						}
-					}
-				}
-			},
-			"put": {
-				"operationId": "PutUser",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/User"
-										},
-										{
-											"type": "string"
-										}
-									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Authentication service"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/UpdateUserInput"
-							}
-						}
-					}
-				}
-			},
-			"delete": {
-				"operationId": "DeleteUser",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/User"
-										},
-										{
-											"type": "string"
-										}
-									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Authentication service"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
 			}
 		}
 	},

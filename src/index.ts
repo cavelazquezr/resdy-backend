@@ -4,12 +4,15 @@ import { RegisterRoutes } from "../tsoa/routes";
 import swaggerUi from "swagger-ui-express";
 import { middleware as openApiValidatorMiddleware } from "express-openapi-validator";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 const app: Application = express();
 
 //Basic middleware
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(bodyParser.json({ limit: "50mb" }));
+
+app.use(cors());
 
 const PORT = 8000;
 

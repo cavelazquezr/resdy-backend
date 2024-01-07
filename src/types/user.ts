@@ -1,10 +1,9 @@
 export interface UserOutput {
 	id: string;
 	email: string;
-	avatar_url: string;
+	avatar_url: string | null;
 	firstname: string;
 	lastname: string;
-	password: string;
 	created_at: Date;
 	is_active: boolean;
 	is_owner: boolean;
@@ -29,4 +28,5 @@ export interface UpdateUserInput {
 export interface UserCredentials {
 	email: string;
 	password: string;
+	remember?: boolean;
 }

@@ -1,13 +1,13 @@
 phone:String,address:String,city:String,country:String,social_media:JSON,restaurant_type:String,location:JSON,extra_information:JSON,restaurant:UUID
-111222333,Calle Gran Via 26,Madrid,España,,american,,,bcb04385-33b0-4446-8aa0-b59f2b98c089
-111222333,Paseo del Retiro 12,Madrid,España,,italian,,,a438e975-2682-4426-9f62-6db7de0ca1ae
-111222333,Calle Mayor 11,Madrid,España,,italian,,,38e957c9-3be1-4918-b81d-c26847788fab
-111222333,Carrer de la Rambla 3,Barcelona,España,,spanish,,,46fa430e-2a16-4e38-abdc-983e478bc5f7
-111222333,Avinguda del Mar 32,Barcelona,España,,american,,,3ab2514c-65a2-4f01-a00c-eb245f718670
-111222333,Plaça de Catalunya 7,Barcelona,España,,spanish,,,b6522ed7-e2ff-42b1-a7ab-c6e5a87d37d0
-111222333,Calle del Ebro 23,Zaragoza,España,,american,,,ab0420e1-9a2d-4287-9e88-963b3645ffdc
-111222333,Paseo de la Aljaferia 12,Zaragoza,España,,spanish,,,af9b370c-1f9a-43c0-b568-852e9a7f9d79
-111222333,Plaza del Pilar 4,Zaragoza,España,,asian,,,3c926ba7-a059-4d0b-a470-c76271ffcd37
-111222333,Calle de la playa 26,Valencia,España,,asian,,,c370f78d-d566-4077-99c0-e695af99e5e2
-111222333,Avenida de las flores 19,Valencia,España,,asian,,,d3680578-4e18-4e71-86db-503560d5c070
-111222333,Plaza del Sol 3,Valencia,España,,italian,,,b17ac992-e957-4b71-87a2-a4a0eecd45b4
+111222333,Calle Gran Via 26,Madrid,España,,americano,,,bcb04385-33b0-4446-8aa0-b59f2b98c089
+111222333,Paseo del Retiro 12,Madrid,España,,italiano,,,a438e975-2682-4426-9f62-6db7de0ca1ae
+111222333,Calle Mayor 11,Madrid,España,,italiano,,,38e957c9-3be1-4918-b81d-c26847788fab
+111222333,Carrer de la Rambla 3,Barcelona,España,,español,,,46fa430e-2a16-4e38-abdc-983e478bc5f7
+111222333,Avinguda del Mar 32,Barcelona,España,,americano,,,3ab2514c-65a2-4f01-a00c-eb245f718670
+111222333,Plaça de Catalunya 7,Barcelona,España,,español,,,b6522ed7-e2ff-42b1-a7ab-c6e5a87d37d0
+111222333,Calle Alonso Cano 23,Madrid,España,,americano,,,ab0420e1-9a2d-4287-9e88-963b3645ffdc
+111222333,Paseo del Prado 12,Madrid,España,,español,,,af9b370c-1f9a-43c0-b568-852e9a7f9d79
+111222333,Calle Mayor 28,Madrid,España,,asiático,,,3c926ba7-a059-4d0b-a470-c76271ffcd37
+111222333,Calle de la playa 26,Barcelona,España,,asiático,,,c370f78d-d566-4077-99c0-e695af99e5e2
+111222333,Avenida de las flores 19,Barcelona,España,,asiático,,,d3680578-4e18-4e71-86db-503560d5c070
+111222333,Plaza del Sol 3,Barcelona,España,,italiano,,,b17ac992-e957-4b71-87a2-a4a0eecd45b4
