@@ -38,4 +38,4 @@ To set up this API for the first time, you have to follow these steps:
 
 	`npm run dev`
 
-	You can look up all routes by going to http://localhost:3000/docs/
+	You can look up all routes by going to http://localhost:8000/docs/
