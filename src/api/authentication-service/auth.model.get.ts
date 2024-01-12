@@ -9,10 +9,10 @@ export const getCurrentUserHandler = async (
 	unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 ): Promise<UserOutput | string> => {
 	try {
-		const decoded = verifyToken(authorization);
+		const { email } = verifyToken(authorization);
 
 		const currentUser = await client.user.findUnique({
-			where: { email: decoded.email as string },
+			where: { email: email as string },
 			select: {
 				id: true,
 				email: true,
