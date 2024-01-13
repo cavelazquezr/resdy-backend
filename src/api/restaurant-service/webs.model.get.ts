@@ -3,6 +3,7 @@ import { client } from "../../services/prisma";
 import { UserStatus } from "../../types/messages";
 import { TsoaResponse } from "tsoa";
 import { RestautantOutput } from "../../types/restaurant";
+import { calculatePriceAverage, calculateRatingAverage } from "../utils";
 
 export const getRestaurantHandler = async (
 	unauthorizedCallback: TsoaResponse<403, { reason: string }>,
@@ -49,30 +50,6 @@ export const getRestaurantHandler = async (
 		if (qRestaurants.length === 0) {
 			return unauthorizedCallback(403, { reason: UserStatus.NOT_FOUND });
 		}
-
-		const calculatePriceAverage = (dishes: Dishes[]) => {
-			if (dishes.length === 0) {
-				return 0;
-			}
-
-			const total = dishes.reduce((sum, dish) => sum + parseFloat(dish.price.toString()), 0);
-			const average = total / dishes.length;
-			const roundedAverage = Math.round(average / 2) * 2;
-
-			return roundedAverage;
-		};
-
-		const calculateRatingAverage = (rating: Rating[]) => {
-			if (rating.length === 0) {
-				return 0;
-			}
-
-			const total = rating.reduce((sum, rating) => sum + parseFloat(rating.rating.toString()), 0);
-			const average = total / rating.length;
-			const roundedAverage = parseFloat(average.toFixed(1));
-
-			return roundedAverage;
-		};
 
 		const restaurantsRecord: RestautantOutput[] = qRestaurants.map((restaurant) => {
 			const { name, restaurant_information, customization } = restaurant;
