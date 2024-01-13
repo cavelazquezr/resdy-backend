@@ -150,6 +150,28 @@ const seedModel = async (seedData: Record<string, any[]>) => {
 						});
 					}
 				}
+				if (model === "rating") {
+					for (const rating of rows as Prisma.RatingCreateInput[]) {
+						const { restaurant, user, ...dishUpdateInput } = rating;
+						await client.rating.upsert({
+							where: { id: rating.id as string },
+							update: dishUpdateInput,
+							create: {
+								...rating,
+								restaurant: {
+									connect: {
+										id: rating.restaurant as string,
+									},
+								},
+								user: {
+									connect: {
+										id: rating.user as string,
+									},
+								},
+							},
+						});
+					}
+				}
 			}),
 		);
 		console.log("🌱 Database seeded 🌱");

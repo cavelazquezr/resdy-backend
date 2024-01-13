@@ -1145,7 +1145,7 @@
 				"parameters": []
 			}
 		},
-		"/webs/dishes/{restaurant_id}": {
+		"/menu/dishes/{restaurant_id}": {
 			"get": {
 				"operationId": "GetDishes",
 				"responses": {
@@ -1204,7 +1204,7 @@
 				]
 			}
 		},
-		"/webs/dishes/{restaurant_id}/{category_id}": {
+		"/menu/dishes/{restaurant_id}/{category_id}": {
 			"post": {
 				"operationId": "PostDishes",
 				"responses": {
