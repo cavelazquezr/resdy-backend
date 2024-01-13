@@ -129,6 +129,30 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UserRatingOutput": {
+        "dataType": "refObject",
+        "properties": {
+            "firstname": {"dataType":"string","required":true},
+            "lastname": {"dataType":"string","required":true},
+            "avatar_url": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RatingsOutput": {
+        "dataType": "refObject",
+        "properties": {
+            "rating": {"dataType":"double","required":true},
+            "title": {"dataType":"string","required":true},
+            "comment": {"dataType":"string","required":true},
+            "created_at": {"dataType":"datetime","required":true},
+            "user_info": {"ref":"UserRatingOutput","required":true},
+            "replied_at": {"dataType":"datetime"},
+            "answer": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Record_number.number_": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{},"validators":{}},
@@ -495,6 +519,32 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.postDishes.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/rating/:restaurant_id',
+            ...(fetchMiddlewares<RequestHandler>(RatingController)),
+            ...(fetchMiddlewares<RequestHandler>(RatingController.prototype.getRatingsStats)),
+
+            function RatingController_getRatingsStats(request: any, response: any, next: any) {
+            const args = {
+                    restaurant_id: {"in":"path","name":"restaurant_id","required":true,"dataType":"string"},
+                    unauthorizedCallback: {"in":"res","name":"403","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"reason":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new RatingController();
+
+
+              const promise = controller.getRatingsStats.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
