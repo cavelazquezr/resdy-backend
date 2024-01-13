@@ -265,6 +265,73 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"MyRatingInfoOutput": {
+				"properties": {
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"status": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"comment": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"replied_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"answer": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"rating",
+					"status",
+					"title",
+					"comment",
+					"created_at"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MyRatingOutput": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"address": {
+						"type": "string"
+					},
+					"rating_info": {
+						"$ref": "#/components/schemas/MyRatingInfoOutput"
+					},
+					"header_url": {
+						"type": "string"
+					},
+					"brand_name": {
+						"type": "string"
+					},
+					"restaurant_type": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"UserRatingOutput": {
 				"properties": {
 					"firstname": {
@@ -1366,6 +1433,97 @@
 						}
 					}
 				}
+			}
+		},
+		"/rating/myRatings": {
+			"get": {
+				"operationId": "GetMyRatingStats",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/MyRatingOutput"
+											},
+											"type": "array"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Rating service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "status",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "city",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "address",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "restaurant_type",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/rating/{restaurant_id}": {
