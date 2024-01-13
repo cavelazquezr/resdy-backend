@@ -429,7 +429,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/webs/dishes/:restaurant_id',
+        app.get('/menu/dishes/:restaurant_id',
             ...(fetchMiddlewares<RequestHandler>(DishesController)),
             ...(fetchMiddlewares<RequestHandler>(DishesController.prototype.getDishes)),
 
@@ -455,7 +455,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/webs/dishes/:restaurant_id/:category_id',
+        app.post('/menu/dishes/:restaurant_id/:category_id',
             ...(fetchMiddlewares<RequestHandler>(DishesController)),
             ...(fetchMiddlewares<RequestHandler>(DishesController.prototype.postDishes)),
 
