@@ -75,7 +75,7 @@ CREATE TABLE "rating"."rating" (
     "status" VARCHAR(30) NOT NULL,
     "answer" VARCHAR(400),
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
+    "updated_at" TIMESTAMP(3),
     "user_id" TEXT NOT NULL,
     "restaurant_id" TEXT NOT NULL,
 
@@ -148,12 +148,6 @@ CREATE UNIQUE INDEX "customization_restaurant_id_key" ON "restaurant"."customiza
 
 -- CreateIndex
 CREATE UNIQUE INDEX "restaurant_information_restaurant_id_key" ON "restaurant"."restaurant_information"("restaurant_id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "rating_restaurant_id_key" ON "rating"."rating"("restaurant_id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "reservation_restaurant_id_key" ON "booking"."reservation"("restaurant_id");
 
 -- AddForeignKey
 ALTER TABLE "restaurant"."restaurants" ADD CONSTRAINT "restaurants_admin_id_fkey" FOREIGN KEY ("admin_id") REFERENCES "auth"."users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

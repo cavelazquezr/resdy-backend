@@ -19,3 +19,23 @@ export interface RatingsOutput {
 	replied_at?: Date;
 	answer?: string;
 }
+
+export interface MyRatingInfoOutput {
+	rating: number;	
+	status: string;
+	title: string;
+	comment: string;
+	created_at: Date;
+	replied_at?: Date;
+	answer?: string;
+}
+
+export interface MyRatingOutput {
+	name: string;
+	city?: string;
+	address?: string;
+	rating_info?: MyRatingInfoOutput;
+	header_url?: string;
+	brand_name?: string;
+	restaurant_type?: string;
+}

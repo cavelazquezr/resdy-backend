@@ -6,7 +6,7 @@ import { UserStatus } from "../../../types/messages";
 
 export const putCustomizationHandler = async (
 	authorization: string,
-	customization: Prisma.RestaurantInformationCreateManyInput,
+	customization: Prisma.CustomizationCreateManyInput,
 	unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 ) => {
 	const { restaurant_id } = customization;
