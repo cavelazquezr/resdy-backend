@@ -1,4 +1,4 @@
-id:UUID,name:String,photo_url:String,price:Number,description:String,allergen:string,restaurant:UUID,category:UUID
+id:UUID,name:String,photo_url:String,price:Number,description:String,allergen:String,restaurant:UUID,category:UUID
 1a14b84d-3529-47cc-b5b2-aad050cdb813,Lorem ipsum,https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=600,10.99,Lorem ipsum dolor sit amet,,bcb04385-33b0-4446-8aa0-b59f2b98c089,3953ad3f-3d22-49d8-9658-56fbfa1849b8
 4441e66b-bb3c-4df6-9ee4-1509c78f92ae,Lorem ipsum,https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=600,8.99,Lorem ipsum dolor sit amet,,bcb04385-33b0-4446-8aa0-b59f2b98c089,3953ad3f-3d22-49d8-9658-56fbfa1849b8
 5aec75ff-b6e0-44fa-a227-25a5b6d76988,Lorem ipsum,https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=600,3.99,Lorem ipsum dolor sit amet,,bcb04385-33b0-4446-8aa0-b59f2b98c089,3953ad3f-3d22-49d8-9658-56fbfa1849b8

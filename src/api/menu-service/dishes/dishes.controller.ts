@@ -16,7 +16,7 @@ import { postDishesHandler } from "./dishes.model.post";
 import { CreateDishInput, DishOutput } from "../../../types/menu";
 
 @Tags("Menu service")
-@Route("webs")
+@Route("menu")
 export class DishesController extends Controller {
 	@Get("/dishes/{restaurant_id}")
 	public async getDishes(
