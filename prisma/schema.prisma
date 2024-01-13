@@ -37,8 +37,8 @@ model Restaurant {
   restaurant_information RestaurantInformation?
   dishes_categories      DishesCategories[]
   dishes                 Dishes[]
-  ratings                Rating?
-  reservation            Reservation?
+  ratings                Rating[]
+  reservation            Reservation[]
   save_list_item         SaveListItem[]
 
   @@map("restaurants")
@@ -89,7 +89,7 @@ model Rating {
   user          User       @relation(fields: [user_id], references: [id])
   user_id       String
   restaurant    Restaurant @relation(fields: [restaurant_id], references: [id])
-  restaurant_id String     @unique
+  restaurant_id String     
 
   @@map("rating")
   @@schema("rating")
@@ -105,7 +105,7 @@ model Reservation {
   user                User       @relation(fields: [user_id], references: [id])
   user_id             String
   restaurant          Restaurant @relation(fields: [restaurant_id], references: [id])
-  restaurant_id       String     @unique
+  restaurant_id       String     
 
   @@map("reservation")
   @@schema("booking")

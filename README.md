@@ -14,7 +14,7 @@ Welcome to Resdy, a powerful RESTful API built with Prisma ORM, Node.js, TSOA, a
  - Prisma ([Download](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma))
  - Prettier ([Download](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode))
 
-## Once you got the repo cloned
+## Once you get the repo cloned
 
 To set up this API for the first time, you have to follow these steps:
 
