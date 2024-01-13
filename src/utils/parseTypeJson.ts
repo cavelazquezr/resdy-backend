@@ -21,11 +21,14 @@ export const parseTypeObject = (inputObject) => {
 					resultObject[propertyName] = value === "TRUE";
 					break;
 				case "Date":
-					const dateValue = new Date(value);
-					if (isNaN(dateValue.getTime())) {
-						throw new Error(`Invalid date value '${value}' for property '${propertyName}'`);
+					let dateValue: Date | null = null;
+					if (value !== null) {
+						dateValue = new Date(value);
 					}
 					resultObject[propertyName] = dateValue;
+					if (dateValue && isNaN(dateValue.getTime())) {
+						throw new Error(`Invalid date value '${value}' for property '${propertyName}'`);
+					}
 					break;
 				case "Number":
 					const numberValue = parseFloat(value);

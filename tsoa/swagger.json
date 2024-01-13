@@ -265,6 +265,62 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"UserRatingOutput": {
+				"properties": {
+					"firstname": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string"
+					},
+					"avatar_url": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"firstname",
+					"lastname"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RatingsOutput": {
+				"properties": {
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"title": {
+						"type": "string"
+					},
+					"comment": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"user_info": {
+						"$ref": "#/components/schemas/UserRatingOutput"
+					},
+					"replied_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"answer": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"rating",
+					"title",
+					"comment",
+					"created_at",
+					"user_info"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Record_number.number_": {
 				"properties": {},
 				"type": "object",
@@ -1310,6 +1366,65 @@
 						}
 					}
 				}
+			}
+		},
+		"/rating/{restaurant_id}": {
+			"get": {
+				"operationId": "GetRatingsStats",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/RatingsOutput"
+											},
+											"type": "array"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Rating service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "restaurant_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/rating/stats/{restaurant_id}": {
