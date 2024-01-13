@@ -9,6 +9,8 @@ import { CategoriesController } from './../src/api/menu-service/categories/categ
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { DishesController } from './../src/api/menu-service/dishes/dishes.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { RatingController } from './../src/api/rating-service/rating.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { CustomizationController } from './../src/api/restaurant-service/customization/customization.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { InformationController } from './../src/api/restaurant-service/information/information.controller';
@@ -123,6 +125,21 @@ const models: TsoaRoute.Models = {
             "price": {"dataType":"double","required":true},
             "description": {"dataType":"string"},
             "allergen": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Record_number.number_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RatingStatsOutput": {
+        "dataType": "refObject",
+        "properties": {
+            "rating": {"dataType":"string","required":true},
+            "rating_count": {"dataType":"double","required":true},
+            "stats": {"ref":"Record_number.number_","required":true},
         },
         "additionalProperties": false,
     },
@@ -478,6 +495,31 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.postDishes.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/rating/stats/:restaurant_id',
+            ...(fetchMiddlewares<RequestHandler>(RatingController)),
+            ...(fetchMiddlewares<RequestHandler>(RatingController.prototype.getRatingStats)),
+
+            function RatingController_getRatingStats(request: any, response: any, next: any) {
+            const args = {
+                    restaurant_id: {"in":"path","name":"restaurant_id","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new RatingController();
+
+
+              const promise = controller.getRatingStats.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

@@ -265,6 +265,32 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Record_number.number_": {
+				"properties": {},
+				"type": "object",
+				"description": "Construct a type with a set of properties K of type T"
+			},
+			"RatingStatsOutput": {
+				"properties": {
+					"rating": {
+						"type": "string"
+					},
+					"rating_count": {
+						"type": "number",
+						"format": "double"
+					},
+					"stats": {
+						"$ref": "#/components/schemas/Record_number.number_"
+					}
+				},
+				"required": [
+					"rating",
+					"rating_count",
+					"stats"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"JsonObject": {
 				"properties": {},
 				"type": "object",
@@ -1284,6 +1310,44 @@
 						}
 					}
 				}
+			}
+		},
+		"/rating/stats/{restaurant_id}": {
+			"get": {
+				"operationId": "GetRatingStats",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/RatingStatsOutput"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Rating service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "restaurant_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/restautant/customization": {
