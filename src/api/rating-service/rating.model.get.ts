@@ -9,7 +9,6 @@ export const getRatingsHandler = async (
 	restaurant_id: string,
 	unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 ): Promise<RatingsOutput[] | string> => {
-	console.log("foooooooo");
 	const qRestaurant = await client.restaurant.findUnique({
 		where: {
 			id: restaurant_id,
