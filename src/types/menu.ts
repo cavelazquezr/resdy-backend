@@ -1,15 +1,13 @@
 import { Decimal } from "@prisma/client/runtime/library";
 
 export interface DishOutput {
-	allergen: string[];
 	id: string;
 	name: string;
-	photo_url?: string; // Change here to make it more permissive
 	price: Decimal;
+	photo_url?: string;
 	description?: string;
-	restaurant_id: string;
-	category_id: string;
-};
+	allergen?: string[];
+}
 
 export interface CreateDishInput {
 	id?: string;
@@ -22,4 +20,9 @@ export interface CreateDishInput {
 
 export interface UpdateCategoryInput {
 	label: string;
+}
+
+export interface MenuOutput {
+	category: string;
+	dishes: DishOutput[];
 }

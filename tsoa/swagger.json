@@ -154,41 +154,32 @@
 			},
 			"DishOutput": {
 				"properties": {
-					"allergen": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
 					"id": {
 						"type": "string"
 					},
 					"name": {
 						"type": "string"
 					},
-					"photo_url": {
-						"type": "string"
-					},
 					"price": {
 						"$ref": "#/components/schemas/Decimal"
+					},
+					"photo_url": {
+						"type": "string"
 					},
 					"description": {
 						"type": "string"
 					},
-					"restaurant_id": {
-						"type": "string"
-					},
-					"category_id": {
-						"type": "string"
+					"allergen": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
-					"allergen",
 					"id",
 					"name",
-					"price",
-					"restaurant_id",
-					"category_id"
+					"price"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -261,6 +252,25 @@
 				"required": [
 					"name",
 					"price"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MenuOutput": {
+				"properties": {
+					"category": {
+						"type": "string"
+					},
+					"dishes": {
+						"items": {
+							"$ref": "#/components/schemas/DishOutput"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"category",
+					"dishes"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1453,6 +1463,65 @@
 						}
 					}
 				}
+			}
+		},
+		"/menu/{restaurant_id}": {
+			"get": {
+				"operationId": "GetMenu",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/MenuOutput"
+											},
+											"type": "array"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Menu service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "restaurant_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/rating/myRatings": {

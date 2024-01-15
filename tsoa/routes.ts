@@ -9,6 +9,8 @@ import { CategoriesController } from './../src/api/menu-service/categories/categ
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { DishesController } from './../src/api/menu-service/dishes/dishes.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { MenuController } from './../src/api/menu-service/menu.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { RatingController } from './../src/api/rating-service/rating.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { CustomizationController } from './../src/api/restaurant-service/customization/customization.controller';
@@ -94,14 +96,12 @@ const models: TsoaRoute.Models = {
     "DishOutput": {
         "dataType": "refObject",
         "properties": {
-            "allergen": {"dataType":"array","array":{"dataType":"string"},"required":true},
             "id": {"dataType":"string","required":true},
             "name": {"dataType":"string","required":true},
-            "photo_url": {"dataType":"string"},
             "price": {"ref":"Decimal","required":true},
+            "photo_url": {"dataType":"string"},
             "description": {"dataType":"string"},
-            "restaurant_id": {"dataType":"string","required":true},
-            "category_id": {"dataType":"string","required":true},
+            "allergen": {"dataType":"array","array":{"dataType":"string"}},
         },
         "additionalProperties": false,
     },
@@ -125,6 +125,15 @@ const models: TsoaRoute.Models = {
             "price": {"dataType":"double","required":true},
             "description": {"dataType":"string"},
             "allergen": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "MenuOutput": {
+        "dataType": "refObject",
+        "properties": {
+            "category": {"dataType":"string","required":true},
+            "dishes": {"dataType":"array","array":{"dataType":"refObject","ref":"DishOutput"},"required":true},
         },
         "additionalProperties": false,
     },
@@ -557,6 +566,32 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.postDishes.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/menu/:restaurant_id',
+            ...(fetchMiddlewares<RequestHandler>(MenuController)),
+            ...(fetchMiddlewares<RequestHandler>(MenuController.prototype.getMenu)),
+
+            function MenuController_getMenu(request: any, response: any, next: any) {
+            const args = {
+                    restaurant_id: {"in":"path","name":"restaurant_id","required":true,"dataType":"string"},
+                    unauthorizedCallback: {"in":"res","name":"403","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"reason":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new MenuController();
+
+
+              const promise = controller.getMenu.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
