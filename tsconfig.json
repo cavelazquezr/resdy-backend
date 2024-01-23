@@ -4,6 +4,14 @@
 		"module": "commonjs",
 		"outDir": "./build",
 		"baseUrl": "./src",
+		"paths": {
+			"@rating-service/*": ["api/rating-service/*"],
+			"@menu-service/*": ["api/menu-service/*"],
+			"@auth-service/*": ["api/authentication-service/*"],
+			"@restaurant-service/*": ["api/restaurant-service/*"],
+			"@rootTypes/*": ["types/*"],
+			"@root/*": ["/*"]
+		},
 		"esModuleInterop": true,
 		"strict": true,
 		"noImplicitAny": false,
