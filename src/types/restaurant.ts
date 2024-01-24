@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 
-export interface RestautantOutput {
+export interface RestaurantOutput {
 	name?: string;
 	brand_name?: string;
 	phone?: string;

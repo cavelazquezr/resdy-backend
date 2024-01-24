@@ -303,7 +303,7 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "RestautantOutput": {
+    "RestaurantOutput": {
         "dataType": "refObject",
         "properties": {
             "name": {"dataType":"string"},
@@ -707,7 +707,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.put('/restautant/customization',
+        app.put('/Restaurant/customization',
             ...(fetchMiddlewares<RequestHandler>(CustomizationController)),
             ...(fetchMiddlewares<RequestHandler>(CustomizationController.prototype.putCustomization)),
 
@@ -734,7 +734,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.put('/restautant/information',
+        app.put('/Restaurant/information',
             ...(fetchMiddlewares<RequestHandler>(InformationController)),
             ...(fetchMiddlewares<RequestHandler>(InformationController.prototype.putInformation)),
 

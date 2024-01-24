@@ -2,16 +2,16 @@ import { Dishes, Prisma, Rating } from "@prisma/client";
 import { client } from "../../services/prisma";
 import { UserStatus } from "../../types/messages";
 import { TsoaResponse } from "tsoa";
-import { RestautantOutput } from "../../types/restaurant";
+import { RestaurantOutput } from "@rootTypes/restaurant";
 import { calculatePriceAverage, calculateRatingAverage } from "../utils";
 
 export const getRestaurantHandler = async (
 	unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 	name?: string,
 	city?: string,
-	restautantType?: string,
+	restaurantType?: string,
 	country?: string,
-): Promise<RestautantOutput[] | string> => {
+): Promise<RestaurantOutput[] | string> => {
 	try {
 		const qRestaurants = await client.restaurant.findMany({
 			select: {
@@ -42,7 +42,7 @@ export const getRestaurantHandler = async (
 				restaurant_information: {
 					city: { contains: city },
 					country: { contains: country },
-					restaurant_type: { contains: restautantType },
+					restaurant_type: { contains: restaurantType },
 				},
 			},
 		});
@@ -51,7 +51,7 @@ export const getRestaurantHandler = async (
 			return unauthorizedCallback(403, { reason: UserStatus.NOT_FOUND });
 		}
 
-		const restaurantsRecord: RestautantOutput[] = qRestaurants.map((restaurant) => {
+		const restaurantsRecord: RestaurantOutput[] = qRestaurants.map((restaurant) => {
 			const { name, restaurant_information, customization } = restaurant;
 
 			return {

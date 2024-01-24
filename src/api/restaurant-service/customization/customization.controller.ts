@@ -3,7 +3,7 @@ import { Header, Controller, Res, Body, Put, Route, Tags, TsoaResponse } from "t
 import { putCustomizationHandler } from "./customization.model.put";
 
 @Tags("Restaurant service")
-@Route("restautant/customization")
+@Route("Restaurant/customization")
 export class CustomizationController extends Controller {
 	//Endpoint a desarrollar 😁
 	@Put()

@@ -772,7 +772,7 @@
 				"type": "object",
 				"description": "From https://github.com/sindresorhus/type-fest/\nMatches a JSON object.\nThis type can be useful to enforce some input to be JSON-compatible or as a super-type to be extended from."
 			},
-			"RestautantOutput": {
+			"RestaurantOutput": {
 				"properties": {
 					"name": {
 						"type": "string"
@@ -1786,7 +1786,7 @@
 				}
 			}
 		},
-		"/restautant/customization": {
+		"/Restaurant/customization": {
 			"put": {
 				"operationId": "PutCustomization",
 				"responses": {
@@ -1852,7 +1852,7 @@
 				}
 			}
 		},
-		"/restautant/information": {
+		"/Restaurant/information": {
 			"put": {
 				"operationId": "PutInformation",
 				"responses": {
@@ -1930,7 +1930,7 @@
 									"anyOf": [
 										{
 											"items": {
-												"$ref": "#/components/schemas/RestautantOutput"
+												"$ref": "#/components/schemas/RestaurantOutput"
 											},
 											"type": "array"
 										},

@@ -62,10 +62,10 @@ const seedModel = async (seedData: Record<string, any[]>) => {
 				}
 				if (model === "restaurant") {
 					for (const restaurant of rows as Prisma.RestaurantCreateInput[]) {
-						const { admin, ...restautantUpdateInput } = restaurant;
+						const { admin, ...RestaurantUpdateInput } = restaurant;
 						await client.restaurant.upsert({
 							where: { name: restaurant.name },
-							update: restautantUpdateInput,
+							update: RestaurantUpdateInput,
 							create: {
 								name: restaurant.name,
 								admin: {

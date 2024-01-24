@@ -3,7 +3,7 @@ import { Header, Controller, Res, Body, Put, Route, Tags, Delete, TsoaResponse }
 import { putInformationHandler } from "./information.model.put";
 
 @Tags("Restaurant service")
-@Route("restautant/information")
+@Route("Restaurant/information")
 export class InformationController extends Controller {
 	//Endpoint a desarrollar 😁
 	@Put()
