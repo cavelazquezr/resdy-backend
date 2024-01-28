@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 
-export interface RestautantOutput {
+export interface RestaurantOutput {
 	name?: string;
 	brand_name?: string;
 	phone?: string;
@@ -8,6 +8,7 @@ export interface RestautantOutput {
 	country?: string;
 	city?: string;
 	restaurant_type?: string;
+	description?: string;
 	location?: Prisma.JsonObject;
 	price_average: number;
 	rating?: number;
@@ -24,4 +25,11 @@ export interface RestaurantRatingsRecord {
 	user_id: string; //id of the user
 	rating: number; //from 1 to 5
 	comment: string;
+}
+
+export interface GetRestaurantsQueryParams {
+	name?: string;
+	city?: string;
+	restaurant_type?: string;
+	country?: string;
 }

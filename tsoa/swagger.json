@@ -95,7 +95,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"CategoryOutput": {
+			"Partial_Category_": {
 				"properties": {
 					"id": {
 						"type": "string"
@@ -103,21 +103,61 @@
 					"label": {
 						"type": "string"
 					},
-					"hasRecordUsingCategory": {
+					"is_active": {
 						"type": "boolean"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true
+					},
+					"restaurant_id": {
+						"type": "string"
 					}
 				},
-				"required": [
-					"id",
-					"label"
-				],
 				"type": "object",
-				"additionalProperties": false
+				"description": "Make all properties in T optional"
 			},
-			"%24Result.DefaultSelection_Prisma.%24DishesCategoriesPayload_": {
+			"CategoryProps": {
+				"$ref": "#/components/schemas/Partial_Category_"
+			},
+			"WithIsUsed_CategoryProps_": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/CategoryProps"
+					},
+					{
+						"properties": {
+							"is_used": {
+								"type": "boolean"
+							}
+						},
+						"required": [
+							"is_used"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"%24Result.DefaultSelection_Prisma.%24CategoryPayload_": {
 				"properties": {
 					"restaurant_id": {
 						"type": "string"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"is_active": {
+						"type": "boolean"
 					},
 					"label": {
 						"type": "string"
@@ -128,61 +168,50 @@
 				},
 				"required": [
 					"restaurant_id",
+					"updated_at",
+					"created_at",
+					"is_active",
 					"label",
 					"id"
 				],
 				"type": "object"
 			},
-			"DishesCategories": {
-				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24DishesCategoriesPayload_",
-				"description": "Model DishesCategories"
+			"Category": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24CategoryPayload_",
+				"description": "Model Category"
 			},
-			"UpdateCategoryInput": {
+			"CategoryOutput": {
+				"$ref": "#/components/schemas/Category"
+			},
+			"Partial_Pick_CategoryProps.label__": {
 				"properties": {
 					"label": {
 						"type": "string"
 					}
 				},
-				"required": [
-					"label"
-				],
 				"type": "object",
-				"additionalProperties": false
+				"description": "Make all properties in T optional"
+			},
+			"WithHide_Partial_Pick_CategoryProps.label___": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Partial_Pick_CategoryProps.label__"
+					},
+					{
+						"properties": {
+							"hide": {
+								"type": "boolean"
+							}
+						},
+						"type": "object"
+					}
+				]
+			},
+			"CategoryUpdateInput": {
+				"$ref": "#/components/schemas/WithHide_Partial_Pick_CategoryProps.label___"
 			},
 			"Decimal": {
 				"type": "string"
-			},
-			"DishOutput": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
-					},
-					"price": {
-						"$ref": "#/components/schemas/Decimal"
-					},
-					"photo_url": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"allergen": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"id",
-					"name",
-					"price"
-				],
-				"type": "object",
-				"additionalProperties": false
 			},
 			"%24Result.DefaultSelection_Prisma.%24DishesPayload_": {
 				"properties": {
@@ -191,6 +220,17 @@
 					},
 					"restaurant_id": {
 						"type": "string"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"is_active": {
+						"type": "boolean"
 					},
 					"allergen": {
 						"type": "string"
@@ -214,6 +254,9 @@
 				"required": [
 					"category_id",
 					"restaurant_id",
+					"updated_at",
+					"created_at",
+					"is_active",
 					"allergen",
 					"description",
 					"price",
@@ -227,7 +270,65 @@
 				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24DishesPayload_",
 				"description": "Model Dishes"
 			},
+			"DishOutput": {
+				"$ref": "#/components/schemas/Dishes"
+			},
+			"DishesByCategoryOutput": {
+				"properties": {
+					"dishes": {
+						"items": {
+							"$ref": "#/components/schemas/DishOutput"
+						},
+						"type": "array"
+					},
+					"category": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"dishes",
+					"category"
+				],
+				"type": "object"
+			},
+			"Prisma.Decimal": {
+				"type": "string"
+			},
+			"Pick_Dishes.name-or-photo_url-or-allergen-or-price-or-description_": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"photo_url": {
+						"type": "string",
+						"nullable": true
+					},
+					"allergen": {
+						"type": "string",
+						"nullable": true
+					},
+					"price": {
+						"$ref": "#/components/schemas/Prisma.Decimal"
+					},
+					"description": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": [
+					"name",
+					"photo_url",
+					"allergen",
+					"price",
+					"description"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
 			"CreateDishInput": {
+				"$ref": "#/components/schemas/Pick_Dishes.name-or-photo_url-or-allergen-or-price-or-description_"
+			},
+			"Partial_Dishes_": {
 				"properties": {
 					"id": {
 						"type": "string"
@@ -236,25 +337,44 @@
 						"type": "string"
 					},
 					"photo_url": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"price": {
-						"type": "number",
-						"format": "double"
+						"$ref": "#/components/schemas/Prisma.Decimal"
 					},
 					"description": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"allergen": {
+						"type": "string",
+						"nullable": true
+					},
+					"is_active": {
+						"type": "boolean"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true
+					},
+					"restaurant_id": {
+						"type": "string"
+					},
+					"category_id": {
 						"type": "string"
 					}
 				},
-				"required": [
-					"name",
-					"price"
-				],
 				"type": "object",
-				"additionalProperties": false
+				"description": "Make all properties in T optional"
+			},
+			"DishProps": {
+				"$ref": "#/components/schemas/Partial_Dishes_"
 			},
 			"MenuOutput": {
 				"properties": {
@@ -263,7 +383,7 @@
 					},
 					"dishes": {
 						"items": {
-							"$ref": "#/components/schemas/DishOutput"
+							"$ref": "#/components/schemas/DishProps"
 						},
 						"type": "array"
 					}
@@ -277,12 +397,12 @@
 			},
 			"MyRatingInfoOutput": {
 				"properties": {
-					"rating": {
-						"type": "number",
-						"format": "double"
-					},
 					"status": {
 						"type": "string"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
 					},
 					"title": {
 						"type": "string"
@@ -290,9 +410,9 @@
 					"comment": {
 						"type": "string"
 					},
-					"created_at": {
-						"type": "string",
-						"format": "date-time"
+					"rating": {
+						"type": "number",
+						"format": "double"
 					},
 					"replied_at": {
 						"type": "string",
@@ -303,10 +423,7 @@
 					}
 				},
 				"required": [
-					"rating",
 					"status",
-					"title",
-					"comment",
 					"created_at"
 				],
 				"type": "object",
@@ -389,9 +506,6 @@
 					}
 				},
 				"required": [
-					"rating",
-					"title",
-					"comment",
 					"created_at"
 				],
 				"type": "object",
@@ -444,335 +558,12 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"JsonObject": {
-				"properties": {},
-				"type": "object",
-				"description": "From https://github.com/sindresorhus/type-fest/\nMatches a JSON object.\nThis type can be useful to enforce some input to be JSON-compatible or as a super-type to be extended from."
-			},
-			"JsonArray": {
-				"description": "From https://github.com/sindresorhus/type-fest/\nMatches a JSON array.",
-				"properties": {},
-				"type": "object",
-				"additionalProperties": false
-			},
-			"JsonValue": {
-				"anyOf": [
-					{
-						"type": "string"
-					},
-					{
-						"type": "number",
-						"format": "double"
-					},
-					{
-						"type": "boolean"
-					},
-					{
-						"$ref": "#/components/schemas/JsonObject"
-					},
-					{
-						"$ref": "#/components/schemas/JsonArray"
-					}
-				],
-				"nullable": true,
-				"description": "From https://github.com/sindresorhus/type-fest/\nMatches any valid JSON value."
-			},
-			"%24Result.DefaultSelection_Prisma.%24CustomizationPayload_": {
-				"properties": {
-					"restaurant_id": {
-						"type": "string"
-					},
-					"updated_at": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"name": {
-						"type": "string"
-					},
-					"header_url": {
-						"type": "string"
-					},
-					"logo_url": {
-						"type": "string"
-					},
-					"extra_customization": {
-						"$ref": "#/components/schemas/JsonValue"
-					},
-					"font_families": {
-						"$ref": "#/components/schemas/JsonValue"
-					},
-					"color_palette": {
-						"$ref": "#/components/schemas/JsonValue"
-					}
-				},
-				"required": [
-					"restaurant_id",
-					"updated_at",
-					"name",
-					"header_url",
-					"logo_url",
-					"extra_customization",
-					"font_families",
-					"color_palette"
-				],
-				"type": "object"
-			},
-			"Customization": {
-				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24CustomizationPayload_",
-				"description": "Model Customization"
-			},
-			"DbNull": {
-				"description": "Type of `Prisma.DbNull`.\n\nYou cannot use other instances of this class. Please use the `Prisma.DbNull` value.",
-				"properties": {},
-				"type": "object",
-				"additionalProperties": false
-			},
-			"JsonNull": {
-				"description": "Type of `Prisma.JsonNull`.\n\nYou cannot use other instances of this class. Please use the `Prisma.JsonNull` value.",
-				"properties": {},
-				"type": "object",
-				"additionalProperties": false
-			},
-			"NullableJsonNullValueInput": {
-				"anyOf": [
-					{
-						"$ref": "#/components/schemas/DbNull"
-					},
-					{
-						"$ref": "#/components/schemas/JsonNull"
-					}
-				]
-			},
-			"InputJsonObject": {
-				"properties": {},
-				"type": "object",
-				"description": "Matches a JSON object.\nUnlike `JsonObject`, this type allows undefined and read-only properties."
-			},
-			"InputJsonArray": {
-				"description": "Matches a JSON array.\nUnlike `JsonArray`, readonly arrays are assignable to this type.",
-				"properties": {},
-				"type": "object",
-				"additionalProperties": false
-			},
-			"InputJsonValue": {
-				"anyOf": [
-					{
-						"type": "string"
-					},
-					{
-						"type": "number",
-						"format": "double"
-					},
-					{
-						"type": "boolean"
-					},
-					{
-						"$ref": "#/components/schemas/InputJsonObject"
-					},
-					{
-						"$ref": "#/components/schemas/InputJsonArray"
-					},
-					{
-						"properties": {},
-						"type": "object"
-					}
-				],
-				"description": "Matches any valid value that can be used as an input for operations like\ncreate and update as the value of a JSON field. Unlike `JsonValue`, this\ntype allows read-only arrays and read-only object properties and disallows\n`null` at the top level.\n\n`null` cannot be used as the value of a JSON field because its meaning\nwould be ambiguous. Use `Prisma.JsonNull` to store the JSON null value or\n`Prisma.DbNull` to clear the JSON value and set the field to the database\nNULL value instead."
-			},
-			"Prisma.CustomizationCreateManyInput": {
-				"properties": {
-					"restaurant_id": {
-						"type": "string"
-					},
-					"updated_at": {
-						"anyOf": [
-							{
-								"type": "string",
-								"format": "date-time"
-							},
-							{
-								"type": "string"
-							}
-						]
-					},
-					"name": {
-						"type": "string",
-						"nullable": true
-					},
-					"header_url": {
-						"type": "string",
-						"nullable": true
-					},
-					"logo_url": {
-						"type": "string",
-						"nullable": true
-					},
-					"extra_customization": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					},
-					"font_families": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					},
-					"color_palette": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					}
-				},
-				"required": [
-					"restaurant_id"
-				],
-				"type": "object"
-			},
-			"%24Result.DefaultSelection_Prisma.%24RestaurantInformationPayload_": {
-				"properties": {
-					"restaurant_id": {
-						"type": "string"
-					},
-					"updated_at": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"extra_information": {
-						"$ref": "#/components/schemas/JsonValue"
-					},
-					"location": {
-						"$ref": "#/components/schemas/JsonValue"
-					},
-					"restaurant_type": {
-						"type": "string"
-					},
-					"social_media": {
-						"$ref": "#/components/schemas/JsonValue"
-					},
-					"country": {
-						"type": "string"
-					},
-					"city": {
-						"type": "string"
-					},
-					"address": {
-						"type": "string"
-					},
-					"phone": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"restaurant_id",
-					"updated_at",
-					"extra_information",
-					"location",
-					"restaurant_type",
-					"social_media",
-					"country",
-					"city",
-					"address",
-					"phone"
-				],
-				"type": "object"
-			},
-			"RestaurantInformation": {
-				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24RestaurantInformationPayload_",
-				"description": "Model RestaurantInformation"
-			},
-			"Prisma.RestaurantInformationCreateManyInput": {
-				"properties": {
-					"restaurant_id": {
-						"type": "string"
-					},
-					"updated_at": {
-						"anyOf": [
-							{
-								"type": "string",
-								"format": "date-time"
-							},
-							{
-								"type": "string"
-							}
-						]
-					},
-					"extra_information": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					},
-					"location": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					},
-					"restaurant_type": {
-						"type": "string",
-						"nullable": true
-					},
-					"social_media": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					},
-					"country": {
-						"type": "string",
-						"nullable": true
-					},
-					"city": {
-						"type": "string",
-						"nullable": true
-					},
-					"address": {
-						"type": "string",
-						"nullable": true
-					},
-					"phone": {
-						"type": "string",
-						"nullable": true
-					}
-				},
-				"required": [
-					"restaurant_id"
-				],
-				"type": "object"
-			},
 			"Prisma.JsonObject": {
 				"properties": {},
 				"type": "object",
 				"description": "From https://github.com/sindresorhus/type-fest/\nMatches a JSON object.\nThis type can be useful to enforce some input to be JSON-compatible or as a super-type to be extended from."
 			},
-			"RestautantOutput": {
+			"RestaurantOutput": {
 				"properties": {
 					"name": {
 						"type": "string"
@@ -795,6 +586,9 @@
 					"restaurant_type": {
 						"type": "string"
 					},
+					"description": {
+						"type": "string"
+					},
 					"location": {
 						"$ref": "#/components/schemas/Prisma.JsonObject"
 					},
@@ -813,171 +607,6 @@
 				},
 				"required": [
 					"price_average"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"%24Result.DefaultSelection_Prisma.%24RestaurantPayload_": {
-				"properties": {
-					"admin_id": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
-					},
-					"id": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"admin_id",
-					"name",
-					"id"
-				],
-				"type": "object"
-			},
-			"Restaurant": {
-				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24RestaurantPayload_",
-				"description": "Model Restaurant"
-			},
-			"Prisma.CustomizationCreateWithoutRestaurantInput": {
-				"properties": {
-					"updated_at": {
-						"anyOf": [
-							{
-								"type": "string",
-								"format": "date-time"
-							},
-							{
-								"type": "string"
-							}
-						]
-					},
-					"name": {
-						"type": "string",
-						"nullable": true
-					},
-					"header_url": {
-						"type": "string",
-						"nullable": true
-					},
-					"logo_url": {
-						"type": "string",
-						"nullable": true
-					},
-					"extra_customization": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					},
-					"font_families": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					},
-					"color_palette": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					}
-				},
-				"type": "object"
-			},
-			"Prisma.RestaurantInformationCreateWithoutRestaurantInput": {
-				"properties": {
-					"updated_at": {
-						"anyOf": [
-							{
-								"type": "string",
-								"format": "date-time"
-							},
-							{
-								"type": "string"
-							}
-						]
-					},
-					"extra_information": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					},
-					"location": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					},
-					"restaurant_type": {
-						"type": "string",
-						"nullable": true
-					},
-					"social_media": {
-						"anyOf": [
-							{
-								"$ref": "#/components/schemas/NullableJsonNullValueInput"
-							},
-							{
-								"$ref": "#/components/schemas/InputJsonValue"
-							}
-						]
-					},
-					"country": {
-						"type": "string",
-						"nullable": true
-					},
-					"city": {
-						"type": "string",
-						"nullable": true
-					},
-					"address": {
-						"type": "string",
-						"nullable": true
-					},
-					"phone": {
-						"type": "string",
-						"nullable": true
-					}
-				},
-				"type": "object"
-			},
-			"CreateRestaurantInput": {
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"customization": {
-						"$ref": "#/components/schemas/Prisma.CustomizationCreateWithoutRestaurantInput"
-					},
-					"restaurant_information": {
-						"$ref": "#/components/schemas/Prisma.RestaurantInformationCreateWithoutRestaurantInput"
-					}
-				},
-				"required": [
-					"name"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1007,32 +636,12 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
+									"allOf": [
 										{
 											"$ref": "#/components/schemas/UserOutput"
-										},
-										{
-											"type": "string"
 										}
-									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
 									],
-									"type": "object"
+									"nullable": true
 								}
 							}
 						}
@@ -1169,9 +778,9 @@
 				}
 			}
 		},
-		"/menu/category/{restaurant_id}": {
+		"/category/{restaurant_name}": {
 			"get": {
-				"operationId": "GetCategories",
+				"operationId": "GetRestautantCategories",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -1181,7 +790,7 @@
 									"anyOf": [
 										{
 											"items": {
-												"$ref": "#/components/schemas/CategoryOutput"
+												"$ref": "#/components/schemas/WithIsUsed_CategoryProps_"
 											},
 											"type": "array"
 										},
@@ -1193,18 +802,18 @@
 							}
 						}
 					},
-					"403": {
+					"404": {
 						"description": "",
 						"content": {
 							"application/json": {
 								"schema": {
 									"properties": {
-										"reason": {
+										"details": {
 											"type": "string"
 										}
 									},
 									"required": [
-										"reason"
+										"details"
 									],
 									"type": "object"
 								}
@@ -1213,13 +822,13 @@
 					}
 				},
 				"tags": [
-					"Menu service"
+					"Category service"
 				],
 				"security": [],
 				"parameters": [
 					{
 						"in": "path",
-						"name": "restaurant_id",
+						"name": "restaurant_name",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -1228,7 +837,7 @@
 				]
 			}
 		},
-		"/menu/category/{category_id}": {
+		"/category/{category_id}": {
 			"put": {
 				"operationId": "PutCategory",
 				"responses": {
@@ -1239,7 +848,7 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/DishesCategories"
+											"$ref": "#/components/schemas/CategoryOutput"
 										},
 										{
 											"type": "string"
@@ -1249,18 +858,54 @@
 							}
 						}
 					},
-					"403": {
+					"401": {
 						"description": "",
 						"content": {
 							"application/json": {
 								"schema": {
 									"properties": {
-										"reason": {
+										"details": {
 											"type": "string"
 										}
 									},
 									"required": [
-										"reason"
+										"details"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"details": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"details"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"details": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"details"
 									],
 									"type": "object"
 								}
@@ -1269,7 +914,7 @@
 					}
 				},
 				"tags": [
-					"Menu service"
+					"Category service"
 				],
 				"security": [],
 				"parameters": [
@@ -1295,36 +940,14 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/UpdateCategoryInput"
+								"$ref": "#/components/schemas/CategoryUpdateInput"
 							}
 						}
 					}
 				}
 			}
 		},
-		"/menu/categories/{webId}": {
-			"delete": {
-				"operationId": "DeleteWeb",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Menu service"
-				],
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/menu/dishes/{restaurant_id}": {
+		"/dishes/{restaurant_name}": {
 			"get": {
 				"operationId": "GetDishes",
 				"responses": {
@@ -1336,7 +959,7 @@
 									"anyOf": [
 										{
 											"items": {
-												"$ref": "#/components/schemas/DishOutput"
+												"$ref": "#/components/schemas/DishesByCategoryOutput"
 											},
 											"type": "array"
 										},
@@ -1348,18 +971,18 @@
 							}
 						}
 					},
-					"403": {
+					"404": {
 						"description": "",
 						"content": {
 							"application/json": {
 								"schema": {
 									"properties": {
-										"reason": {
+										"details": {
 											"type": "string"
 										}
 									},
 									"required": [
-										"reason"
+										"details"
 									],
 									"type": "object"
 								}
@@ -1368,13 +991,13 @@
 					}
 				},
 				"tags": [
-					"Menu service"
+					"Dishes service"
 				],
 				"security": [],
 				"parameters": [
 					{
 						"in": "path",
-						"name": "restaurant_id",
+						"name": "restaurant_name",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -1383,7 +1006,7 @@
 				]
 			}
 		},
-		"/menu/dishes/{restaurant_id}/{category_id}": {
+		"/dishes/{restaurant_name}/{category_id}": {
 			"post": {
 				"operationId": "PostDishes",
 				"responses": {
@@ -1394,28 +1017,46 @@
 								"schema": {
 									"anyOf": [
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/DishOutput"
 										},
 										{
-											"$ref": "#/components/schemas/Dishes"
+											"type": "string"
 										}
 									]
 								}
 							}
 						}
 					},
-					"403": {
+					"401": {
 						"description": "",
 						"content": {
 							"application/json": {
 								"schema": {
 									"properties": {
-										"reason": {
+										"details": {
 											"type": "string"
 										}
 									},
 									"required": [
-										"reason"
+										"details"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"details": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"details"
 									],
 									"type": "object"
 								}
@@ -1424,7 +1065,7 @@
 					}
 				},
 				"tags": [
-					"Menu service"
+					"Dishes service"
 				],
 				"security": [],
 				"parameters": [
@@ -1438,7 +1079,7 @@
 					},
 					{
 						"in": "path",
-						"name": "restaurant_id",
+						"name": "restaurant_name",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -1465,7 +1106,7 @@
 				}
 			}
 		},
-		"/menu/{restaurant_id}": {
+		"/menu/{restaurant_name}": {
 			"get": {
 				"operationId": "GetMenu",
 				"responses": {
@@ -1489,18 +1130,18 @@
 							}
 						}
 					},
-					"403": {
+					"404": {
 						"description": "",
 						"content": {
 							"application/json": {
 								"schema": {
 									"properties": {
-										"reason": {
+										"details": {
 											"type": "string"
 										}
 									},
 									"required": [
-										"reason"
+										"details"
 									],
 									"type": "object"
 								}
@@ -1515,7 +1156,7 @@
 				"parameters": [
 					{
 						"in": "path",
-						"name": "restaurant_id",
+						"name": "restaurant_name",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -1526,7 +1167,7 @@
 		},
 		"/rating/myRatings": {
 			"get": {
-				"operationId": "GetMyRatingStats",
+				"operationId": "GetMyRating",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -1535,10 +1176,18 @@
 								"schema": {
 									"anyOf": [
 										{
-											"items": {
-												"$ref": "#/components/schemas/MyRatingOutput"
+											"properties": {
+												"ratings": {
+													"items": {
+														"$ref": "#/components/schemas/MyRatingOutput"
+													},
+													"type": "array"
+												}
 											},
-											"type": "array"
+											"required": [
+												"ratings"
+											],
+											"type": "object"
 										},
 										{
 											"type": "string"
@@ -1598,15 +1247,7 @@
 					},
 					{
 						"in": "query",
-						"name": "address",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "restaurant_type",
+						"name": "search",
 						"required": false,
 						"schema": {
 							"type": "string"
@@ -1615,9 +1256,9 @@
 				]
 			}
 		},
-		"/rating/{restaurant_id}": {
+		"/rating/{restaurant_name}": {
 			"get": {
-				"operationId": "GetRatingsStats",
+				"operationId": "GetRatings",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -1665,7 +1306,7 @@
 				"parameters": [
 					{
 						"in": "path",
-						"name": "restaurant_id",
+						"name": "restaurant_name",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -1674,7 +1315,7 @@
 				]
 			}
 		},
-		"/rating/stats/{restaurant_id}": {
+		"/rating/stats/{restaurant_name}": {
 			"get": {
 				"operationId": "GetRatingStats",
 				"responses": {
@@ -1694,6 +1335,24 @@
 								}
 							}
 						}
+					},
+					"403": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"reason": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"reason"
+									],
+									"type": "object"
+								}
+							}
+						}
 					}
 				},
 				"tags": [
@@ -1703,7 +1362,7 @@
 				"parameters": [
 					{
 						"in": "path",
-						"name": "restaurant_id",
+						"name": "restaurant_name",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -1786,138 +1445,6 @@
 				}
 			}
 		},
-		"/restautant/customization": {
-			"put": {
-				"operationId": "PutCustomization",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/Customization"
-										},
-										{
-											"type": "string"
-										}
-									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Restaurant service"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/Prisma.CustomizationCreateManyInput"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/restautant/information": {
-			"put": {
-				"operationId": "PutInformation",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/RestaurantInformation"
-										},
-										{
-											"type": "string"
-										}
-									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Restaurant service"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/Prisma.RestaurantInformationCreateManyInput"
-							}
-						}
-					}
-				}
-			}
-		},
 		"/restaurant": {
 			"get": {
 				"operationId": "GetRestaurant",
@@ -1930,7 +1457,7 @@
 									"anyOf": [
 										{
 											"items": {
-												"$ref": "#/components/schemas/RestautantOutput"
+												"$ref": "#/components/schemas/RestaurantOutput"
 											},
 											"type": "array"
 										},
@@ -1938,24 +1465,6 @@
 											"type": "string"
 										}
 									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -1997,92 +1506,16 @@
 						"schema": {
 							"type": "string"
 						}
-					}
-				]
-			},
-			"post": {
-				"operationId": "PostRestaurant",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/Restaurant"
-										},
-										{
-											"type": "string"
-										}
-									]
-								}
-							}
-						}
 					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Restaurant service"
-				],
-				"security": [],
-				"parameters": [
 					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
+						"in": "query",
+						"name": "sort",
+						"required": false,
 						"schema": {
 							"type": "string"
 						}
 					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/CreateRestaurantInput"
-							}
-						}
-					}
-				}
-			},
-			"delete": {
-				"operationId": "DeleteWeb",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Restaurant service"
-				],
-				"security": [],
-				"parameters": []
+				]
 			}
 		}
 	},

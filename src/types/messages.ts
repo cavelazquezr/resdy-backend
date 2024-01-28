@@ -1,4 +1,5 @@
 export enum UserStatus {
+  INVALID_TOKEN = "Token is invalid or expired",
   NOT_FOUND = "No entities were found",
   INCORRECT_CREDENTIALS = "Email or password are incorrect",
   UNAUTHORIZED = "Unauthorized access",

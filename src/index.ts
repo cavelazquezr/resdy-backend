@@ -14,7 +14,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
 
 app.use(cors());
 
-const PORT = 8000;
+const PORT = 8080;
 
 app.get("/", (_req, res) => {
 	res.json({ msg: "Welcome to your Rest API" });
