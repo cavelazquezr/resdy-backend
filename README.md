@@ -12,7 +12,6 @@ Welcome to Resdy, a powerful RESTful API built with Prisma ORM, Node.js, TSOA, a
  - Prettier ([Download](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode))
 
 
-
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
