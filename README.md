@@ -67,6 +67,7 @@ You can look up all routes by going to http://localhost:8080/docs/
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/cavelazquezr"><img src="https://avatars.githubusercontent.com/u/113686993?v=4?s=100" width="100px;" alt="Carlos Alberto"/><br /><sub><b>Carlos Alberto</b></sub></a><br /><a href="https://github.com/cavelazquezr/resdy-backend/commits?author=cavelazquezr" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Lealdos"><img src="https://avatars.githubusercontent.com/u/105816982?v=4?s=100" width="100px;" alt="jose L Delgado Avila"/><br /><sub><b>jose L Delgado Avila</b></sub></a><br /><a href="https://github.com/cavelazquezr/resdy-backend/commits?author=Lealdos" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
