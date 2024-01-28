@@ -1,8 +1,16 @@
-import { Controller, Res, Route, Tags, Header, Path, Body, TsoaResponse, Get, Put } from "tsoa";
-import { CategoryOutput, CategoryProps, CategoryUpdateInput } from "../../types/categories";
+import { Controller, Res, Route, Tags, Header, Path, Body, TsoaResponse, Get, Put, Post } from "tsoa";
+import { CategoryOutput, CategoryProps, CategoryUpdateInput, CategoryCreateInput } from "../../types/categories";
 import { WithIsUsed } from "../../types";
-import { getRestautantCategoriesService, updateCategoryService } from "../services/category-services";
-import { getRestautantCategoriesValidations, updateCategoryValidation } from "../validations/category-validations";
+import {
+	createCategoryService,
+	getRestautantCategoriesService,
+	updateCategoryService,
+} from "../services/category-services";
+import {
+	createCategoryValidations,
+	getRestautantCategoriesValidations,
+	updateCategoryValidation,
+} from "../validations/category-validations";
 
 @Tags("Category service")
 @Route("category")
@@ -14,6 +22,18 @@ export class CategoriesController extends Controller {
 	): Promise<WithIsUsed<CategoryProps>[] | string> {
 		await getRestautantCategoriesValidations(restaurant_name, notFoundCallback);
 		return getRestautantCategoriesService(restaurant_name);
+	}
+
+	@Post("{restaurant_name}")
+	public async postCategory(
+		@Header() authorization: string,
+		@Path() restaurant_name: string,
+		@Body() category_input: CategoryCreateInput,
+		@Res() unauthorizedCallback: TsoaResponse<401, { details: string }>,
+		@Res() notFoundCallback: TsoaResponse<404, { details: string }>,
+	): Promise<CategoryOutput | string> {
+		await createCategoryValidations(authorization, restaurant_name, unauthorizedCallback, notFoundCallback);
+		return createCategoryService(restaurant_name, category_input);
 	}
 
 	@Put("{category_id}")
@@ -35,10 +55,4 @@ export class CategoriesController extends Controller {
 		);
 		return updateCategoryService(category_id, category_input);
 	}
-
-	// //Endpoint a desarrollar
-	// @Delete("/categories/{webId}")
-	// public async deleteWeb() {
-	// 	return deleteCategoryHandler();
-	// }
 }

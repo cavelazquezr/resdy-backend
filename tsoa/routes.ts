@@ -86,6 +86,16 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"Category","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_Category.label_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"label":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "CategoryCreateInput": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_Category.label_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial_Pick_CategoryProps.label__": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"label":{"dataType":"string"}},"validators":{}},
@@ -368,6 +378,35 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.getRestautantCategories.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/category/:restaurant_name',
+            ...(fetchMiddlewares<RequestHandler>(CategoriesController)),
+            ...(fetchMiddlewares<RequestHandler>(CategoriesController.prototype.postCategory)),
+
+            function CategoriesController_postCategory(request: any, response: any, next: any) {
+            const args = {
+                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+                    restaurant_name: {"in":"path","name":"restaurant_name","required":true,"dataType":"string"},
+                    category_input: {"in":"body","name":"category_input","required":true,"ref":"CategoryCreateInput"},
+                    unauthorizedCallback: {"in":"res","name":"401","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"details":{"dataType":"string","required":true}}},
+                    notFoundCallback: {"in":"res","name":"404","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"details":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new CategoriesController();
+
+
+              const promise = controller.postCategory.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

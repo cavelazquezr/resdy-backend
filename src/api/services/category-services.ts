@@ -1,6 +1,6 @@
 import { WithIsUsed } from "../../types";
-import { CategoryProps, CategoryUpdateInput } from "../../types/categories";
-import { getRestaurantCategories, updateCategory } from "../models/category-models";
+import { CategoryCreateInput, CategoryOutput, CategoryProps, CategoryUpdateInput } from "../../types/categories";
+import { createCategory, getRestaurantCategories, updateCategory } from "../models/category-models";
 
 export const getRestautantCategoriesService = async (restaurant_name: string): Promise<WithIsUsed<CategoryProps>[]> => {
 	const { categories, dishes } = await getRestaurantCategories(restaurant_name);
@@ -19,6 +19,11 @@ export const getRestautantCategoriesService = async (restaurant_name: string): P
 };
 
 export const updateCategoryService = async (category_id: string, category_input: CategoryUpdateInput) => {
-	const query = await updateCategory(category_id, category_input);
-	return query;
+	const updatedCategory: CategoryOutput = await updateCategory(category_id, category_input);
+	return updatedCategory;
+};
+
+export const createCategoryService = async (category_id: string, category_input: CategoryCreateInput) => {
+	const newCategory: CategoryOutput = await createCategory(category_id, category_input);
+	return newCategory;
 };

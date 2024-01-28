@@ -1,5 +1,5 @@
 import { client } from "../../config/client";
-import { CategoryUpdateInput } from "../../types/categories";
+import { CategoryUpdateInput, CategoryCreateInput } from "../../types/categories";
 
 const { category } = client;
 
@@ -52,6 +52,20 @@ export const updateCategory = async (category_id: string, category_input: Catego
 		data: {
 			...input,
 			is_active: hide ? false : true,
+		},
+	});
+	return query;
+};
+
+export const createCategory = async (restaurant_name: string, category_input: CategoryCreateInput) => {
+	const query = await category.create({
+		data: {
+			...category_input,
+			restaurant: {
+				connect: {
+					name: restaurant_name,
+				},
+			},
 		},
 	});
 	return query;
