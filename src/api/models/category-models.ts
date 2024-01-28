@@ -70,3 +70,13 @@ export const createCategory = async (restaurant_name: string, category_input: Ca
 	});
 	return query;
 };
+
+export const deleteCategories = async (category_ids: string[]) => {
+	await category.deleteMany({
+		where: {
+			id: {
+				in: category_ids,
+			},
+		},
+	});
+};

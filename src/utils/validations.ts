@@ -18,6 +18,17 @@ export const checkIfCategoryExists = async (category_id: string): Promise<boolea
 	return !!(await category.findUnique({ where: { id: category_id } }));
 };
 
+export const checkIfCategoryIsUsed = async (category_id: string): Promise<boolean> => {
+	const count = await dishes.count({
+		where: {
+			category: {
+				id: category_id,
+			},
+		},
+	});
+	return count > 0;
+};
+
 export const checkIfDishExists = async (dish_id: string): Promise<boolean> => {
 	return !!(await dishes.findUnique({ where: { id: dish_id } }));
 };
