@@ -11,9 +11,9 @@ export interface UserRatingOutput {
 }
 
 export interface RatingsOutput {
-	rating: number;
-	title: string;
-	comment: string;
+	rating?: number;
+	title?: string;
+	comment?: string;
 	created_at: Date;
 	user_info?: UserRatingOutput;
 	replied_at?: Date;
@@ -21,13 +21,19 @@ export interface RatingsOutput {
 }
 
 export interface MyRatingInfoOutput {
-	rating: number;
 	status: string;
-	title: string;
-	comment: string;
 	created_at: Date;
+	title?: string;
+	comment?: string;
+	rating?: number;
 	replied_at?: Date;
 	answer?: string;
+}
+
+export interface MyRatingQueryParams {
+	status?: string;
+	city?: string;
+	search?: string;
 }
 
 export interface MyRatingOutput {

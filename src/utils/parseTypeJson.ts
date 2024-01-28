@@ -32,7 +32,7 @@ export const parseTypeObject = (inputObject) => {
 					break;
 				case "Number":
 					const numberValue = parseFloat(value);
-					if (isNaN(numberValue)) {
+					if (value !== null && isNaN(numberValue)) {
 						throw new Error(`Invalid number value '${value}' for property '${propertyName}'`);
 					}
 					resultObject[propertyName] = numberValue;

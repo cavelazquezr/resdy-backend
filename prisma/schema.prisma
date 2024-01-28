@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["multiSchema"]
+  previewFeatures = ["multiSchema", "fullTextSearch"]
 }
 
 datasource db {
@@ -35,7 +35,7 @@ model Restaurant {
   admin_id               String
   customization          Customization?
   restaurant_information RestaurantInformation?
-  dishes_categories      DishesCategories[]
+  dishes_categories      Category[]
   dishes                 Dishes[]
   ratings                Rating[]
   reservation            Reservation[]
@@ -68,6 +68,7 @@ model RestaurantInformation {
   social_media      Json?      @db.Json
   restaurant_type   String?    @db.VarChar(30)
   location          Json?      @db.Json
+  description       String?    @db.VarChar(500)
   extra_information Json?      @db.Json
   updated_at        DateTime   @updatedAt
   restaurant        Restaurant @relation(fields: [restaurant_id], references: [id])
@@ -79,9 +80,9 @@ model RestaurantInformation {
 
 model Rating {
   id            String     @id @default(uuid()) @db.VarChar(36)
-  rating        Int        @db.Integer
-  title         String     @db.VarChar(50)
-  comment       String     @db.VarChar(400)
+  rating        Int?       @db.Integer
+  title         String?    @db.VarChar(50)
+  comment       String?    @db.VarChar(400)
   status        String     @db.VarChar(30)
   answer        String?    @db.VarChar(400)
   created_at    DateTime   @default(now())
@@ -111,9 +112,12 @@ model Reservation {
   @@schema("booking")
 }
 
-model DishesCategories {
+model Category {
   id            String     @id @default(uuid()) @db.VarChar(36)
   label         String     @db.VarChar(30)
+  is_active     Boolean    @default(true)
+  created_at    DateTime   @default(now())
+  updated_at    DateTime?  @updatedAt
   restaurant    Restaurant @relation(fields: [restaurant_id], references: [id])
   restaurant_id String
   dishes        Dishes[]
@@ -130,9 +134,12 @@ model Dishes {
   price         Decimal          @db.Decimal(10, 2)
   description   String?          @db.VarChar(400)
   allergen      String?          @db.VarChar(400)
+  is_active     Boolean          @default(true)
+  created_at    DateTime         @default(now())
+  updated_at    DateTime?        @updatedAt
   restaurant    Restaurant       @relation(fields: [restaurant_id], references: [id])
   restaurant_id String
-  category      DishesCategories @relation(fields: [category_id], references: [id])
+  category      Category         @relation(fields: [category_id], references: [id])
   category_id   String
 
   @@map("dish")
