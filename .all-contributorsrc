@@ -8,6 +8,15 @@
   "commitConvention": "angular",
   "contributors": [
     {
+      "login": "cavelazquezr",
+      "name": "Carlos Alberto",
+      "avatar_url": "https://avatars.githubusercontent.com/u/113686993?v=4",
+      "profile": "https://github.com/cavelazquezr",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
       "login": "Lealdos",
       "name": "jose L Delgado Avila",
       "avatar_url": "https://avatars.githubusercontent.com/u/105816982?v=4",
