@@ -1,13 +1,15 @@
-import { Controller, Res, Route, Tags, Header, Path, Body, TsoaResponse, Get, Put, Post } from "tsoa";
+import { Controller, Res, Route, Tags, Header, Path, Body, TsoaResponse, Get, Put, Post, Delete } from "tsoa";
 import { CategoryOutput, CategoryProps, CategoryUpdateInput, CategoryCreateInput } from "../../types/categories";
 import { WithIsUsed } from "../../types";
 import {
 	createCategoryService,
+	deleteCategoriesService,
 	getRestautantCategoriesService,
 	updateCategoryService,
 } from "../services/category-services";
 import {
 	createCategoryValidations,
+	deleteCategoriesValidation,
 	getRestautantCategoriesValidations,
 	updateCategoryValidation,
 } from "../validations/category-validations";
@@ -54,5 +56,24 @@ export class CategoriesController extends Controller {
 			unprocessableCallback,
 		);
 		return updateCategoryService(category_id, category_input);
+	}
+
+	@Delete()
+	public async deleteCategory(
+		@Header() authorization: string,
+		@Body() body_params: { category_ids: string[] },
+		@Res() unauthorizedCallback: TsoaResponse<401, { details: string }>,
+		@Res() notFoundCallback: TsoaResponse<404, { details: string }>,
+		@Res() unprocessableCallback: TsoaResponse<422, { details: string }>,
+	): Promise<void | string> {
+		const { category_ids } = body_params;
+		await deleteCategoriesValidation(
+			authorization,
+			category_ids,
+			unauthorizedCallback,
+			notFoundCallback,
+			unprocessableCallback,
+		);
+		return deleteCategoriesService(category_ids);
 	}
 }

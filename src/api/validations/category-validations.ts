@@ -1,5 +1,10 @@
 import { TsoaResponse } from "tsoa";
-import { checkIfCategoryExists, checkIfIsRestaurantAdmin, checkIfRestaurantExists } from "../../utils/validations";
+import {
+	checkIfCategoryExists,
+	checkIfCategoryIsUsed,
+	checkIfIsRestaurantAdmin,
+	checkIfRestaurantExists,
+} from "../../utils/validations";
 import { CategoryUpdateInput } from "../../types/categories";
 import { getCategoryById } from "../models/category-models";
 import { getCurrentRestaurantInfoByName } from "../models/restaurant-models";
@@ -73,6 +78,57 @@ export const createCategoryValidations = async (
 		const isRestaurantAdmin = await checkIfIsRestaurantAdmin(authorization, restaurant.id);
 		if (!isRestaurantAdmin) {
 			return unauthorizedCallback(401, { details: `You are not authorized to create dishes in this restaurant.` });
+		}
+	}
+	return true;
+};
+
+export const deleteCategoriesValidation = async (
+	authorization: string,
+	category_ids: string[],
+	unauthorizedCallback: TsoaResponse<401, { details: string }>,
+	notFoundCallback: TsoaResponse<404, { details: string }>,
+	unprocessableCallback: TsoaResponse<422, { details: string }>,
+): Promise<boolean | string> => {
+	const invalidCategoryIds: string[] = [];
+	const usedCategoryIds: string[] = [];
+	await Promise.all(
+		category_ids.map(async (category_id) => {
+			const dishExists = await checkIfCategoryExists(category_id);
+			if (!dishExists) {
+				invalidCategoryIds.push(category_id);
+			}
+			const usedCategory = await checkIfCategoryIsUsed(category_id);
+			if (usedCategory) {
+				usedCategoryIds.push(category_id);
+			}
+		}),
+	);
+	console.log("usedCategoryIds", usedCategoryIds);
+	if (invalidCategoryIds.length > 0) {
+		return Promise.reject(
+			notFoundCallback(404, {
+				details: `The category/categories  with id(s) ${invalidCategoryIds.join(", ")} do(es) not exist.`,
+			}),
+		);
+	}
+	if (usedCategoryIds.length > 0) {
+		return Promise.reject(
+			unprocessableCallback(422, {
+				details: `The category/categories with the id(s) ${invalidCategoryIds.join(
+					", ",
+				)} cannot be deleted as they contain associated dishes.`,
+			}),
+		);
+	}
+	const category = await getCategoryById(category_ids[0]);
+	if (category) {
+		const { restaurant_id } = category;
+		const isRestaurantAdmin = await checkIfIsRestaurantAdmin(authorization, restaurant_id);
+		if (!isRestaurantAdmin) {
+			return Promise.reject(
+				unauthorizedCallback(401, { details: `You are not authorized to delete dishes of this restaurant.` }),
+			);
 		}
 	}
 	return true;
