@@ -1,7 +1,12 @@
-import { Header, Controller, Res, Body, Route, Tags, Path, TsoaResponse, Post, Get, Put } from "tsoa";
+import { Header, Controller, Res, Body, Route, Tags, Path, TsoaResponse, Post, Get, Put, Delete } from "tsoa";
 import { DishCreateInput, DishesByCategoryOutput, DishOutput, DishUpdateInput } from "../../types/dishes";
-import { getDishesService, postDishesService, updateDishService } from "../services/dish-services";
-import { getDishesValidations, postDishesValidations, updateDishValidation } from "../validations/dish-validations";
+import { deleteDishesService, getDishesService, postDishesService, updateDishService } from "../services/dish-services";
+import {
+	deleteDishValidation,
+	getDishesValidations,
+	postDishesValidations,
+	updateDishValidation,
+} from "../validations/dish-validations";
 
 @Tags("Dishes service")
 @Route("dishes")
@@ -46,5 +51,17 @@ export class DishesController extends Controller {
 			unprocessableCallback,
 		);
 		return updateDishService(dish_id, dish_input);
+	}
+
+	@Delete()
+	public async deleteDish(
+		@Header() authorization: string,
+		@Body() body_params: { dish_ids: string[] },
+		@Res() unauthorizedCallback: TsoaResponse<401, { details: string }>,
+		@Res() notFoundCallback: TsoaResponse<404, { details: string }>,
+	): Promise<void | string> {
+		const { dish_ids } = body_params;
+		await deleteDishValidation(authorization, dish_ids, unauthorizedCallback, notFoundCallback);
+		return deleteDishesService(dish_ids);
 	}
 }

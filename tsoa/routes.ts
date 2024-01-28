@@ -544,6 +544,34 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.delete('/dishes',
+            ...(fetchMiddlewares<RequestHandler>(DishesController)),
+            ...(fetchMiddlewares<RequestHandler>(DishesController.prototype.deleteDish)),
+
+            function DishesController_deleteDish(request: any, response: any, next: any) {
+            const args = {
+                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+                    body_params: {"in":"body","name":"body_params","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"dish_ids":{"dataType":"array","array":{"dataType":"string"},"required":true}}},
+                    unauthorizedCallback: {"in":"res","name":"401","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"details":{"dataType":"string","required":true}}},
+                    notFoundCallback: {"in":"res","name":"404","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"details":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DishesController();
+
+
+              const promise = controller.deleteDish.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/menu/:restaurant_name',
             ...(fetchMiddlewares<RequestHandler>(MenuController)),
             ...(fetchMiddlewares<RequestHandler>(MenuController.prototype.getMenu)),

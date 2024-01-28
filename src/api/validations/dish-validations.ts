@@ -84,3 +84,38 @@ export const updateDishValidation = async (
 	}
 	return true;
 };
+
+export const deleteDishValidation = async (
+	authorization: string,
+	dish_ids: string[],
+	unauthorizedCallback: TsoaResponse<401, { details: string }>,
+	notFoundCallback: TsoaResponse<404, { details: string }>,
+): Promise<boolean | string> => {
+	const invalidDishIds: string[] = [];
+	await Promise.all(
+		dish_ids.map(async (dish_id) => {
+			const dishExists = await checkIfDishExists(dish_id);
+			if (!dishExists) {
+				invalidDishIds.push(dish_id);
+			}
+		}),
+	);
+	if (invalidDishIds.length > 0) {
+		return Promise.reject(
+			notFoundCallback(404, {
+				details: `The dish(es) with id(s) ${invalidDishIds.join(", ")} do(es) not exist.`,
+			}),
+		);
+	}
+	const dish = await getDishById(dish_ids[0]);
+	if (dish) {
+		const { restaurant_id } = dish;
+		const isRestaurantAdmin = await checkIfIsRestaurantAdmin(authorization, restaurant_id);
+		if (!isRestaurantAdmin) {
+			return Promise.reject(
+				unauthorizedCallback(401, { details: `You are not authorized to delete dishes of this restaurant.` }),
+			);
+		}
+	}
+	return true;
+};
