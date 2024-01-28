@@ -12,7 +12,6 @@ export const getDishById = async (dish_id: string) => {
 	return query;
 };
 
-
 export const getRestaurantDishesByCategories = async (restaurant_name: string) => {
 	const query = await category.findMany({
 		where: {
@@ -59,4 +58,14 @@ export const createDish = async (restaurant_name: string, category_id: string, d
 		},
 	});
 	return query;
+};
+
+export const deleteDishes = async (dish_ids: string[]) => {
+	await dishes.deleteMany({
+		where: {
+			id: {
+				in: dish_ids,
+			},
+		},
+	});
 };
