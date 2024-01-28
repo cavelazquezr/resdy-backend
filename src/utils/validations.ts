@@ -4,7 +4,7 @@ import { UserCredentials } from "../types/user";
 import { getUserByEmail } from "../api/models/auth-models";
 import { client } from "../config/client";
 
-const { user, restaurant, rating, category } = client;
+const { user, restaurant, rating, category, dishes } = client;
 
 export const checkIfRestaurantExists = async (restaurant_name: string): Promise<boolean> => {
 	return !!(await restaurant.findUnique({ where: { name: restaurant_name } }));
@@ -16,6 +16,10 @@ export const checkIfRatingExists = async (rating_id: string): Promise<boolean> =
 
 export const checkIfCategoryExists = async (category_id: string): Promise<boolean> => {
 	return !!(await category.findUnique({ where: { id: category_id } }));
+};
+
+export const checkIfDishExists = async (dish_id: string): Promise<boolean> => {
+	return !!(await dishes.findUnique({ where: { id: dish_id } }));
 };
 
 export const checkIfUserExists = async (user_id?: string, email?: string): Promise<boolean> => {

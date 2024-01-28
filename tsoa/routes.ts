@@ -146,9 +146,24 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"name":{"dataType":"string","required":true},"photo_url":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"allergen":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"price":{"ref":"Prisma.Decimal","required":true},"description":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "CreateDishInput": {
+    "DishCreateInput": {
         "dataType": "refAlias",
         "type": {"ref":"Pick_Dishes.name-or-photo_url-or-allergen-or-price-or-description_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Partial_Pick_DishProps.name-or-photo_url-or-allergen-or-price-or-description__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"name":{"dataType":"string"},"photo_url":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"allergen":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"price":{"ref":"Prisma.Decimal"},"description":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "WithHide_Partial_Pick_DishProps.name-or-photo_url-or-allergen-or-price-or-description___": {
+        "dataType": "refAlias",
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"Partial_Pick_DishProps.name-or-photo_url-or-allergen-or-price-or-description__"},{"dataType":"nestedObjectLiteral","nestedProperties":{"hide":{"dataType":"boolean"}}}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "DishUpdateInput": {
+        "dataType": "refAlias",
+        "type": {"ref":"WithHide_Partial_Pick_DishProps.name-or-photo_url-or-allergen-or-price-or-description___","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial_Dishes_": {
@@ -478,7 +493,7 @@ export function RegisterRoutes(app: Router) {
                     authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
                     restaurant_name: {"in":"path","name":"restaurant_name","required":true,"dataType":"string"},
                     category_id: {"in":"path","name":"category_id","required":true,"dataType":"string"},
-                    dish: {"in":"body","name":"dish","required":true,"ref":"CreateDishInput"},
+                    dish_input: {"in":"body","name":"dish_input","required":true,"ref":"DishCreateInput"},
                     unauthorizedCallback: {"in":"res","name":"401","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"details":{"dataType":"string","required":true}}},
                     notFoundCallback: {"in":"res","name":"404","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"details":{"dataType":"string","required":true}}},
             };
@@ -493,6 +508,36 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.postDishes.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.put('/dishes/:dish_id',
+            ...(fetchMiddlewares<RequestHandler>(DishesController)),
+            ...(fetchMiddlewares<RequestHandler>(DishesController.prototype.putDish)),
+
+            function DishesController_putDish(request: any, response: any, next: any) {
+            const args = {
+                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+                    dish_id: {"in":"path","name":"dish_id","required":true,"dataType":"string"},
+                    dish_input: {"in":"body","name":"dish_input","required":true,"ref":"DishUpdateInput"},
+                    unauthorizedCallback: {"in":"res","name":"401","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"details":{"dataType":"string","required":true}}},
+                    notFoundCallback: {"in":"res","name":"404","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"details":{"dataType":"string","required":true}}},
+                    unprocessableCallback: {"in":"res","name":"422","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"details":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new DishesController();
+
+
+              const promise = controller.putDish.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

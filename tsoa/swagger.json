@@ -340,8 +340,50 @@
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
-			"CreateDishInput": {
+			"DishCreateInput": {
 				"$ref": "#/components/schemas/Pick_Dishes.name-or-photo_url-or-allergen-or-price-or-description_"
+			},
+			"Partial_Pick_DishProps.name-or-photo_url-or-allergen-or-price-or-description__": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"photo_url": {
+						"type": "string",
+						"nullable": true
+					},
+					"allergen": {
+						"type": "string",
+						"nullable": true
+					},
+					"price": {
+						"$ref": "#/components/schemas/Prisma.Decimal"
+					},
+					"description": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"WithHide_Partial_Pick_DishProps.name-or-photo_url-or-allergen-or-price-or-description___": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Partial_Pick_DishProps.name-or-photo_url-or-allergen-or-price-or-description__"
+					},
+					{
+						"properties": {
+							"hide": {
+								"type": "boolean"
+							}
+						},
+						"type": "object"
+					}
+				]
+			},
+			"DishUpdateInput": {
+				"$ref": "#/components/schemas/WithHide_Partial_Pick_DishProps.name-or-photo_url-or-allergen-or-price-or-description___"
 			},
 			"Partial_Dishes_": {
 				"properties": {
@@ -1204,7 +1246,117 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/CreateDishInput"
+								"$ref": "#/components/schemas/DishCreateInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/dishes/{dish_id}": {
+			"put": {
+				"operationId": "PutDish",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/DishOutput"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"details": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"details"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"details": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"details"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"details": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"details"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Dishes service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "dish_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/DishUpdateInput"
 							}
 						}
 					}

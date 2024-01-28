@@ -1,5 +1,5 @@
-import { CreateDishInput, DishesByCategoryOutput, DishOutput } from "../../types/dishes";
-import { createDish, getRestaurantDishesByCategories } from "../models/dish-models";
+import { DishCreateInput, DishesByCategoryOutput, DishOutput, DishUpdateInput } from "../../types/dishes";
+import { createDish, getRestaurantDishesByCategories, updateDish } from "../models/dish-models";
 
 export const getDishesService = async (restaurant_name: string): Promise<DishesByCategoryOutput[]> => {
 	const categoriesAndDishes = await getRestaurantDishesByCategories(restaurant_name);
@@ -13,11 +13,16 @@ export const getDishesService = async (restaurant_name: string): Promise<DishesB
 	return dishesRecord;
 };
 
+export const updateDishService = async (dish_id: string, dish_input: DishUpdateInput) => {
+	const updatedDish: DishOutput = await updateDish(dish_id, dish_input);
+	return updatedDish;
+};
+
 export const postDishesService = async (
 	restaurant_name: string,
 	category_id: string,
-	dish: CreateDishInput,
+	dish_input: DishCreateInput,
 ): Promise<DishOutput> => {
-	const newDish: DishOutput = await createDish(restaurant_name, category_id, dish);
+	const newDish: DishOutput = await createDish(restaurant_name, category_id, dish_input);
 	return newDish;
 };
