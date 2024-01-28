@@ -2,6 +2,7 @@ import { TsoaResponse } from "tsoa";
 import { checkIfCategoryExists, checkIfIsRestaurantAdmin, checkIfRestaurantExists } from "../../utils/validations";
 import { CategoryUpdateInput } from "../../types/categories";
 import { getCategoryById } from "../models/category-models";
+import { getCurrentRestaurantInfoByName } from "../models/restaurant-models";
 
 export const getRestautantCategoriesValidations = async (
 	restaurant_name: string,
@@ -50,6 +51,28 @@ export const updateCategoryValidation = async (
 			return unprocessableCallback(422, {
 				details: `You can not modify category's label and hide/show a category at same time`,
 			});
+		}
+	}
+	return true;
+};
+
+export const createCategoryValidations = async (
+	authorization: string,
+	restaurant_name: string,
+	unauthorizedCallback: TsoaResponse<401, { details: string }>,
+	notFoundCallback: TsoaResponse<404, { details: string }>,
+): Promise<boolean | string> => {
+	const restaurantExists = await checkIfRestaurantExists(restaurant_name);
+	if (!restaurantExists) {
+		return notFoundCallback(404, {
+			details: `Restaurant of id ${restaurant_name} does not exist.`,
+		});
+	}
+	const restaurant = await getCurrentRestaurantInfoByName(restaurant_name);
+	if (restaurant) {
+		const isRestaurantAdmin = await checkIfIsRestaurantAdmin(authorization, restaurant.id);
+		if (!isRestaurantAdmin) {
+			return unauthorizedCallback(401, { details: `You are not authorized to create dishes in this restaurant.` });
 		}
 	}
 	return true;

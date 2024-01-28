@@ -3,6 +3,15 @@ import { client } from "../../config/client";
 
 const { restaurant } = client;
 
+export const getCurrentRestaurantInfoByName = async (restaurant_name: string) => {
+	const query = await restaurant.findUnique({
+		where: {
+			name: restaurant_name,
+		},
+	});
+	return query;
+};
+
 export const getRestaurants = async (query_params: GetRestaurantsQueryParams) => {
 	const { name, city, country, restaurant_type } = query_params;
 	const query = await restaurant.findMany({
