@@ -101,6 +101,9 @@ CREATE TABLE "booking"."reservation" (
 CREATE TABLE "menu"."category" (
     "id" VARCHAR(36) NOT NULL,
     "label" VARCHAR(30) NOT NULL,
+    "is_active" BOOLEAN NOT NULL DEFAULT true,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3),
     "restaurant_id" TEXT NOT NULL,
 
     CONSTRAINT "category_pkey" PRIMARY KEY ("id")
@@ -114,6 +117,9 @@ CREATE TABLE "menu"."dish" (
     "price" DECIMAL(10,2) NOT NULL,
     "description" VARCHAR(400),
     "allergen" VARCHAR(400),
+    "is_active" BOOLEAN NOT NULL DEFAULT true,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3),
     "restaurant_id" TEXT NOT NULL,
     "category_id" TEXT NOT NULL,
 
