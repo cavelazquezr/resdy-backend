@@ -35,7 +35,7 @@ model Restaurant {
   admin_id               String
   customization          Customization?
   restaurant_information RestaurantInformation?
-  dishes_categories      Category[]
+  category               Category[]
   dishes                 Dishes[]
   ratings                Rating[]
   reservation            Reservation[]

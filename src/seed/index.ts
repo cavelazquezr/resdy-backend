@@ -2,185 +2,128 @@ import path from "path";
 import fs from "fs";
 import { readCSVFile } from "../utils/readCSVFile";
 import { parseTypeObject } from "../utils/parseTypeJson";
-import { Prisma } from "@prisma/client";
 import { client } from "../config/client";
+import { Prisma } from "@prisma/client";
 
 const dataPath = path.join(__dirname, "data");
 
-const seedDb = async () => {
-	const parseSeedData = async () => {
-		const csvFiles = await new Promise((resolve, reject) => {
-			const csvFileList = {};
-			fs.readdir(dataPath, async (err, files) => {
-				if (err) {
-					reject(err);
+const parseSeedData = async () => {
+	const csvFiles = await new Promise((resolve, reject) => {
+		const csvFileList = {};
+		fs.readdir(dataPath, async (err, files) => {
+			if (err) {
+				reject(err);
+			}
+
+			const promises = files.map(async (file) => {
+				const fileNameWithoutExtension = path.parse(file).name;
+
+				try {
+					const json = await readCSVFile(`${dataPath}/${file}`);
+					const parsedJsonList = await Promise.all(
+						(json as Record<string, string>[]).map(async (item) => {
+							const newJson = await parseTypeObject(item);
+							return newJson;
+						}),
+					);
+
+					csvFileList[fileNameWithoutExtension] = parsedJsonList as never;
+				} catch (err) {
+					console.log(err);
+					csvFileList[fileNameWithoutExtension] = [] as never;
 				}
-
-				const promises = files.map(async (file) => {
-					const fileNameWithoutExtension = path.parse(file).name;
-
-					try {
-						const json = await readCSVFile(`${dataPath}/${file}`);
-						const parsedJsonList = await Promise.all(
-							(json as Record<string, string>[]).map(async (item) => {
-								const newJson = await parseTypeObject(item);
-								return newJson;
-							}),
-						);
-
-						csvFileList[fileNameWithoutExtension] = parsedJsonList as never;
-					} catch (err) {
-						console.log(err);
-						csvFileList[fileNameWithoutExtension] = [] as never;
-					}
-				});
-				Promise.all(promises)
-					.then(() => resolve(csvFileList))
-					.catch((error) => reject(error));
 			});
+			Promise.all(promises)
+				.then(() => resolve(csvFileList))
+				.catch((error) => reject(error));
 		});
+	});
 
-		return csvFiles;
-	};
-
-	const seedData = await parseSeedData();
-	seedModel(seedData as Record<string, any[]>);
+	return csvFiles;
 };
 
 const seedModel = async (seedData: Record<string, any[]>) => {
 	try {
 		await Promise.all(
-			Object.entries(seedData).map(async ([model, rows]) => {
-				if (model === "user") {
-					for (const user of rows as Prisma.UserCreateInput[]) {
-						await client.user.upsert({
-							where: { email: user.email },
-							update: user,
-							create: user,
-						});
-					}
-				}
-				if (model === "restaurant") {
-					for (const restaurant of rows as Prisma.RestaurantCreateInput[]) {
-						const { admin, ...restautantUpdateInput } = restaurant;
-						await client.restaurant.upsert({
-							where: { name: restaurant.name },
-							update: restautantUpdateInput,
-							create: {
-								name: restaurant.name,
-								admin: {
-									connect: {
-										id: restaurant.admin as string,
-									},
-								},
-							},
-						});
-					}
-				}
+			(seedData["user"] as Prisma.UserCreateInput[]).map(async (user) => {
+				await client.user.upsert({
+					where: { email: user.email },
+					update: user,
+					create: user,
+				});
 			}),
 		);
 		await Promise.all(
-			Object.entries(seedData).map(async ([model, rows]) => {
-				if (model === "restaurantInformation") {
-					for (const information of rows as Prisma.RestaurantInformationCreateInput[]) {
-						const { restaurant, ...informationUpdateInput } = information;
-						await client.restaurantInformation.upsert({
-							where: { restaurant_id: information.restaurant as string },
-							update: informationUpdateInput,
-							create: {
-								...information,
-								restaurant: {
-									connect: {
-										id: information.restaurant as string,
-									},
-								},
+			(seedData["restaurant"] as Prisma.RestaurantCreateInput[]).map(async (restaurantInput) => {
+				const { admin, ...restautantUpdateInput } = restaurantInput;
+
+				const { restaurant: restaurantFromInformation, ...information } = seedData["restaurantInformation"].find(
+					(information) => information.restaurant === restaurantInput.id,
+				);
+
+				const { restaurant: restaurantFromCustomization, ...customization } = seedData["customization"].find(
+					(customization) => customization.restaurant === restaurantInput.id,
+				);
+
+				const categories = seedData["category"]
+					.filter((category) => category.restaurant === restaurantInput.id)
+					.map(({ restaurant: restaurantFromCategory, ...rest }) => rest);
+
+				const dishes = seedData["dishes"]
+					.filter((dish) => dish.restaurant === restaurantInput.id)
+					.map(({ restaurant: restaurantFromDish, category, ...rest }) => ({
+						category: { connect: { id: category as string } },
+						...rest,
+					}));
+
+				const ratings = seedData["rating"]
+					.filter((rating) => rating.restaurant === restaurantInput.id)
+					.map(({ restaurant: restaurantFromRating, user, ...rest }) => ({
+						user: { connect: { id: user as string } },
+						...rest,
+					}));
+
+				await client.restaurant.upsert({
+					where: { name: restaurantInput.name },
+					update: restautantUpdateInput,
+					create: {
+						name: restaurantInput.name,
+						admin: {
+							connect: {
+								id: restaurantInput.admin as string,
 							},
-						});
-					}
-				}
-				if (model === "customization") {
-					for (const customization of rows as Prisma.CustomizationCreateInput[]) {
-						const { restaurant, ...informationUpdateInput } = customization;
-						await client.customization.upsert({
-							where: { restaurant_id: customization.restaurant as string },
-							update: informationUpdateInput,
-							create: {
-								...customization,
-								restaurant: {
-									connect: {
-										id: customization.restaurant as string,
-									},
-								},
-							},
-						});
-					}
-				}
-				if (model === "category") {
-					for (const category of rows as Prisma.CategoryCreateInput[]) {
-						const { restaurant, ...categoryUpdateInput } = category;
-						await client.category.upsert({
-							where: { id: category.id as string },
-							update: categoryUpdateInput,
-							create: {
-								...category,
-								restaurant: {
-									connect: {
-										id: category.restaurant as string,
-									},
-								},
-							},
-						});
-					}
-				}
-				if (model === "dishes") {
-					for (const dish of rows as Prisma.DishesCreateInput[]) {
-						const { restaurant, category, ...dishUpdateInput } = dish;
-						await client.dishes.upsert({
-							where: { id: dish.id as string },
-							update: dishUpdateInput,
-							create: {
-								...dish,
-								category: {
-									connect: {
-										id: dish.category as string,
-									},
-								},
-								restaurant: {
-									connect: {
-										id: dish.restaurant as string,
-									},
-								},
-							},
-						});
-					}
-				}
-				if (model === "rating") {
-					for (const rating of rows as Prisma.RatingCreateInput[]) {
-						const { restaurant, user, ...dishUpdateInput } = rating;
-						await client.rating.upsert({
-							where: { id: rating.id as string },
-							update: dishUpdateInput,
-							create: {
-								...rating,
-								restaurant: {
-									connect: {
-										id: rating.restaurant as string,
-									},
-								},
-								user: {
-									connect: {
-										id: rating.user as string,
-									},
-								},
-							},
-						});
-					}
-				}
+						},
+						restaurant_information: {
+							create: information,
+						},
+						customization: {
+							create: customization,
+						},
+						category: {
+							create: categories,
+						},
+						dishes: {
+							create: dishes,
+						},
+						ratings: {
+							create: ratings,
+						},
+					},
+				});
 			}),
 		);
+	} catch (error) {
+		throw error;
+	}
+};
+
+const seedDb = async () => {
+	try {
+		const seedData = await parseSeedData();
+		await seedModel(seedData as Record<string, any[]>);
 		console.log("🌱 Database seeded 🌱");
-	} catch (err) {
-		console.error("❌ Error seeding database ❌:", err);
+	} catch (error) {
+		console.error("❌ Error seeding database ❌:", error);
 	} finally {
 		await client.$disconnect();
 	}

@@ -1,4 +1,4 @@
-id:UUID,name:String,admin:String
+id:UUID,name:String,admin:UUID
 bcb04385-33b0-4446-8aa0-b59f2b98c089,americandiner,696e38a2-a3f0-11ee-a506-0242ac120002
 a438e975-2682-4426-9f62-6db7de0ca1ae,theitalian,cd14af6b-e6ce-4457-9460-52a7f50d7175
 38e957c9-3be1-4918-b81d-c26847788fab,thepizzeria,78241aea-faf5-4b08-96e9-71a0332cc7b4
