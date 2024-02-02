@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { verifyToken } from ".";
 import { UserCredentials } from "../types/user";
 import { getUserByEmail } from "../api/models/auth-models";
-import { client } from "../config/client";
+import client from "../config/client";
 
 const { user, restaurant, rating, category, dishes } = client;
 

@@ -1,5 +1,5 @@
 import { GetRestaurantsQueryParams } from "../../types/restaurant";
-import { client } from "../../config/client";
+import client from "../../config/client";
 
 const { restaurant } = client;
 

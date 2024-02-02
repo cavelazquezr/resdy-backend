@@ -1,4 +1,4 @@
-import { client } from "../../config/client";
+import client from "../../config/client";
 import { DishCreateInput, DishUpdateInput } from "../../types/dishes";
 
 const { category, dishes } = client;
