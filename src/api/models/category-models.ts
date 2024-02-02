@@ -1,4 +1,4 @@
-import { client } from "../../config/client";
+import client from "../../config/client";
 import { CategoryUpdateInput, CategoryCreateInput } from "../../types/categories";
 
 const { category } = client;

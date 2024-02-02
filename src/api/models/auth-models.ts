@@ -1,6 +1,6 @@
 import { verifyToken } from "../../utils";
 import { CreateUserInput } from "../../types/user";
-import { client } from "../../config/client";
+import client from "../../config/client";
 
 const { user } = client;
 

@@ -1,46 +1,6 @@
-import path from "path";
-import fs from "fs";
-import { readCSVFile } from "../utils/readCSVFile";
-import { parseTypeObject } from "../utils/parseTypeJson";
-import { client } from "../config/client";
+import client from "../config/client";
 import { Prisma } from "@prisma/client";
-
-const dataPath = path.join(__dirname, "data");
-
-const parseSeedData = async () => {
-	const csvFiles = await new Promise((resolve, reject) => {
-		const csvFileList = {};
-		fs.readdir(dataPath, async (err, files) => {
-			if (err) {
-				reject(err);
-			}
-
-			const promises = files.map(async (file) => {
-				const fileNameWithoutExtension = path.parse(file).name;
-
-				try {
-					const json = await readCSVFile(`${dataPath}/${file}`);
-					const parsedJsonList = await Promise.all(
-						(json as Record<string, string>[]).map(async (item) => {
-							const newJson = await parseTypeObject(item);
-							return newJson;
-						}),
-					);
-
-					csvFileList[fileNameWithoutExtension] = parsedJsonList as never;
-				} catch (err) {
-					console.log(err);
-					csvFileList[fileNameWithoutExtension] = [] as never;
-				}
-			});
-			Promise.all(promises)
-				.then(() => resolve(csvFileList))
-				.catch((error) => reject(error));
-		});
-	});
-
-	return csvFiles;
-};
+import { parseSeedData } from "../utils/readCSVFile";
 
 const seedModel = async (seedData: Record<string, any[]>) => {
 	try {
@@ -119,11 +79,11 @@ const seedModel = async (seedData: Record<string, any[]>) => {
 
 const seedDb = async () => {
 	try {
-		const seedData = await parseSeedData();
-		await seedModel(seedData as Record<string, any[]>);
+		const data = await parseSeedData();
+		await seedModel(data as Record<string, any[]>);
 		console.log("🌱 Database seeded 🌱");
 	} catch (error) {
-		console.error("❌ Error seeding database ❌:", error);
+		console.error("❌ Error  seeding database ❌:", error);
 	} finally {
 		await client.$disconnect();
 	}

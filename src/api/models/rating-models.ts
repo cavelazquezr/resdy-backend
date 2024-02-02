@@ -1,6 +1,6 @@
 import { MyRatingQueryParams, UpdateRatingRecord } from "../../types/rating";
 import { convertToAmpersandSeparated } from "../../utils";
-import { client } from "../../config/client";
+import client from "../../config/client";
 
 const { rating } = client;
 
