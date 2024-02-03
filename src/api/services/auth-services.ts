@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { CreateUserInput, UserCredentials, UserOutput } from "../../types/user";
+import { UserCreateInput, UserCredentials, UserOutput } from "../../types/user";
 import { createNewUser, getCurrentUserInfo } from "../models/auth-models";
 
 export const getCurrentUserService = async (authorization: string): Promise<UserOutput | null> => {
@@ -13,7 +13,7 @@ export const authenticateUserService = async (credentials: UserCredentials): Pro
 	return { token: token };
 };
 
-export const createUserService = async (user_record: CreateUserInput): Promise<UserOutput> => {
+export const createUserService = async (user_record: UserCreateInput): Promise<UserOutput> => {
 	const new_user = await createNewUser(user_record);
 	return new_user;
 };

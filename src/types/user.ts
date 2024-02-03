@@ -1,29 +1,10 @@
-export interface UserOutput {
-	id: string;
-	email: string;
-	avatar_url: string | null;
-	firstname: string;
-	lastname: string;
-	created_at: Date;
-	is_active: boolean;
-	is_owner: boolean;
-}
+import { User } from "@prisma/client";
 
-export interface CreateUserInput {
-	email: string;
-	firstname: string;
-	lastname: string;
-	password: string;
-	is_owner: boolean;
-}
-
-export interface UpdateUserInput {
-	id: string;
-	email?: string;
-	firstname?: string;
-	lastname?: string;
-	password?: string;
-}
+export type UserOutput = Omit<User, "password">;
+export type UserProps = Partial<User>;
+export type UserCreateInput = Pick<User, "email" | "firstname" | "lastname" | "password" | "is_owner">;
+export type UserUpdateInput = Partial<Pick<User, "email" | "firstname" | "lastname" | "password" | "is_owner">>;
+export type UserInfo = Pick<User, "firstname" | "lastname" | "avatar_url">;
 
 export interface UserCredentials {
 	email: string;

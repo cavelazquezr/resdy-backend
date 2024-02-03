@@ -6,7 +6,7 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"UserOutput": {
+			"Pick_User.Exclude_keyofUser.password__": {
 				"properties": {
 					"id": {
 						"type": "string"
@@ -14,15 +14,15 @@
 					"email": {
 						"type": "string"
 					},
-					"avatar_url": {
-						"type": "string",
-						"nullable": true
-					},
 					"firstname": {
 						"type": "string"
 					},
 					"lastname": {
 						"type": "string"
+					},
+					"avatar_url": {
+						"type": "string",
+						"nullable": true
 					},
 					"created_at": {
 						"type": "string",
@@ -38,15 +38,22 @@
 				"required": [
 					"id",
 					"email",
-					"avatar_url",
 					"firstname",
 					"lastname",
+					"avatar_url",
 					"created_at",
 					"is_active",
 					"is_owner"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_User.password_": {
+				"$ref": "#/components/schemas/Pick_User.Exclude_keyofUser.password__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"UserOutput": {
+				"$ref": "#/components/schemas/Omit_User.password_"
 			},
 			"UserCredentials": {
 				"properties": {
@@ -67,8 +74,11 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"CreateUserInput": {
+			"Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner_": {
 				"properties": {
+					"password": {
+						"type": "string"
+					},
 					"email": {
 						"type": "string"
 					},
@@ -78,22 +88,22 @@
 					"lastname": {
 						"type": "string"
 					},
-					"password": {
-						"type": "string"
-					},
 					"is_owner": {
 						"type": "boolean"
 					}
 				},
 				"required": [
+					"password",
 					"email",
 					"firstname",
 					"lastname",
-					"password",
 					"is_owner"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"UserCreateInput": {
+				"$ref": "#/components/schemas/Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner_"
 			},
 			"Partial_Category_": {
 				"properties": {
@@ -615,6 +625,98 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"%24Result.DefaultSelection_Prisma.%24ReservationPayload_": {
+				"properties": {
+					"restaurant_id": {
+						"type": "string"
+					},
+					"user_id": {
+						"type": "string"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"status": {
+						"type": "string"
+					},
+					"date_of_reservation": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"number_of_person": {
+						"type": "number",
+						"format": "double"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"restaurant_id",
+					"user_id",
+					"updated_at",
+					"created_at",
+					"status",
+					"date_of_reservation",
+					"number_of_person",
+					"id"
+				],
+				"type": "object"
+			},
+			"Reservation": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24ReservationPayload_",
+				"description": "Model Reservation"
+			},
+			"Pick_User.firstname-or-lastname-or-avatar_url_": {
+				"properties": {
+					"firstname": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string"
+					},
+					"avatar_url": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": [
+					"firstname",
+					"lastname",
+					"avatar_url"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"UserInfo": {
+				"$ref": "#/components/schemas/Pick_User.firstname-or-lastname-or-avatar_url_"
+			},
+			"WithUserInfo_Reservation_": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Reservation"
+					},
+					{
+						"properties": {
+							"user": {
+								"$ref": "#/components/schemas/UserInfo"
+							}
+						},
+						"required": [
+							"user"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"ReservationOutput": {
+				"$ref": "#/components/schemas/WithUserInfo_Reservation_"
+			},
 			"Prisma.JsonObject": {
 				"properties": {},
 				"type": "object",
@@ -828,7 +930,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/CreateUserInput"
+								"$ref": "#/components/schemas/UserCreateInput"
 							}
 						}
 					}
@@ -1904,6 +2006,65 @@
 						}
 					}
 				}
+			}
+		},
+		"/reservation/{restaurant_name}": {
+			"get": {
+				"operationId": "GetRatings",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/ReservationOutput"
+											},
+											"type": "array"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"details": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"details"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reservation service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "restaurant_name",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/restaurant": {

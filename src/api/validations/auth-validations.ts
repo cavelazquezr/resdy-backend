@@ -1,7 +1,7 @@
 import { TsoaResponse } from "tsoa";
 import { UserStatus } from "../../types/messages";
 import { checkIfCredentialMatches, checkIfIsValidToken } from "../../utils/validations";
-import { CreateUserInput, UserCredentials } from "../../types/user";
+import { UserCreateInput, UserCredentials } from "../../types/user";
 import { getUserByEmail } from "../models/auth-models";
 
 export const getCurrentUserValidations = async (
@@ -27,7 +27,7 @@ export const authenticateUserValidations = async (
 };
 
 export const createUserValidations = async (
-	user_record: CreateUserInput,
+	user_record: UserCreateInput,
 	unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 ): Promise<boolean | string> => {
 	const { email } = user_record;
