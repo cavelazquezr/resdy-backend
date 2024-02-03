@@ -20,6 +20,8 @@ To run this project, you will need to add the following environment variables to
 
 Tu run this locally you must set the environment variable with this value:
 
+For local connection:
+
 `DATABASE_URL="postgresql://postgres:postgres@localhost:8001/resdy"`
 
 
@@ -39,11 +41,11 @@ To set up this API for the first time, you have to follow these steps:
 
  2. Ensure that you have Docker installed on your computer. Once you have it, run this command in the terminal and you should have your container built.
 
-	 `npm run setupDb`
+	 `npm start`
 
  3. Run the migration command to keep your database in sync with the Prisma Schema (Located in *prisma/schema.prisma*)
 
-	 `npx prisma migrate dev`
+	 `npm run migrate`
 
  4. Seed your database with this command:
 
