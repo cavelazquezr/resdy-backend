@@ -131,3 +131,22 @@ export const updateRating = async (rating_id: string, rating_record: UpdateRatin
 	});
 	return query;
 };
+
+export const createRating = async (user_id: string, restaurant_id: string) => {
+	const query = await rating.create({
+		data: {
+			status: "to_rate",
+			user: {
+				connect: {
+					id: user_id,
+				},
+			},
+			restaurant: {
+				connect: {
+					id: restaurant_id,
+				},
+			},
+		},
+	});
+	return query;
+};
