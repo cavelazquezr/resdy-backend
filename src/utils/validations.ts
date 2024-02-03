@@ -3,8 +3,14 @@ import { verifyToken } from ".";
 import { UserCredentials } from "../types/user";
 import { getUserByEmail } from "../api/models/auth-models";
 import client from "../config/client";
+import { getReservationByUserAndDay } from "../api/models/reservation-models";
 
 const { user, restaurant, rating, category, dishes } = client;
+
+export const checkIfTokenIsValid = async (authorization: string): Promise<boolean> => {
+	const { email } = verifyToken(authorization);
+	return !!email;
+};
 
 export const checkIfRestaurantExists = async (restaurant_name: string): Promise<boolean> => {
 	return !!(await restaurant.findUnique({ where: { name: restaurant_name } }));
@@ -53,6 +59,14 @@ export const checkIfIsRatingOwner = async (authorization: string, rating_id: str
 		where: { id: rating_id },
 	});
 	return user_query?.id === rating_query?.user_id;
+};
+
+export const checkIfThereAreUserReservationsForDate = async (
+	user_email: string,
+	date_of_reservation: Date,
+): Promise<boolean> => {
+	const reservations = await getReservationByUserAndDay(user_email, date_of_reservation);
+	return reservations.length > 0;
 };
 
 export const checkIfIsValidToken = (authorization: string): boolean => {
