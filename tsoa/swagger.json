@@ -717,6 +717,27 @@
 			"ReservationOutput": {
 				"$ref": "#/components/schemas/WithUserInfo_Reservation_"
 			},
+			"Pick_Reservation.number_of_person-or-date_of_reservation_": {
+				"properties": {
+					"number_of_person": {
+						"type": "number",
+						"format": "double"
+					},
+					"date_of_reservation": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"number_of_person",
+					"date_of_reservation"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"ReservationCreateInput": {
+				"$ref": "#/components/schemas/Pick_Reservation.number_of_person-or-date_of_reservation_"
+			},
 			"Prisma.JsonObject": {
 				"properties": {},
 				"type": "object",
@@ -2065,6 +2086,96 @@
 						}
 					}
 				]
+			},
+			"post": {
+				"operationId": "PostCategory",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/Reservation"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"details": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"details"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"details": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"details"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reservation service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "restaurant_name",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ReservationCreateInput"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/restaurant": {
