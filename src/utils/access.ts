@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { client } from "../config/client";
+import client from "../config/client";
 
 export const isOAuthToken = (token: string) => {
 	return token.startsWith("Bearer ");

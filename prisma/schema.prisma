@@ -1,12 +1,11 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["multiSchema", "fullTextSearch", "driverAdapters"]
+  previewFeatures = ["multiSchema", "fullTextSearch"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
   schemas  = ["auth", "restaurant", "menu", "booking", "rating", "list"]
 }
 

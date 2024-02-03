@@ -5,6 +5,7 @@ import swaggerUi from "swagger-ui-express";
 import { middleware as openApiValidatorMiddleware } from "express-openapi-validator";
 import bodyParser from "body-parser";
 import cors from "cors";
+import { PORT } from "./config";
 
 const app: Application = express();
 
@@ -13,8 +14,6 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(bodyParser.json({ limit: "50mb" }));
 
 app.use(cors());
-
-const PORT = 8080;
 
 app.get("/", (_req, res) => {
 	res.json({ msg: "Welcome to your Rest API" });
