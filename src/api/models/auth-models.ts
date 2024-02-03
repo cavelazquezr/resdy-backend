@@ -1,5 +1,5 @@
 import { verifyToken } from "../../utils";
-import { CreateUserInput } from "../../types/user";
+import { UserCreateInput } from "../../types/user";
 import client from "../../config/client";
 
 const { user } = client;
@@ -29,7 +29,7 @@ export const getUserByEmail = async (email: string) => {
 	return query;
 };
 
-export const createNewUser = async (user_record: CreateUserInput) => {
+export const createNewUser = async (user_record: UserCreateInput) => {
 	const query = await user.create({ data: user_record });
 	return query;
 };

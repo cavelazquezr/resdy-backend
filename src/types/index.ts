@@ -1,3 +1,5 @@
+import { UserInfo } from "./user";
+
 export type OrderSpec = Record<string, "asc" | "desc">;
 
 export type WithIsUsed<T> = T & {
@@ -6,4 +8,8 @@ export type WithIsUsed<T> = T & {
 
 export type WithHide<T> = T & {
 	hide?: boolean;
+};
+
+export type WithUserInfo<T> = T & {
+	user: UserInfo;
 };

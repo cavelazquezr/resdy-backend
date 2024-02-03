@@ -1,5 +1,5 @@
 import { Controller, Res, Get, Post, Body, Route, Header, Tags, TsoaResponse } from "tsoa";
-import { CreateUserInput, UserCredentials, UserOutput } from "../../types/user";
+import { UserCreateInput, UserCredentials, UserOutput } from "../../types/user";
 import { authenticateUserService, createUserService, getCurrentUserService } from "../services/auth-services";
 import {
 	authenticateUserValidations,
@@ -25,7 +25,7 @@ export class AuthenticationController extends Controller {
 	}
 	@Post("create_user")
 	public async postUser(
-		@Body() user_record: CreateUserInput,
+		@Body() user_record: UserCreateInput,
 		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 	): Promise<UserOutput> {
 		await createUserValidations(user_record, unauthorizedCallback);
