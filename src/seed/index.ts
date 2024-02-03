@@ -43,6 +43,13 @@ const seedModel = async (seedData: Record<string, any[]>) => {
 						...rest,
 					}));
 
+				const reservations = seedData["reservation"]
+					.filter((reservation) => reservation.restaurant === restaurantInput.id)
+					.map(({ restaurant: restaurantFromReservation, user, ...rest }) => ({
+						user: { connect: { id: user as string } },
+						...rest,
+					}));
+
 				await client.restaurant.upsert({
 					where: { name: restaurantInput.name },
 					update: restautantUpdateInput,
@@ -67,6 +74,9 @@ const seedModel = async (seedData: Record<string, any[]>) => {
 						},
 						ratings: {
 							create: ratings,
+						},
+						reservation: {
+							create: reservations,
 						},
 					},
 				});

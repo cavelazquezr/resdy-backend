@@ -102,7 +102,7 @@ model Reservation {
   date_of_reservation DateTime   @db.Date
   status              String     @db.VarChar(30)
   created_at          DateTime   @default(now())
-  updated_at          DateTime   @updatedAt
+  updated_at          DateTime?  @updatedAt
   user                User       @relation(fields: [user_id], references: [id])
   user_id             String
   restaurant          Restaurant @relation(fields: [restaurant_id], references: [id])
