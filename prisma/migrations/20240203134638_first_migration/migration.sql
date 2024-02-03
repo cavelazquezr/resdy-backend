@@ -90,7 +90,7 @@ CREATE TABLE "booking"."reservation" (
     "date_of_reservation" DATE NOT NULL,
     "status" VARCHAR(30) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
+    "updated_at" TIMESTAMP(3),
     "user_id" TEXT NOT NULL,
     "restaurant_id" TEXT NOT NULL,
 
