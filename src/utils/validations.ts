@@ -7,11 +7,6 @@ import { getReservationByUserAndDay } from "../api/models/reservation-models";
 
 const { user, restaurant, rating, category, dishes } = client;
 
-export const checkIfTokenIsValid = async (authorization: string): Promise<boolean> => {
-	const { email } = verifyToken(authorization);
-	return !!email;
-};
-
 export const checkIfRestaurantExists = async (restaurant_name: string): Promise<boolean> => {
 	return !!(await restaurant.findUnique({ where: { name: restaurant_name } }));
 };
@@ -61,11 +56,29 @@ export const checkIfIsRatingOwner = async (authorization: string, rating_id: str
 	return user_query?.id === rating_query?.user_id;
 };
 
+export const checkIfIsUserHasRatedRestaurant = async (
+	user_id: string,
+	restaurant_name: string,
+): Promise<boolean> => {
+	const rating_query = await rating.findMany({
+		where: {
+			user: {
+				id: { equals: user_id },
+			},
+			restaurant: {
+				name: { equals: restaurant_name },
+			},
+		},
+	});
+	return rating_query.length > 0;
+};
+
 export const checkIfThereAreUserReservationsForDate = async (
 	user_email: string,
+	restaurant_name: string,
 	date_of_reservation: Date,
 ): Promise<boolean> => {
-	const reservations = await getReservationByUserAndDay(user_email, date_of_reservation);
+	const reservations = await getReservationByUserAndDay(user_email, restaurant_name, date_of_reservation);
 	return reservations.length > 0;
 };
 

@@ -1,5 +1,5 @@
 import client from "../../config/client";
-import { ReservationCreateInput } from "../../types/reservations";
+import { ReservationCreateInput, ReservationUpdateInput } from "../../types/reservations";
 
 const { reservation } = client;
 
@@ -10,7 +10,11 @@ export const getReservationById = async (reservation_id: string) => {
 	return query;
 };
 
-export const getReservationByUserAndDay = async (user_email: string, date_of_reservation: Date) => {
+export const getReservationByUserAndDay = async (
+	user_email: string,
+	restaurant_name: string,
+	date_of_reservation: Date,
+) => {
 	const startOfDay = new Date(date_of_reservation);
 	startOfDay.setHours(0, 0, 0, 0);
 
@@ -23,6 +27,11 @@ export const getReservationByUserAndDay = async (user_email: string, date_of_res
 				{
 					user: {
 						email: user_email,
+					},
+				},
+				{
+					restaurant: {
+						name: restaurant_name,
 					},
 				},
 				{
@@ -84,6 +93,18 @@ export const createReservation = async (
 					email: user_email,
 				},
 			},
+		},
+	});
+	return query;
+};
+
+export const updateReservation = async (reservation_id: string, reservation_input: ReservationUpdateInput) => {
+	const query = await reservation.update({
+		where: {
+			id: reservation_id,
+		},
+		data: {
+			status: reservation_input.status,
 		},
 	});
 	return query;

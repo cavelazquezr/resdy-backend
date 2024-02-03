@@ -302,6 +302,16 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"Pick_Reservation.number_of_person-or-date_of_reservation_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_Reservation.status_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"status":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ReservationUpdateInput": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_Reservation.status_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Prisma.JsonObject": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{},"validators":{}},
@@ -778,9 +788,9 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/reservation/:restaurant_name',
             ...(fetchMiddlewares<RequestHandler>(ReservationController)),
-            ...(fetchMiddlewares<RequestHandler>(ReservationController.prototype.getRatings)),
+            ...(fetchMiddlewares<RequestHandler>(ReservationController.prototype.getReservations)),
 
-            function ReservationController_getRatings(request: any, response: any, next: any) {
+            function ReservationController_getReservations(request: any, response: any, next: any) {
             const args = {
                     restaurant_name: {"in":"path","name":"restaurant_name","required":true,"dataType":"string"},
                     notFoundCallback: {"in":"res","name":"404","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"details":{"dataType":"string","required":true}}},
@@ -795,7 +805,7 @@ export function RegisterRoutes(app: Router) {
                 const controller = new ReservationController();
 
 
-              const promise = controller.getRatings.apply(controller, validatedArgs as any);
+              const promise = controller.getReservations.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
@@ -804,9 +814,9 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/reservation/:restaurant_name',
             ...(fetchMiddlewares<RequestHandler>(ReservationController)),
-            ...(fetchMiddlewares<RequestHandler>(ReservationController.prototype.postCategory)),
+            ...(fetchMiddlewares<RequestHandler>(ReservationController.prototype.postReservation)),
 
-            function ReservationController_postCategory(request: any, response: any, next: any) {
+            function ReservationController_postReservation(request: any, response: any, next: any) {
             const args = {
                     authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
                     restaurant_name: {"in":"path","name":"restaurant_name","required":true,"dataType":"string"},
@@ -824,7 +834,36 @@ export function RegisterRoutes(app: Router) {
                 const controller = new ReservationController();
 
 
-              const promise = controller.postCategory.apply(controller, validatedArgs as any);
+              const promise = controller.postReservation.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.put('/reservation/:reservation_id',
+            ...(fetchMiddlewares<RequestHandler>(ReservationController)),
+            ...(fetchMiddlewares<RequestHandler>(ReservationController.prototype.putReservation)),
+
+            function ReservationController_putReservation(request: any, response: any, next: any) {
+            const args = {
+                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+                    reservation_id: {"in":"path","name":"reservation_id","required":true,"dataType":"string"},
+                    reservation_input: {"in":"body","name":"reservation_input","required":true,"ref":"ReservationUpdateInput"},
+                    unauthorizedCallback: {"in":"res","name":"401","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"details":{"dataType":"string","required":true}}},
+                    notFoundCallback: {"in":"res","name":"404","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"details":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new ReservationController();
+
+
+              const promise = controller.putReservation.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

@@ -1,12 +1,11 @@
 import { TsoaResponse } from "tsoa";
 import {
+	checkIfIsRestaurantAdmin,
 	checkIfRestaurantExists,
 	checkIfThereAreUserReservationsForDate,
-	checkIfTokenIsValid,
 } from "../../utils/validations";
 import { ReservationCreateInput } from "../../types/reservations";
-import { getReservationByUserAndDay } from "../models/reservation-models";
-import { verify } from "crypto";
+import { getReservationById } from "../models/reservation-models";
 import { verifyToken } from "../../utils";
 
 export const getRestaurantReservationsValidations = async (
@@ -15,7 +14,9 @@ export const getRestaurantReservationsValidations = async (
 ): Promise<boolean | string> => {
 	const restaurantExists = await checkIfRestaurantExists(restaurant_name);
 	if (!restaurantExists) {
-		return notFoundCallback(404, { details: `The restaurant with name "${restaurant_name}" does not exist.` });
+		return Promise.reject(
+			notFoundCallback(404, { details: `The restaurant with name "${restaurant_name}" does not exist.` }),
+		);
 	}
 	return true;
 };
@@ -28,22 +29,41 @@ export const createReservationValidations = async (
 	unprocessableCallback: TsoaResponse<422, { details: string }>,
 ): Promise<boolean | string> => {
 	const { date_of_reservation } = reservation_input;
-	const isTokenValid = await checkIfTokenIsValid(authorization);
-	if (!isTokenValid) {
-		return unprocessableCallback(422, { details: "The token is not valid." });
-	}
 	const { email: user_email } = verifyToken(authorization);
 	const restaurantExists = await checkIfRestaurantExists(restaurant_name);
 	if (!restaurantExists) {
-		return notFoundCallback(404, { details: `The restaurant with name "${restaurant_name}" does not exist.` });
+		return Promise.reject(
+			notFoundCallback(404, { details: `The restaurant with name "${restaurant_name}" does not exist.` }),
+		);
 	}
 	const currentTimestamp = new Date().getTime();
 	if (date_of_reservation.getTime() < currentTimestamp) {
-		return unprocessableCallback(422, { details: `You cannot create a reservation for past days` });
+		return Promise.reject(unprocessableCallback(422, { details: `You cannot create a reservation for past days` }));
 	}
-	const existsReservationForDate = await checkIfThereAreUserReservationsForDate(user_email, date_of_reservation);
+	const existsReservationForDate = await checkIfThereAreUserReservationsForDate(
+		user_email,
+		restaurant_name,
+		date_of_reservation,
+	);
 	if (existsReservationForDate) {
-		return unprocessableCallback(422, { details: `You already have a reservation for this day` });
+		return Promise.reject(unprocessableCallback(422, { details: `You already have a reservation for this day` }));
+	}
+	return true;
+};
+
+export const updateReservationValidation = async (
+	authorization: string,
+	reservation_id: string,
+	unauthorizedCallback: TsoaResponse<401, { details: string }>,
+	notFoundCallback: TsoaResponse<404, { details: string }>,
+): Promise<boolean | string> => {
+	const reservation = await getReservationById(reservation_id);
+	if (!reservation) {
+		return Promise.reject(notFoundCallback(404, { details: `Reservation of id ${reservation_id} does not exist.` }));
+	}
+	const isRestaurantAdmin = await checkIfIsRestaurantAdmin(authorization, reservation.restaurant_id);
+	if (!isRestaurantAdmin) {
+		return Promise.reject(unauthorizedCallback(401, { details: `You are not authorized to update this reservation.` }));
 	}
 	return true;
 };
