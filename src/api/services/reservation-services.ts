@@ -1,9 +1,21 @@
 import { Reservation } from "@prisma/client";
-import { ReservationCreateInput, ReservationOutput, ReservationUpdateInput } from "../../types/reservations";
-import { verifyToken } from "../../utils";
-import { createReservation, getRestaurantReservations, updateReservation } from "../models/reservation-models";
+import {
+	MyReservationOutput,
+	MyReservationsQueryParams,
+	ReservationCreateInput,
+	ReservationOutput,
+	ReservationUpdateInput,
+} from "../../types/reservations";
+import { calculateRatingAverage, verifyToken } from "../../utils";
+import {
+	createReservation,
+	getMyReservations,
+	getRestaurantReservations,
+	updateReservation,
+} from "../models/reservation-models";
 import { createRating } from "../models/rating-models";
 import { checkIfIsUserHasRatedRestaurant } from "../../utils/validations";
+import { getCurrentUserInfo } from "../models/auth-models";
 
 export const getRestaurantReservationsService = async (restaurant_name: string): Promise<ReservationOutput[]> => {
 	const reservations = await getRestaurantReservations(restaurant_name);
@@ -49,4 +61,37 @@ export const updateReservationService = async (
 	} catch (err) {
 		return Promise.reject(err);
 	}
+};
+
+export const getMyReservationsService = async (
+	authorization: string,
+	query_params: MyReservationsQueryParams,
+): Promise<MyReservationOutput[]> => {
+	const current_user = await getCurrentUserInfo(authorization);
+	if (current_user) {
+		const reservations = await getMyReservations(current_user.email, query_params);
+		const reservation_records: MyReservationOutput[] = reservations.map((reservation) => {
+			const {
+				restaurant: { name, customization, restaurant_information, ratings },
+				...reservationRecord
+			} = reservation;
+
+			return {
+				id: reservation.id,
+				name,
+				status: reservationRecord.status,
+				brand_name: customization?.name ?? undefined,
+				header_url: customization?.header_url ?? undefined,
+				city: restaurant_information?.city ?? undefined,
+				address: restaurant_information?.address ?? undefined,
+				restaurant_type: restaurant_information?.restaurant_type ?? undefined,
+				rating_info: {
+					rating: calculateRatingAverage(ratings).toString(),
+					rating_count: ratings.length,
+				},
+			};
+		});
+		return reservation_records;
+	}
+	return [];
 };
