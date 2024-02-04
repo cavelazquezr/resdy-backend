@@ -1,12 +1,20 @@
-import { Controller, Get, Route, Path, Res, Tags, TsoaResponse, Post, Header, Body, Put } from "tsoa";
-import { ReservationCreateInput, ReservationOutput, ReservationUpdateInput } from "../../types/reservations";
+import { Controller, Get, Route, Path, Res, Tags, TsoaResponse, Post, Header, Body, Put, Query } from "tsoa";
+import {
+	MyReservationOutput,
+	MyReservationsQueryParams,
+	ReservationCreateInput,
+	ReservationOutput,
+	ReservationUpdateInput,
+} from "../../types/reservations";
 import {
 	createReservationService,
+	getMyReservationsService,
 	getRestaurantReservationsService,
 	updateReservationService,
 } from "../services/reservation-services";
 import {
 	createReservationValidations,
+	getMyReservationValidations,
 	getRestaurantReservationsValidations,
 	updateReservationValidation,
 } from "../validations/reservation-validations";
@@ -15,6 +23,22 @@ import { Reservation } from "@prisma/client";
 @Tags("Reservation service")
 @Route("reservation")
 export class ReservationController extends Controller {
+	@Get("myReservations")
+	public async getMyReservations(
+		@Header() authorization: string,
+		@Res() notFoundCallback: TsoaResponse<404, { details: string }>,
+		@Query() status?: string,
+		@Query() city?: string,
+		@Query() search?: string,
+	): Promise<MyReservationOutput[] | string> {
+		const query_params: MyReservationsQueryParams = {
+			status,
+			city,
+			search,
+		};
+		await getMyReservationValidations(authorization, notFoundCallback);
+		return getMyReservationsService(authorization, query_params);
+	}
 	@Get("{restaurant_name}")
 	public async getReservations(
 		@Path() restaurant_name: string,

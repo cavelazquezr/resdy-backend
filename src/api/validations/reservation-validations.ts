@@ -3,6 +3,7 @@ import {
 	checkIfIsRestaurantAdmin,
 	checkIfRestaurantExists,
 	checkIfThereAreUserReservationsForDate,
+	checkIfUserExists,
 } from "../../utils/validations";
 import { ReservationCreateInput } from "../../types/reservations";
 import { getReservationById } from "../models/reservation-models";
@@ -64,6 +65,18 @@ export const updateReservationValidation = async (
 	const isRestaurantAdmin = await checkIfIsRestaurantAdmin(authorization, reservation.restaurant_id);
 	if (!isRestaurantAdmin) {
 		return Promise.reject(unauthorizedCallback(401, { details: `You are not authorized to update this reservation.` }));
+	}
+	return true;
+};
+
+export const getMyReservationValidations = async (
+	authorization: string,
+	notFoundCallback: TsoaResponse<404, { details: string }>,
+): Promise<boolean | string> => {
+	const { email } = verifyToken(authorization);
+	const userExists = await checkIfUserExists(undefined, email);
+	if (!userExists) {
+		return notFoundCallback(404, { details: "User with the provided email doesn't exist" });
 	}
 	return true;
 };

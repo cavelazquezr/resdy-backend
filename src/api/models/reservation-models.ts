@@ -1,5 +1,6 @@
 import client from "../../config/client";
-import { ReservationCreateInput, ReservationUpdateInput } from "../../types/reservations";
+import { MyReservationsQueryParams, ReservationCreateInput, ReservationUpdateInput } from "../../types/reservations";
+import { convertToAmpersandSeparated } from "../../utils";
 
 const { reservation } = client;
 
@@ -106,6 +107,60 @@ export const updateReservation = async (reservation_id: string, reservation_inpu
 		data: {
 			status: reservation_input.status,
 		},
+	});
+	return query;
+};
+
+export const getMyReservations = async (user_email: string, query_params?: MyReservationsQueryParams) => {
+	const full_text_search = query_params?.search && convertToAmpersandSeparated(query_params?.search);
+	const query = await reservation.findMany({
+		where: {
+			status: { equals: query_params?.status },
+			user: {
+				email: {
+					equals: user_email,
+				},
+			},
+			restaurant: {
+				AND: [
+					{
+						restaurant_information: {
+							city: { search: query_params?.city, mode: "insensitive" },
+						},
+					},
+					{
+						customization: {
+							name: { search: full_text_search, mode: "insensitive" },
+						},
+					},
+				],
+			},
+		},
+		select: {
+			id: true,
+			status: true,
+			restaurant: {
+				select: {
+					name: true,
+					restaurant_information: {
+						select: {
+							city: true,
+							country: true,
+							address: true,
+							restaurant_type: true,
+						},
+					},
+					customization: {
+						select: {
+							name: true,
+							header_url: true,
+						},
+					},
+					ratings: true,
+				},
+			},
+		},
+		orderBy: { status: "desc" },
 	});
 	return query;
 };

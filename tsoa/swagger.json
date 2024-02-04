@@ -598,8 +598,7 @@
 				},
 				"required": [
 					"rating",
-					"rating_count",
-					"stats"
+					"rating_count"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -621,6 +620,36 @@
 					"title",
 					"comment",
 					"rating"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MyReservationOutput": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"address": {
+						"type": "string"
+					},
+					"rating_info": {
+						"$ref": "#/components/schemas/RatingStatsOutput"
+					},
+					"header_url": {
+						"type": "string"
+					},
+					"brand_name": {
+						"type": "string"
+					},
+					"restaurant_type": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -2042,6 +2071,89 @@
 						}
 					}
 				}
+			}
+		},
+		"/reservation/myReservations": {
+			"get": {
+				"operationId": "GetMyReservations",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/MyReservationOutput"
+											},
+											"type": "array"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"details": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"details"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Reservation service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "status",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "city",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "search",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/reservation/{restaurant_name}": {
