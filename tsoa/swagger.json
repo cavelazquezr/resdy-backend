@@ -713,6 +713,14 @@
 					"name": {
 						"type": "string"
 					},
+					"price_average": {
+						"type": "number",
+						"format": "double"
+					},
+					"date_of_reservation": {
+						"type": "string",
+						"format": "date-time"
+					},
 					"city": {
 						"type": "string"
 					},
@@ -733,7 +741,9 @@
 					}
 				},
 				"required": [
-					"name"
+					"name",
+					"price_average",
+					"date_of_reservation"
 				],
 				"type": "object",
 				"additionalProperties": false

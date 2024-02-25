@@ -307,6 +307,8 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "name": {"dataType":"string","required":true},
+            "price_average": {"dataType":"double","required":true},
+            "date_of_reservation": {"dataType":"datetime","required":true},
             "city": {"dataType":"string"},
             "address": {"dataType":"string"},
             "rating_info": {"ref":"RatingStatsOutput"},

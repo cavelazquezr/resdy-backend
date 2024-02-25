@@ -6,7 +6,7 @@ import {
 	ReservationOutput,
 	ReservationUpdateInput,
 } from "../../types/reservations";
-import { calculateRatingAverage, verifyToken } from "../../utils";
+import { calculatePriceAverage, calculateRatingAverage, verifyToken } from "../../utils";
 import {
 	createReservation,
 	getMyReservations,
@@ -72,7 +72,7 @@ export const getMyReservationsService = async (
 		const reservations = await getMyReservations(current_user.email, query_params);
 		const reservation_records: MyReservationOutput[] = reservations.map((reservation) => {
 			const {
-				restaurant: { name, customization, restaurant_information, ratings },
+				restaurant: { name, customization, restaurant_information, ratings, dishes },
 				...reservationRecord
 			} = reservation;
 
@@ -80,11 +80,13 @@ export const getMyReservationsService = async (
 				id: reservation.id,
 				name,
 				status: reservationRecord.status,
+				date_of_reservation: reservationRecord.date_of_reservation,
 				brand_name: customization?.name ?? undefined,
 				header_url: customization?.header_url ?? undefined,
 				city: restaurant_information?.city ?? undefined,
 				address: restaurant_information?.address ?? undefined,
 				restaurant_type: restaurant_information?.restaurant_type ?? undefined,
+				price_average: calculatePriceAverage(dishes),
 				rating_info: {
 					rating: calculateRatingAverage(ratings).toString(),
 					rating_count: ratings.length,

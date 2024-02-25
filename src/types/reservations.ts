@@ -15,6 +15,8 @@ export interface MyReservationsQueryParams {
 
 export interface MyReservationOutput {
 	name: string;
+	price_average: number;
+	date_of_reservation: Date;
 	city?: string;
 	address?: string;
 	rating_info?: RatingStatsOutput;
