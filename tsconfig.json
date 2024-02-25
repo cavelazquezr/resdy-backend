@@ -10,7 +10,7 @@
 			"@apiModels/*": ["api/models/*"],
 			"@validations/*": ["api/validations/*"],
 			"@rootTypes/*": ["types/*"],
-			"@api/*": ["api/"],
+			"@api/*": ["api/*"],
 			"@root/*": ["/*"],
 			"@root-config/*": ["config/*"]
 		},

@@ -9,6 +9,8 @@ import { CategoriesController } from './../src/api/controllers/category-controll
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { DishesController } from './../src/api/controllers/dish-controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { ListController } from './../src/api/controllers/list-controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { MenuController } from './../src/api/controllers/menu-controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { RatingController } from './../src/api/controllers/rating-controller';
@@ -164,6 +166,45 @@ const models: TsoaRoute.Models = {
     "DishUpdateInput": {
         "dataType": "refAlias",
         "type": {"ref":"WithHide_Partial_Pick_DishProps.name-or-photo_url-or-allergen-or-price-or-description___","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "FavListItemOut": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"string","required":true},
+            "list_id": {"dataType":"string","required":true},
+            "list": {"dataType":"string"},
+            "restaurant_id": {"dataType":"string","required":true},
+            "restaurant": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "FavListOutput": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"string"},
+            "name": {"dataType":"string"},
+            "preview_photo_url": {"dataType":"string"},
+            "number_of_items": {"dataType":"double"},
+            "SaveListItem": {"dataType":"array","array":{"dataType":"refObject","ref":"FavListItemOut"}},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "FavListItem": {
+        "dataType": "refObject",
+        "properties": {
+            "name": {"dataType":"string"},
+            "brand_name": {"dataType":"string"},
+            "logo_url": {"dataType":"string"},
+            "city": {"dataType":"string"},
+            "address": {"dataType":"string"},
+            "rating": {"dataType":"double"},
+            "rating_count": {"dataType":"double"},
+            "price_average": {"dataType":"double"},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial_Dishes_": {
@@ -659,6 +700,200 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.deleteDish.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/lists/:user_id',
+            ...(fetchMiddlewares<RequestHandler>(ListController)),
+            ...(fetchMiddlewares<RequestHandler>(ListController.prototype.getList)),
+
+            function ListController_getList(request: any, response: any, next: any) {
+            const args = {
+                    user_id: {"in":"query","name":"user_id","required":true,"dataType":"string"},
+                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+                    unauthorizedCallback: {"in":"res","name":"403","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"reason":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new ListController();
+
+
+              const promise = controller.getList.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/lists/:user_id',
+            ...(fetchMiddlewares<RequestHandler>(ListController)),
+            ...(fetchMiddlewares<RequestHandler>(ListController.prototype.postList)),
+
+            function ListController_postList(request: any, response: any, next: any) {
+            const args = {
+                    user_id: {"in":"query","name":"user_id","required":true,"dataType":"string"},
+                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+                    unauthorizedCallback: {"in":"res","name":"403","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"reason":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new ListController();
+
+
+              const promise = controller.postList.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.delete('/lists/:user_id',
+            ...(fetchMiddlewares<RequestHandler>(ListController)),
+            ...(fetchMiddlewares<RequestHandler>(ListController.prototype.deleteList)),
+
+            function ListController_deleteList(request: any, response: any, next: any) {
+            const args = {
+                    user_id: {"in":"query","name":"user_id","required":true,"dataType":"string"},
+                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+                    unauthorizedCallback: {"in":"res","name":"403","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"reason":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new ListController();
+
+
+              const promise = controller.deleteList.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.put('/lists/:user_id',
+            ...(fetchMiddlewares<RequestHandler>(ListController)),
+            ...(fetchMiddlewares<RequestHandler>(ListController.prototype.putFavList)),
+
+            function ListController_putFavList(request: any, response: any, next: any) {
+            const args = {
+                    user_id: {"in":"query","name":"user_id","required":true,"dataType":"string"},
+                    list_id: {"in":"query","name":"list_id","required":true,"dataType":"string"},
+                    list_name: {"in":"body","name":"list_name","required":true,"dataType":"string"},
+                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+                    unauthorizedCallback: {"in":"res","name":"403","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"reason":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new ListController();
+
+
+              const promise = controller.putFavList.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/lists/:user_id/:list_id',
+            ...(fetchMiddlewares<RequestHandler>(ListController)),
+            ...(fetchMiddlewares<RequestHandler>(ListController.prototype.getListItem)),
+
+            function ListController_getListItem(request: any, response: any, next: any) {
+            const args = {
+                    list_id: {"in":"path","name":"list_id","required":true,"dataType":"string"},
+                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+                    unauthorizedCallback: {"in":"res","name":"403","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"reason":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new ListController();
+
+
+              const promise = controller.getListItem.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/lists/:user_id/:list_id',
+            ...(fetchMiddlewares<RequestHandler>(ListController)),
+            ...(fetchMiddlewares<RequestHandler>(ListController.prototype.postListItem)),
+
+            function ListController_postListItem(request: any, response: any, next: any) {
+            const args = {
+                    user_id: {"in":"path","name":"user_id","required":true,"dataType":"string"},
+                    list_id: {"in":"path","name":"list_id","required":true,"dataType":"string"},
+                    restaurant_id: {"in":"body","name":"restaurant_id","required":true,"dataType":"string"},
+                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+                    unauthorizedCallback: {"in":"res","name":"403","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"reason":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new ListController();
+
+
+              const promise = controller.postListItem.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.delete('/lists/:user_id/:list_id',
+            ...(fetchMiddlewares<RequestHandler>(ListController)),
+            ...(fetchMiddlewares<RequestHandler>(ListController.prototype.deleteListItem)),
+
+            function ListController_deleteListItem(request: any, response: any, next: any) {
+            const args = {
+                    user_id: {"in":"path","name":"user_id","required":true,"dataType":"string"},
+                    list_id: {"in":"path","name":"list_id","required":true,"dataType":"string"},
+                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+                    unauthorizedCallback: {"in":"res","name":"403","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"reason":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new ListController();
+
+
+              const promise = controller.deleteListItem.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
