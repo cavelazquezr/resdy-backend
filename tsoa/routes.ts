@@ -708,15 +708,14 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/lists/:user_id',
+        app.get('/lists',
             ...(fetchMiddlewares<RequestHandler>(ListController)),
             ...(fetchMiddlewares<RequestHandler>(ListController.prototype.getList)),
 
             function ListController_getList(request: any, response: any, next: any) {
             const args = {
-                    user_id: {"in":"query","name":"user_id","required":true,"dataType":"string"},
                     authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
-                    unauthorizedCallback: {"in":"res","name":"403","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"reason":{"dataType":"string","required":true}}},
+                    unauthorizedCallback: {"in":"res","name":"401","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"reason":{"dataType":"string","required":true}}},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

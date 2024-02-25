@@ -1,4 +1,6 @@
+import { FavListCreateInput } from "../../types/list";
 import { verifyToken } from "../../utils";
+import { getCurrentUserInfo } from "../models/auth-models";
 
 import {
 	CreateFavList,
@@ -11,14 +13,22 @@ import {
 } from "../models/list-models";
 import { FavListOutput, FavListItem } from "@rootTypes/fav-list";
 
-export const getMyFavListService = async (user_id: string, authorization: string): Promise<FavListOutput[]> => {
-	const FavList = await getMyFavList(user_id, authorization);
-	return FavList;
+export const getMyFavListService = async (authorization: string): Promise<FavListOutput[]> => {
+	const current_user = await getCurrentUserInfo(authorization);
+	if (current_user) {
+		const { id: user_id } = current_user;
+		const FavList: FavListOutput[] = await getMyFavList(user_id);
+		return FavList;
+	}
+	return [];
 };
 
-export const addToMyFavListService = async (authorization: string, restaurant_id: string): Promise<FavListItem> => {
+export const createFavListService = async (
+	authorization: string,
+	list_input: FavListCreateInput,
+): Promise<FavListItem> => {
 	const { email: user_email } = verifyToken(authorization);
-	const addItem: FavListItem = await CreateFavList(user_email, restaurant_id);
+	const addItem: FavListItem = await CreateFavList(user_email, list_input);
 	return addItem;
 };
 

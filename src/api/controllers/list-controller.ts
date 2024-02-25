@@ -1,34 +1,36 @@
 import { Header, Controller, Res, Body, Route, Tags, Path, TsoaResponse, Post, Get, Put, Delete, Query } from "tsoa";
 import { FavListItem, FavListOutput } from "@rootTypes/fav-list";
 import {
-	addToMyFavListService,
 	deleteFromMyFavListService,
 	getMyFavListService,
 	updateMyFavListService,
 	addItemToFavListService,
 	deleteItemFromFavListService,
 	getFavListItemService,
+	createFavListService,
 } from "../services/fav-list-services";
+import { getMyFavListValidations } from "../validations/fav-list-validations";
+import { FavListCreateInput } from "../../types/list";
 
 @Tags("List Service")
 @Route("/lists")
 export class ListController extends Controller {
-	@Get("{user_id}")
+	@Get()
 	public async getList(
-		@Query() user_id: string,
 		@Header() authorization: string,
-		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
+		@Res() unauthorizedCallback: TsoaResponse<401, { reason: string }>,
 	): Promise<FavListOutput[] | string> {
-		return getMyFavListService(user_id, authorization);
+		await getMyFavListValidations(authorization, unauthorizedCallback);
+		return getMyFavListService(authorization);
 	}
 
-	@Post("{user_id}")
+	@Post()
 	public async postList(
-		@Query() user_id: string,
 		@Header() authorization: string,
+		@Query() list_input: FavListCreateInput,
 		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 	): Promise<FavListItem | string> {
-		return addToMyFavListService(user_id, authorization);
+		return createFavListService(authorization, list_input);
 	}
 
 	@Delete("{user_id}")

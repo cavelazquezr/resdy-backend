@@ -1,8 +1,9 @@
 import client from "../../config/client";
+import { FavListCreateInput } from "../../types/list";
 
 const { saveList, saveListItem } = client;
 
-export const getMyFavList = async (user_id: string, authorization: string) => {
+export const getMyFavList = async (user_id: string) => {
 	const query = await saveList.findMany({
 		where: {
 			user_id: user_id,
@@ -18,11 +19,18 @@ export const getMyFavList = async (user_id: string, authorization: string) => {
 	return query;
 };
 
-export const CreateFavList = async (list_name: string, user_id: string) => {
+export const CreateFavList = async (user_email: string, list_input: FavListCreateInput) => {
+	const { name: list_name, emoji, color } = list_input;
 	const query = await saveList.create({
 		data: {
 			name: list_name,
-			user_id: user_id,
+			emoji: emoji,
+			color: color,
+			user: {
+				connect: {
+					email: user_email,
+				}
+			}
 		},
 	});
 	return query;
