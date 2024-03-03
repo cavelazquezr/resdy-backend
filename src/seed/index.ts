@@ -14,6 +14,21 @@ const seedModel = async (seedData: Record<string, any[]>) => {
 			}),
 		);
 		await Promise.all(
+			(seedData["saveList"] as Prisma.SaveListCreateInput[]).map(async (list) => {
+				const { user, ...listInput } = list;
+				await client.saveList.upsert({
+					where: { id: list.id },
+					update: listInput,
+					create: {
+						user: {
+							connect: { id: user as string },
+						},
+						...listInput,
+					},
+				});
+			}),
+		);
+		await Promise.all(
 			(seedData["restaurant"] as Prisma.RestaurantCreateInput[]).map(async (restaurantInput) => {
 				const { admin, ...restautantUpdateInput } = restaurantInput;
 
@@ -40,6 +55,13 @@ const seedModel = async (seedData: Record<string, any[]>) => {
 					.filter((rating) => rating.restaurant === restaurantInput.id)
 					.map(({ restaurant: restaurantFromRating, user, ...rest }) => ({
 						user: { connect: { id: user as string } },
+						...rest,
+					}));
+
+				const saveListItem = seedData["saveListItem"]
+					.filter((listItem) => listItem.restaurant === restaurantInput.id)
+					.map(({ restaurant: restaurantFromListItem, list, ...rest }) => ({
+						list: { connect: { id: list as string } },
 						...rest,
 					}));
 
@@ -78,27 +100,8 @@ const seedModel = async (seedData: Record<string, any[]>) => {
 						reservation: {
 							create: reservations,
 						},
-					},
-				});
-			}),
-		);
-		Promise.all(
-			(seedData["saveList"] as Prisma.SaveListCreateInput[]).map(async (list) => {
-				const listItem = seedData["saveListItem"]
-					.filter((item) => item.list === list.id)
-					.map(({ restaurant, list, ...rest }) => ({
-						...rest,
-						restaurant: { connect: { id: restaurant as string } },
-					}));
-				const { user, ...rest } = list;
-				await client.saveList.upsert({
-					where: { id: list.id },
-					update: rest,
-					create: {
-						...rest,
-						user: { connect: { id: user as string } },
-						SaveListItem: {
-							create: listItem,
+						save_list_item: {
+							create: saveListItem,
 						},
 					},
 				});
