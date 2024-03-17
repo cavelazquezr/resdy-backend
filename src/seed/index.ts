@@ -82,6 +82,28 @@ const seedModel = async (seedData: Record<string, any[]>) => {
 				});
 			}),
 		);
+		Promise.all(
+			(seedData["saveList"] as Prisma.SaveListCreateInput[]).map(async (list) => {
+				const listItem = seedData["saveListItem"]
+					.filter((item) => item.list === list.id)
+					.map(({ restaurant, list, ...rest }) => ({
+						...rest,
+						restaurant: { connect: { id: restaurant as string } },
+					}));
+				const { user, ...rest } = list;
+				await client.saveList.upsert({
+					where: { id: list.id },
+					update: rest,
+					create: {
+						...rest,
+						user: { connect: { id: user as string } },
+						SaveListItem: {
+							create: listItem,
+						},
+					},
+				});
+			}),
+		);
 	} catch (error) {
 		throw error;
 	}

@@ -10,6 +10,16 @@
 		"routesDir": "tsoa"
 	},
 	"compilerOptions": {
-		"baseUrl": "./src"
+		"baseUrl": "./src",
+		"paths": {
+			"@controllers/*": ["api/controllers/*"],
+			"@services/*": ["api/services/*"],
+			"@apiModels/*": ["api/models/*"],
+			"@validations/*": ["api/validations/*"],
+			"@rootTypes/*": ["types/*"],
+			"@api/*": ["api/*"],
+			"@root/*": ["/*"],
+			"@root-config/*": ["config/*"]
+		}
 	}
 }
