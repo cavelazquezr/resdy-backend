@@ -1,2 +1,5 @@
 id:UUID,name:String,emoji:String,color:String,user:UUID
 217cc00e-3c0e-48b4-b36b-8b65a0f27d6a,Test,🤔,#E7EFFF,28c9710a-eeda-4678-9607-03d5a9af8396
+f1aaa816-cbda-44e9-853d-10aa42749a52,Test2,😊,#E7EBBB,28c9710a-eeda-4678-9607-03d5a9af8396
+51821029-05d4-414a-a9c6-ecae91889eed,Test3,😍,#E7EBBB,28c9710a-eeda-4678-9607-03d5a9af8396
+4fe70b03-ecd7-4e0e-a40e-5c878791d7d2,Test4,😎,#E7EBBB,28c9710a-eeda-4678-9607-03d5a9af8396
