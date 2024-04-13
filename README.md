@@ -41,7 +41,7 @@ To set up this API for the first time, you have to follow these steps:
 
  2. Ensure that you have Docker installed on your computer. Once you have it, run this command in the terminal and you should have your container built.
 
-	 `npm start`
+	 `npm run setupDb`
 
  3. Run the migration command to keep your database in sync with the Prisma Schema (Located in *prisma/schema.prisma*)
 
