@@ -207,6 +207,16 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_SaveList.name-or-emoji-or-color_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"name":{"dataType":"string","required":true},"emoji":{"dataType":"string","required":true},"color":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "FavListCreateInput": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_SaveList.name-or-emoji-or-color_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial_Dishes_": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"string"},"name":{"dataType":"string"},"photo_url":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"price":{"ref":"Prisma.Decimal"},"description":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"allergen":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"is_active":{"dataType":"boolean"},"created_at":{"dataType":"datetime"},"updated_at":{"dataType":"union","subSchemas":[{"dataType":"datetime"},{"dataType":"enum","enums":[null]}]},"restaurant_id":{"dataType":"string"},"category_id":{"dataType":"string"}},"validators":{}},
@@ -734,14 +744,14 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/lists/:user_id',
+        app.post('/lists',
             ...(fetchMiddlewares<RequestHandler>(ListController)),
             ...(fetchMiddlewares<RequestHandler>(ListController.prototype.postList)),
 
             function ListController_postList(request: any, response: any, next: any) {
             const args = {
-                    user_id: {"in":"query","name":"user_id","required":true,"dataType":"string"},
                     authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+                    list_input: {"in":"body","name":"list_input","required":true,"ref":"FavListCreateInput"},
                     unauthorizedCallback: {"in":"res","name":"403","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"reason":{"dataType":"string","required":true}}},
             };
 
@@ -767,8 +777,8 @@ export function RegisterRoutes(app: Router) {
 
             function ListController_deleteList(request: any, response: any, next: any) {
             const args = {
-                    user_id: {"in":"query","name":"user_id","required":true,"dataType":"string"},
                     authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+                    user_id: {"in":"query","name":"user_id","required":true,"dataType":"string"},
                     unauthorizedCallback: {"in":"res","name":"403","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"reason":{"dataType":"string","required":true}}},
             };
 
@@ -794,10 +804,10 @@ export function RegisterRoutes(app: Router) {
 
             function ListController_putFavList(request: any, response: any, next: any) {
             const args = {
+                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
                     user_id: {"in":"query","name":"user_id","required":true,"dataType":"string"},
                     list_id: {"in":"query","name":"list_id","required":true,"dataType":"string"},
                     list_name: {"in":"body","name":"list_name","required":true,"dataType":"string"},
-                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
                     unauthorizedCallback: {"in":"res","name":"403","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"reason":{"dataType":"string","required":true}}},
             };
 
@@ -823,8 +833,8 @@ export function RegisterRoutes(app: Router) {
 
             function ListController_getListItem(request: any, response: any, next: any) {
             const args = {
-                    list_id: {"in":"path","name":"list_id","required":true,"dataType":"string"},
                     authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+                    list_id: {"in":"path","name":"list_id","required":true,"dataType":"string"},
                     unauthorizedCallback: {"in":"res","name":"403","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"reason":{"dataType":"string","required":true}}},
             };
 

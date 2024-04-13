@@ -479,6 +479,29 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Pick_SaveList.name-or-emoji-or-color_": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"emoji": {
+						"type": "string"
+					},
+					"color": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"emoji",
+					"color"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"FavListCreateInput": {
+				"$ref": "#/components/schemas/Pick_SaveList.name-or-emoji-or-color_"
+			},
 			"Partial_Dishes_": {
 				"properties": {
 					"id": {
@@ -1885,9 +1908,7 @@
 						}
 					}
 				]
-			}
-		},
-		"/lists/{user_id}": {
+			},
 			"post": {
 				"operationId": "PostList",
 				"responses": {
@@ -1933,14 +1954,6 @@
 				"security": [],
 				"parameters": [
 					{
-						"in": "query",
-						"name": "user_id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
 						"in": "header",
 						"name": "authorization",
 						"required": true,
@@ -1948,8 +1961,20 @@
 							"type": "string"
 						}
 					}
-				]
-			},
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/FavListCreateInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/lists/{user_id}": {
 			"delete": {
 				"operationId": "DeleteList",
 				"responses": {
@@ -1993,16 +2018,16 @@
 				"security": [],
 				"parameters": [
 					{
-						"in": "query",
-						"name": "user_id",
+						"in": "header",
+						"name": "authorization",
 						"required": true,
 						"schema": {
 							"type": "string"
 						}
 					},
 					{
-						"in": "header",
-						"name": "authorization",
+						"in": "query",
+						"name": "user_id",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -2053,6 +2078,14 @@
 				"security": [],
 				"parameters": [
 					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
 						"in": "query",
 						"name": "user_id",
 						"required": true,
@@ -2063,14 +2096,6 @@
 					{
 						"in": "query",
 						"name": "list_id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "header",
-						"name": "authorization",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -2138,16 +2163,16 @@
 				"security": [],
 				"parameters": [
 					{
-						"in": "path",
-						"name": "list_id",
+						"in": "header",
+						"name": "authorization",
 						"required": true,
 						"schema": {
 							"type": "string"
 						}
 					},
 					{
-						"in": "header",
-						"name": "authorization",
+						"in": "path",
+						"name": "list_id",
 						"required": true,
 						"schema": {
 							"type": "string"

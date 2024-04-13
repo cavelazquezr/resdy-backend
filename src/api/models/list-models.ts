@@ -13,7 +13,7 @@ export const getMyFavList = async (user_id: string) => {
 			id: true,
 			name: true,
 			_count: true,
-			SaveListItem: true,
+			save_list_item: true,
 		},
 	});
 	return query;

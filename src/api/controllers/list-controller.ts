@@ -8,8 +8,8 @@ import {
 	deleteItemFromFavListService,
 	getFavListItemService,
 	createFavListService,
-} from "../services/fav-list-services";
-import { getMyFavListValidations } from "../validations/fav-list-validations";
+} from "../services/list-services";
+import { getMyFavListValidations } from "../validations/list-validations";
 import { FavListCreateInput } from "../../types/list";
 
 @Tags("List Service")
@@ -27,7 +27,7 @@ export class ListController extends Controller {
 	@Post()
 	public async postList(
 		@Header() authorization: string,
-		@Query() list_input: FavListCreateInput,
+		@Body() list_input: FavListCreateInput,
 		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 	): Promise<FavListItem | string> {
 		return createFavListService(authorization, list_input);
@@ -35,8 +35,8 @@ export class ListController extends Controller {
 
 	@Delete("{user_id}")
 	public async deleteList(
-		@Query() user_id: string,
 		@Header() authorization: string,
+		@Query() user_id: string,
 		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 	): Promise<string | void> {
 		return deleteFromMyFavListService(user_id, authorization);
@@ -44,10 +44,10 @@ export class ListController extends Controller {
 
 	@Put("{user_id}")
 	public async putFavList(
+		@Header() authorization: string,
 		@Query() user_id: string,
 		@Query() list_id: string,
 		@Body() list_name: string,
-		@Header() authorization: string,
 		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 	): Promise<string | void> {
 		return updateMyFavListService(user_id, list_id, list_name);
@@ -55,8 +55,8 @@ export class ListController extends Controller {
 
 	@Get("{user_id}/{list_id}")
 	public async getListItem(
-		@Path() list_id: string,
 		@Header() authorization: string,
+		@Path() list_id: string,
 		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 	): Promise<FavListOutput[] | string> {
 		return getFavListItemService(list_id);
