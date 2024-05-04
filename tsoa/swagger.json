@@ -6,7 +6,7 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"Pick_User.Exclude_keyofUser.password__": {
+			"Pick_UserOutput.Exclude_keyofUserOutput.password__": {
 				"properties": {
 					"id": {
 						"type": "string"
@@ -49,12 +49,27 @@
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
-			"Omit_User.password_": {
-				"$ref": "#/components/schemas/Pick_User.Exclude_keyofUser.password__",
+			"Omit_UserOutput.password_": {
+				"$ref": "#/components/schemas/Pick_UserOutput.Exclude_keyofUserOutput.password__",
 				"description": "Construct a type with the properties of T except for those in type K."
 			},
-			"UserOutput": {
-				"$ref": "#/components/schemas/Omit_User.password_"
+			"UserRecord": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Omit_UserOutput.password_"
+					},
+					{
+						"properties": {
+							"avatar_url": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"avatar_url"
+						],
+						"type": "object"
+					}
+				]
 			},
 			"UserCredentials": {
 				"properties": {
@@ -74,6 +89,57 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"%24Result.DefaultSelection_Prisma.%24UserPayload_": {
+				"properties": {
+					"is_owner": {
+						"type": "boolean"
+					},
+					"is_active": {
+						"type": "boolean"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"phone": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string"
+					},
+					"firstname": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"is_owner",
+					"is_active",
+					"created_at",
+					"phone",
+					"password",
+					"lastname",
+					"firstname",
+					"email",
+					"id"
+				],
+				"type": "object"
+			},
+			"User": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24UserPayload_",
+				"description": "Model User"
+			},
+			"UserOutput": {
+				"$ref": "#/components/schemas/User"
 			},
 			"Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner_": {
 				"properties": {
@@ -106,6 +172,35 @@
 			},
 			"UserCreateInput": {
 				"$ref": "#/components/schemas/Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner_"
+			},
+			"Partial_Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner-or-phone__": {
+				"properties": {
+					"password": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"firstname": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string",
+						"nullable": true
+					},
+					"phone": {
+						"type": "string",
+						"nullable": true
+					},
+					"is_owner": {
+						"type": "boolean"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"UserUpdateInput": {
+				"$ref": "#/components/schemas/Partial_Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner-or-phone__"
 			},
 			"Partial_Category_": {
 				"properties": {
@@ -571,39 +666,56 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"MyRatingInfoOutput": {
+			"Pick_RatingRecord.Exclude_keyofRatingRecord.user_info-or-restaurant_id-or-id__": {
 				"properties": {
-					"status": {
-						"type": "string"
-					},
 					"created_at": {
 						"type": "string",
 						"format": "date-time"
 					},
-					"title": {
-						"type": "string"
-					},
-					"comment": {
-						"type": "string"
-					},
 					"rating": {
 						"type": "number",
-						"format": "double"
+						"format": "double",
+						"nullable": true
+					},
+					"title": {
+						"type": "string",
+						"nullable": true
+					},
+					"comment": {
+						"type": "string",
+						"nullable": true
+					},
+					"status": {
+						"type": "string"
+					},
+					"answer": {
+						"type": "string",
+						"nullable": true
 					},
 					"replied_at": {
 						"type": "string",
-						"format": "date-time"
-					},
-					"answer": {
-						"type": "string"
+						"format": "date-time",
+						"nullable": true
 					}
 				},
 				"required": [
+					"created_at",
+					"rating",
+					"title",
+					"comment",
 					"status",
-					"created_at"
+					"answer",
+					"replied_at"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_RatingRecord.user_info-or-restaurant_id-or-id_": {
+				"$ref": "#/components/schemas/Pick_RatingRecord.Exclude_keyofRatingRecord.user_info-or-restaurant_id-or-id__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"MyRatingInfoRecord": {
+				"$ref": "#/components/schemas/Omit_RatingRecord.user_info-or-restaurant_id-or-id_"
 			},
 			"MyRatingOutput": {
 				"properties": {
@@ -617,7 +729,7 @@
 						"type": "string"
 					},
 					"rating_info": {
-						"$ref": "#/components/schemas/MyRatingInfoOutput"
+						"$ref": "#/components/schemas/MyRatingInfoRecord"
 					},
 					"header_url": {
 						"type": "string"
@@ -635,6 +747,52 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Pick_RatingsOutput.Exclude_keyofRatingsOutput.user_id-or-updated_at-or-restaurant_id__": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double",
+						"nullable": true
+					},
+					"title": {
+						"type": "string",
+						"nullable": true
+					},
+					"comment": {
+						"type": "string",
+						"nullable": true
+					},
+					"status": {
+						"type": "string"
+					},
+					"answer": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": [
+					"id",
+					"created_at",
+					"rating",
+					"title",
+					"comment",
+					"status",
+					"answer"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_RatingsOutput.user_id-or-updated_at-or-restaurant_id_": {
+				"$ref": "#/components/schemas/Pick_RatingsOutput.Exclude_keyofRatingsOutput.user_id-or-updated_at-or-restaurant_id__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
 			"UserRatingOutput": {
 				"properties": {
 					"firstname": {
@@ -648,44 +806,34 @@
 					}
 				},
 				"required": [
-					"firstname",
-					"lastname"
+					"firstname"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"RatingsOutput": {
-				"properties": {
-					"rating": {
-						"type": "number",
-						"format": "double"
+			"RatingRecord": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Omit_RatingsOutput.user_id-or-updated_at-or-restaurant_id_"
 					},
-					"title": {
-						"type": "string"
-					},
-					"comment": {
-						"type": "string"
-					},
-					"created_at": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"user_info": {
-						"$ref": "#/components/schemas/UserRatingOutput"
-					},
-					"replied_at": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"answer": {
-						"type": "string"
+					{
+						"properties": {
+							"replied_at": {
+								"type": "string",
+								"format": "date-time",
+								"nullable": true
+							},
+							"user_info": {
+								"$ref": "#/components/schemas/UserRatingOutput"
+							}
+						},
+						"required": [
+							"replied_at",
+							"user_info"
+						],
+						"type": "object"
 					}
-				},
-				"required": [
-					"created_at"
-				],
-				"type": "object",
-				"additionalProperties": false
+				]
 			},
 			"Record_number.number_": {
 				"properties": {},
@@ -712,26 +860,62 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"UpdateRatingRecord": {
+			"%24Result.DefaultSelection_Prisma.%24RatingPayload_": {
 				"properties": {
-					"title": {
+					"restaurant_id": {
+						"type": "string"
+					},
+					"user_id": {
+						"type": "string"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"answer": {
+						"type": "string"
+					},
+					"status": {
 						"type": "string"
 					},
 					"comment": {
 						"type": "string"
 					},
+					"title": {
+						"type": "string"
+					},
 					"rating": {
 						"type": "number",
 						"format": "double"
+					},
+					"id": {
+						"type": "string"
 					}
 				},
 				"required": [
-					"title",
+					"restaurant_id",
+					"user_id",
+					"updated_at",
+					"created_at",
+					"answer",
+					"status",
 					"comment",
-					"rating"
+					"title",
+					"rating",
+					"id"
 				],
-				"type": "object",
-				"additionalProperties": false
+				"type": "object"
+			},
+			"Rating": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24RatingPayload_",
+				"description": "Model Rating"
+			},
+			"RatingsOutput": {
+				"$ref": "#/components/schemas/Rating"
 			},
 			"MyReservationOutput": {
 				"properties": {
@@ -752,6 +936,13 @@
 					"address": {
 						"type": "string"
 					},
+					"status": {
+						"type": "string"
+					},
+					"number_of_person": {
+						"type": "number",
+						"format": "double"
+					},
 					"rating_info": {
 						"$ref": "#/components/schemas/RatingStatsOutput"
 					},
@@ -768,7 +959,9 @@
 				"required": [
 					"name",
 					"price_average",
-					"date_of_reservation"
+					"date_of_reservation",
+					"status",
+					"number_of_person"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -820,7 +1013,7 @@
 				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24ReservationPayload_",
 				"description": "Model Reservation"
 			},
-			"Pick_User.firstname-or-lastname-or-avatar_url_": {
+			"Pick_UserRecord.firstname-or-lastname-or-avatar_url_": {
 				"properties": {
 					"firstname": {
 						"type": "string"
@@ -829,7 +1022,13 @@
 						"type": "string",
 						"nullable": true
 					},
+<<<<<<< HEAD
+					"avatar_url": {
+						"type": "string"
+					}
+=======
 					"avatar_url": {}
+>>>>>>> ee112209047e565a0edcec16b0dcf6259d930946
 				},
 				"required": [
 					"firstname",
@@ -839,7 +1038,7 @@
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
 			"UserInfo": {
-				"$ref": "#/components/schemas/Pick_User.firstname-or-lastname-or-avatar_url_"
+				"$ref": "#/components/schemas/Pick_UserRecord.firstname-or-lastname-or-avatar_url_"
 			},
 			"WithUserInfo_Reservation_": {
 				"allOf": [
@@ -898,21 +1097,47 @@
 			"ReservationUpdateInput": {
 				"$ref": "#/components/schemas/Pick_Reservation.status_"
 			},
-			"Prisma.JsonObject": {
+			"JsonObject": {
 				"properties": {},
 				"type": "object",
 				"description": "From https://github.com/sindresorhus/type-fest/\nMatches a JSON object.\nThis type can be useful to enforce some input to be JSON-compatible or as a super-type to be extended from."
 			},
-			"RestaurantOutput": {
+			"JsonArray": {
+				"description": "From https://github.com/sindresorhus/type-fest/\nMatches a JSON array.",
+				"properties": {},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Prisma.JsonValue": {
+				"anyOf": [
+					{
+						"type": "string"
+					},
+					{
+						"type": "number",
+						"format": "double"
+					},
+					{
+						"type": "boolean"
+					},
+					{
+						"$ref": "#/components/schemas/JsonObject"
+					},
+					{
+						"$ref": "#/components/schemas/JsonArray"
+					}
+				],
+				"nullable": true,
+				"description": "From https://github.com/sindresorhus/type-fest/\nMatches any valid JSON value."
+			},
+			"RestaurantRecord": {
 				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"brand_name": {
-						"type": "string"
-					},
 					"phone": {
 						"type": "string"
+					},
+					"description": {
+						"type": "string",
+						"nullable": true
 					},
 					"address": {
 						"type": "string"
@@ -926,11 +1151,24 @@
 					"restaurant_type": {
 						"type": "string"
 					},
-					"description": {
+					"location": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Prisma.JsonValue"
+							}
+						],
+						"nullable": true
+					},
+					"name": {
 						"type": "string"
 					},
-					"location": {
-						"$ref": "#/components/schemas/Prisma.JsonObject"
+					"header_url": {
+						"type": "string",
+						"nullable": true
+					},
+					"brand_name": {
+						"type": "string",
+						"nullable": true
 					},
 					"price_average": {
 						"type": "number",
@@ -946,10 +1184,88 @@
 					}
 				},
 				"required": [
-					"price_average"
+					"phone",
+					"description",
+					"address",
+					"country",
+					"city",
+					"restaurant_type",
+					"location",
+					"name",
+					"header_url",
+					"brand_name",
+					"price_average",
+					"rating",
+					"rating_count"
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-header_url-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"address": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"restaurant_type": {
+						"type": "string"
+					},
+					"header_url": {
+						"type": "string",
+						"nullable": true
+					},
+					"brand_name": {
+						"type": "string",
+						"nullable": true
+					},
+					"price_average": {
+						"type": "number",
+						"format": "double"
+					},
+					"rating_count": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"name",
+					"rating",
+					"address",
+					"country",
+					"city",
+					"restaurant_type",
+					"header_url",
+					"brand_name",
+					"price_average",
+					"rating_count"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"RestaurantCardRecord": {
+				"$ref": "#/components/schemas/Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-header_url-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_"
+			},
+			"LandingRestaurantInfo": {
+				"properties": {},
+				"additionalProperties": {
+					"items": {
+						"$ref": "#/components/schemas/RestaurantCardRecord"
+					},
+					"type": "array"
+				},
+				"type": "object"
 			}
 		},
 		"securitySchemes": {}
@@ -978,7 +1294,7 @@
 								"schema": {
 									"allOf": [
 										{
-											"$ref": "#/components/schemas/UserOutput"
+											"$ref": "#/components/schemas/UserRecord"
 										}
 									],
 									"nullable": true
@@ -1031,24 +1347,6 @@
 								}
 							}
 						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
-								}
-							}
-						}
 					}
 				},
 				"tags": [
@@ -1081,24 +1379,6 @@
 								}
 							}
 						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
-								}
-							}
-						}
 					}
 				},
 				"tags": [
@@ -1112,6 +1392,47 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/UserCreateInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/authentication": {
+			"put": {
+				"operationId": "UpdateUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserOutput"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserUpdateInput"
 							}
 						}
 					}
@@ -2385,6 +2706,49 @@
 				]
 			}
 		},
+		"/upload/avatar": {
+			"post": {
+				"operationId": "PostAvatar",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Microservices"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"image": {
+										"type": "string",
+										"format": "binary"
+									}
+								},
+								"required": [
+									"image"
+								]
+							}
+						}
+					}
+				}
+			}
+		},
 		"/rating/myRatings": {
 			"get": {
 				"operationId": "GetMyRating",
@@ -2488,7 +2852,7 @@
 									"anyOf": [
 										{
 											"items": {
-												"$ref": "#/components/schemas/RatingsOutput"
+												"$ref": "#/components/schemas/RatingRecord"
 											},
 											"type": "array"
 										},
@@ -2658,7 +3022,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/UpdateRatingRecord"
+								"$ref": "#/components/schemas/RatingRecord"
 							}
 						}
 					}
@@ -2740,6 +3104,22 @@
 					{
 						"in": "query",
 						"name": "search",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "start_date",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "end_date",
 						"required": false,
 						"schema": {
 							"type": "string"
@@ -3001,7 +3381,7 @@
 									"anyOf": [
 										{
 											"items": {
-												"$ref": "#/components/schemas/RestaurantOutput"
+												"$ref": "#/components/schemas/RestaurantRecord"
 											},
 											"type": "array"
 										},
@@ -3050,10 +3430,48 @@
 						"schema": {
 							"type": "string"
 						}
+					}
+				]
+			}
+		},
+		"/restaurant/landing": {
+			"get": {
+				"operationId": "GetLandingRestaurant",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/LandingRestaurantInfo"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Restaurant service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "city",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
 					},
 					{
 						"in": "query",
-						"name": "sort",
+						"name": "country",
 						"required": false,
 						"schema": {
 							"type": "string"
