@@ -1,39 +1,81 @@
 import { TsoaResponse } from "tsoa";
 import { UserStatus } from "../../types/messages";
 import { checkIfCredentialMatches, checkIfIsValidToken } from "../../utils/validations";
-import { UserCreateInput, UserCredentials } from "../../types/user";
+import { UserCreateInput, UserCredentials, UserUpdateInput } from "../../types/user";
 import { getUserByEmail } from "../models/auth-models";
+import { verifyToken } from "../../utils";
+import { handleCatchError } from "../../utils/handleCatchError";
 
-export const getCurrentUserValidations = async (
-	authorization: string,
-	unauthorizedCallback: TsoaResponse<403, { reason: string }>,
-): Promise<boolean | string> => {
-	// const is_valid_token = checkIfIsValidToken(authorization);
-	// if (!is_valid_token) {
-	// 	return unauthorizedCallback(403, { reason: UserStatus.INVALID_TOKEN });
-	// }
-	return true;
-};
-
-export const authenticateUserValidations = async (
-	credentials: UserCredentials,
-	unauthorizedCallback: TsoaResponse<403, { reason: string }>,
-): Promise<boolean | string> => {
+export const authenticateUserValidations = async (credentials: UserCredentials): Promise<boolean | string> => {
 	const credential_matches = await checkIfCredentialMatches(credentials);
 	if (!credential_matches) {
-		return unauthorizedCallback(403, { reason: UserStatus.INCORRECT_CREDENTIALS });
+		return handleCatchError(401, {
+			status: 401,
+			message: UserStatus.INCORRECT_CREDENTIALS,
+			path: "/authentication",
+		});
 	}
 	return true;
 };
 
-export const createUserValidations = async (
-	user_record: UserCreateInput,
-	unauthorizedCallback: TsoaResponse<403, { reason: string }>,
-): Promise<boolean | string> => {
+export const createUserValidations = async (user_record: UserCreateInput): Promise<boolean | string> => {
 	const { email } = user_record;
 	const user_exists = !!(await getUserByEmail(email));
 	if (user_exists) {
-		return unauthorizedCallback(403, { reason: UserStatus.USER_ALREADY_EXISTS });
+		return handleCatchError(404, {
+			status: 404,
+			message: UserStatus.USER_ALREADY_EXISTS,
+			path: "/authentication",
+		});
 	}
+	return true;
+};
+
+export const updateUserValidations = async (
+	authorization: string,
+	payload: UserUpdateInput,
+): Promise<boolean | string> => {
+	const { email } = verifyToken(authorization);
+	const user = await getUserByEmail(email);
+	if (user) {
+		if (payload.email) {
+			const user_exists = !!(await getUserByEmail(payload.email));
+			if (user_exists) {
+				return handleCatchError(409, {
+					status: 409,
+					message: UserStatus.USER_ALREADY_EXISTS,
+					path: "/authentication",
+				});
+			}
+		}
+		if (payload.firstname && payload.firstname.length > 20) {
+			return handleCatchError(422, {
+				status: 422,
+				message: "The name you provided is too long",
+				path: "/authentication",
+			});
+		}
+		if (payload.lastname && payload.lastname.length > 20) {
+			return handleCatchError(422, {
+				status: 422,
+				message: "The lastname you provided is too long",
+				path: "/authentication",
+			});
+		}
+		if (payload.password && payload.password === user.password) {
+			return handleCatchError(422, {
+				status: 422,
+				message: "You cannot use the same password",
+				path: "/authentication",
+			});
+		}
+	} else {
+		return handleCatchError(404, {
+			status: 404,
+			message: UserStatus.USER_NOT_FOUND,
+			path: "/authentication",
+		});
+	}
+
 	return true;
 };

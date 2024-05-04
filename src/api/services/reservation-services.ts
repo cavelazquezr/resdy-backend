@@ -16,22 +16,33 @@ import {
 import { createRating } from "../models/rating-models";
 import { checkIfIsUserHasRatedRestaurant } from "../../utils/validations";
 import { getCurrentUserInfo } from "../models/auth-models";
+import { getObjectSignedUrl } from "../../config/S3";
 
 export const getRestaurantReservationsService = async (restaurant_name: string): Promise<ReservationOutput[]> => {
 	const reservations = await getRestaurantReservations(restaurant_name);
-	const reservation_records: ReservationOutput[] = reservations.map((rating) => {
+	const reservation_records: Promise<ReservationOutput>[] = reservations.map(async (rating) => {
 		const { user, ...ratingRecord } = rating;
-		return {
-			...ratingRecord,
-			updated_at: rating.updated_at ?? null,
-			user: {
-				...user,
-				avatar_url: user.avatar_url ?? null,
-			},
+		const defaultRatingRecord: Omit<Reservation, "user"> = {
+			id: ratingRecord.id,
+			number_of_person: ratingRecord.number_of_person,
+			date_of_reservation: ratingRecord.date_of_reservation,
+			status: ratingRecord.status,
+			created_at: ratingRecord.created_at,
+			updated_at: ratingRecord.updated_at ?? null,
+			user_id: ratingRecord.user_id,
+			restaurant_id: ratingRecord.restaurant_id,
 		};
+		return Promise.resolve({
+			...defaultRatingRecord,
+			user: {
+				firstname: user.firstname,
+				lastname: user.lastname ?? null,
+				avatar_url: (await getObjectSignedUrl(`users/${user.id}/${user.id}-avatar`)) ?? undefined,
+			},
+		});
 	});
 
-	return reservation_records;
+	return Promise.all(reservation_records);
 };
 
 export const createReservationService = async (
@@ -87,6 +98,7 @@ export const getMyReservationsService = async (
 				address: restaurant_information?.address ?? undefined,
 				restaurant_type: restaurant_information?.restaurant_type ?? undefined,
 				price_average: calculatePriceAverage(dishes),
+				number_of_person: reservationRecord.number_of_person,
 				rating_info: {
 					rating: calculateRatingAverage(ratings).toString(),
 					rating_count: ratings.length,

@@ -40,6 +40,10 @@ const seedModel = async (seedData: Record<string, any[]>) => {
 					(customization) => customization.restaurant === restaurantInput.id,
 				);
 
+				const { restaurant: restaurantFromStadistics, ...stadistics } = seedData["restaurantStadistic"].find(
+					(stadistic) => stadistic.restaurant === restaurantInput.id,
+				);
+
 				const categories = seedData["category"]
 					.filter((category) => category.restaurant === restaurantInput.id)
 					.map(({ restaurant: restaurantFromCategory, ...rest }) => rest);
@@ -87,6 +91,9 @@ const seedModel = async (seedData: Record<string, any[]>) => {
 						},
 						customization: {
 							create: customization,
+						},
+						restaurant_stadistic: {
+							create: stadistics,
 						},
 						category: {
 							create: categories,

@@ -30,11 +30,15 @@ export class ReservationController extends Controller {
 		@Query() status?: string,
 		@Query() city?: string,
 		@Query() search?: string,
+		@Query() start_date?: string,
+		@Query() end_date?: string,
 	): Promise<MyReservationOutput[] | string> {
 		const query_params: MyReservationsQueryParams = {
 			status,
 			city,
 			search,
+			start_date,
+			end_date,
 		};
 		await getMyReservationValidations(authorization, notFoundCallback);
 		return getMyReservationsService(authorization, query_params);

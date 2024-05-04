@@ -4,7 +4,7 @@ import {
 	MyRatingQueryParams,
 	RatingStatsOutput,
 	RatingsOutput,
-	UpdateRatingRecord,
+	RatingRecord,
 } from "../../types/rating";
 import {
 	getMyRatingsService,
@@ -42,7 +42,7 @@ export class RatingController extends Controller {
 	public async getRatings(
 		@Path() restaurant_name: string,
 		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
-	): Promise<RatingsOutput[] | string> {
+	): Promise<RatingRecord[] | string> {
 		await getRestaurantRatingsValidations(restaurant_name, unauthorizedCallback);
 		return getRestaurantRatingsService(restaurant_name);
 	}
@@ -60,7 +60,7 @@ export class RatingController extends Controller {
 	public async putRating(
 		@Header() authorization: string,
 		@Path() rating_id: string,
-		@Body() rating_record: UpdateRatingRecord,
+		@Body() rating_record: RatingRecord,
 		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 	): Promise<RatingsOutput | string> {
 		await putRatingValidations(authorization, rating_id, unauthorizedCallback);

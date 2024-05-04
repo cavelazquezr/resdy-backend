@@ -1,4 +1,4 @@
-import { MyRatingQueryParams, UpdateRatingRecord } from "../../types/rating";
+import { MyRatingQueryParams, RatingUpdateRecord } from "../../types/rating";
 import { convertToAmpersandSeparated } from "../../utils";
 import client from "../../config/client";
 
@@ -38,17 +38,19 @@ export const getRestaurantRatings = async (restaurant_name: string) => {
 			status: "finished",
 		},
 		select: {
+			id: true,
 			rating: true,
 			title: true,
 			comment: true,
 			answer: true,
 			created_at: true,
 			updated_at: true,
+			status: true,
 			user: {
 				select: {
+					id: true,
 					firstname: true,
 					lastname: true,
-					avatar_url: true,
 				},
 			},
 		},
@@ -115,7 +117,7 @@ export const getMyRatings = async (user_email: string, query_params?: MyRatingQu
 	return query;
 };
 
-export const updateRating = async (rating_id: string, rating_record: UpdateRatingRecord) => {
+export const updateRating = async (rating_id: string, rating_record: RatingUpdateRecord) => {
 	const query = await rating.update({
 		where: { id: rating_id },
 		data: {

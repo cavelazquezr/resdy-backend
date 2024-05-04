@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import client from "../../config/client";
 import { MyReservationsQueryParams, ReservationCreateInput, ReservationUpdateInput } from "../../types/reservations";
 import { convertToAmpersandSeparated } from "../../utils";
@@ -65,9 +66,9 @@ export const getRestaurantReservations = async (restaurant_name: string) => {
 			restaurant_id: true,
 			user: {
 				select: {
+					id: true,
 					firstname: true,
 					lastname: true,
-					avatar_url: true,
 				},
 			},
 		},
@@ -113,9 +114,18 @@ export const updateReservation = async (reservation_id: string, reservation_inpu
 
 export const getMyReservations = async (user_email: string, query_params?: MyReservationsQueryParams) => {
 	const full_text_search = query_params?.search && convertToAmpersandSeparated(query_params?.search);
+
+	const date_range_filter: Prisma.DateTimeFilter | undefined =
+		query_params?.start_date && query_params?.end_date
+			? {
+					gte: new Date(query_params.start_date),
+					lte: new Date(query_params.end_date),
+				}
+			: undefined;
+
 	const query = await reservation.findMany({
 		where: {
-			status: { equals: query_params?.status },
+			status: { in: query_params?.status?.split(",") },
 			user: {
 				email: {
 					equals: user_email,
@@ -135,11 +145,13 @@ export const getMyReservations = async (user_email: string, query_params?: MyRes
 					},
 				],
 			},
+			date_of_reservation: date_range_filter,
 		},
 		select: {
 			id: true,
 			status: true,
 			date_of_reservation: true,
+			number_of_person: true,
 			restaurant: {
 				select: {
 					name: true,

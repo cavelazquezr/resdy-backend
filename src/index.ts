@@ -6,6 +6,9 @@ import { middleware as openApiValidatorMiddleware } from "express-openapi-valida
 import bodyParser from "body-parser";
 import cors from "cors";
 import { PORT } from "./config";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app: Application = express();
 

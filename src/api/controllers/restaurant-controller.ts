@@ -1,8 +1,7 @@
-import { Restaurant } from "@prisma/client";
-import { Header, Controller, Res, Get, Post, Body, Query, Route, Tags, Delete, TsoaResponse } from "tsoa";
+import { Controller, Get, Query, Route, Tags } from "tsoa";
 
-import { CreateRestaurantInput, GetRestaurantsQueryParams, RestaurantOutput } from "../../types/restaurant";
-import { getRestaurantsService } from "../services/restaurant-services";
+import { GetRestaurantsQueryParams, LandingRestaurantInfo, RestaurantRecord } from "../../types/restaurant";
+import { getLandingRestaurantsService, getRestaurantsService } from "../services/restaurant-services";
 
 @Tags("Restaurant service")
 @Route("restaurant")
@@ -13,9 +12,7 @@ export class RestaurantController extends Controller {
 		@Query() city?: string,
 		@Query() restaurant_type?: string,
 		@Query() country?: string,
-		@Query() sort?: string,
-		// @Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
-	): Promise<RestaurantOutput[] | string> {
+	): Promise<Array<RestaurantRecord> | string> {
 		const query_params: GetRestaurantsQueryParams = {
 			name,
 			city,
@@ -24,19 +21,15 @@ export class RestaurantController extends Controller {
 		};
 		return getRestaurantsService(query_params);
 	}
-
-	// @Post()
-	// public async postRestaurant(
-	// 	@Header() authorization: string,
-	// 	@Body() restaurant: CreateRestaurantInput,
-	// 	@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
-	// ): Promise<Restaurant | string> {
-	// 	return createRestaurantService(authorization, restaurant);
-	// }
-
-	// //Endpoint a desarrollar 😁
-	// @Delete()
-	// public async deleteWeb() {
-	// 	return deleteRestaurantService();
-	// }
+	@Get("landing")
+	public async getLandingRestaurant(
+		@Query() city?: string,
+		@Query() country?: string,
+	): Promise<LandingRestaurantInfo | string> {
+		const query_params: GetRestaurantsQueryParams = {
+			city,
+			country,
+		};
+		return getLandingRestaurantsService(query_params);
+	}
 }
