@@ -18,9 +18,10 @@
 						"type": "string"
 					},
 					"lastname": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
-					"avatar_url": {
+					"phone": {
 						"type": "string",
 						"nullable": true
 					},
@@ -40,7 +41,7 @@
 					"email",
 					"firstname",
 					"lastname",
-					"avatar_url",
+					"phone",
 					"created_at",
 					"is_active",
 					"is_owner"
@@ -86,7 +87,8 @@
 						"type": "string"
 					},
 					"lastname": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"is_owner": {
 						"type": "boolean"
@@ -824,17 +826,14 @@
 						"type": "string"
 					},
 					"lastname": {
-						"type": "string"
-					},
-					"avatar_url": {
 						"type": "string",
 						"nullable": true
-					}
+					},
+					"avatar_url": {}
 				},
 				"required": [
 					"firstname",
-					"lastname",
-					"avatar_url"
+					"lastname"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
