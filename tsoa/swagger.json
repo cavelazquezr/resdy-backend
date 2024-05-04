@@ -1022,14 +1022,17 @@
 						"type": "string",
 						"nullable": true
 					},
+<<<<<<< HEAD
 					"avatar_url": {
 						"type": "string"
 					}
+=======
+					"avatar_url": {}
+>>>>>>> ee112209047e565a0edcec16b0dcf6259d930946
 				},
 				"required": [
 					"firstname",
-					"lastname",
-					"avatar_url"
+					"lastname"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
