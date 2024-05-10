@@ -7,7 +7,15 @@ export const postAvatarHandler = async (authorization: string, image: Express.Mu
 	const user = await getCurrentUserInfo(authorization);
 
 	// Resize the image
-	const buffer = await sharp(image.buffer).resize({ height: 500, width: 500, fit: "cover" }).toBuffer();
+	let sharpInstance = sharp(image.buffer);
+
+	// Check and rotate based on EXIF orientation
+	const metadata = await sharpInstance.metadata();
+	if (metadata.orientation && metadata.orientation >= 5 && metadata.orientation <= 8) {
+		sharpInstance = sharpInstance.rotate();
+	}
+
+	const buffer = await sharpInstance.resize({ height: 500, width: 500, fit: "cover" }).toBuffer();
 
 	const mimetype = image.mimetype;
 	if (user) {

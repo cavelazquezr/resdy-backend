@@ -6,7 +6,7 @@ export type RatingRecord = Omit<RatingsOutput, "user_id" | "updated_at" | "resta
 	replied_at: RatingsOutput["updated_at"];
 };
 export type MyRatingInfoRecord = Omit<RatingRecord, "user_info" | "restaurant_id" | "id">;
-export type RatingUpdateRecord = Pick<RatingRecord, "title" | "comment" | "rating">;
+export type RatingUpdateRecord = Pick<RatingRecord, "id" | "title" | "comment" | "rating">;
 
 export interface RatingStatsOutput {
 	rating: string;
