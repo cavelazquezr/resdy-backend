@@ -1,5 +1,6 @@
-import { GetRestaurantsQueryParams, RestaurantCardRecord } from "../../types/restaurant";
+import { GetRestaurantsQueryParams, RestaurantCardRecord, RestaurantSummary } from "../../types/restaurant";
 import client from "../../config/client";
+import { calculatePriceAverage, calculateRatingAverage } from "../../utils";
 
 const { restaurant } = client;
 
@@ -61,36 +62,75 @@ export const getRestaurants = async (query_params: GetRestaurantsQueryParams, li
 export const getRestaurantsByRating = async (query_params: GetRestaurantsQueryParams, limit?: number) => {
 	const { city, country } = query_params;
 
-	const restaurants: Array<RestaurantCardRecord> = await client.$queryRaw`
+	const restaurants = await client.$queryRaw<Array<RestaurantCardRecord>>`
         SELECT
-		r.name,
-		c.name AS brand_name,
-		ri.address,
-		ri.country,
-		ri.city,
-		ri.restaurant_type,
-		c.header_url,
-		COALESCE(AVG(d.price), 0)::numeric AS price_average,
-		COALESCE(AVG(rt.rating), 0)::numeric AS rating,
-		COUNT(rt.rating)::numeric AS rating_count
-        FROM restaurant.restaurants r
-        LEFT JOIN rating.rating rt ON r.id = rt.restaurant_id
-        LEFT JOIN restaurant.restaurant_information ri ON r.id = ri.restaurant_id
-		LEFT JOIN restaurant.customization c ON r.id = c.restaurant_id
-		LEFT JOIN menu.dish d ON r.id = d.restaurant_id
-        AND ri.city ILIKE ${city}
-        AND ri.country ILIKE ${country}
+			r.name,
+			c.name AS brand_name,
+			ri.address,
+			ri.country,
+			ri.city,
+			ri.restaurant_type,
+			c.header_url,
+			COALESCE(AVG(d.price), 0)::numeric AS price_average,
+			COALESCE(AVG(rt.rating), 0)::numeric AS rating,
+			COUNT(rt.rating)::numeric AS rating_count
+        FROM
+			restaurant.restaurants r
+        LEFT JOIN 
+			rating.rating rt ON r.id = rt.restaurant_id
+        LEFT JOIN 
+			restaurant.restaurant_information ri ON r.id = ri.restaurant_id
+		LEFT JOIN 
+			restaurant.customization c ON r.id = c.restaurant_id
+		LEFT JOIN 
+			menu.dish d ON r.id = d.restaurant_id
+        AND
+			ri.city ILIKE ${city}
+        AND
+			ri.country ILIKE ${country}
         GROUP BY
-		r.id,
-		c.name,
-		ri.address,
-		ri.country,
-		ri.city,
-		ri.restaurant_type,
-		c.header_url
+			r.id,
+			c.name,
+			ri.address,
+			ri.country,
+			ri.city,
+			ri.restaurant_type,
+			c.header_url
         ORDER BY rating DESC
         LIMIT ${limit ? limit : -1}
     `;
 
 	return restaurants;
+};
+
+export const getRestaurantSummary = async (restaurant_id: string) => {
+	const query = await client.restaurant.findUnique({
+		where: {
+			id: restaurant_id,
+		},
+		select: {
+			ratings: {
+				where: {
+					status: "finished",
+				},
+			},
+			dishes: true,
+		},
+	});
+
+	if (query) {
+		const price_average = calculatePriceAverage(query.dishes);
+		const rating_average = calculateRatingAverage(query.ratings);
+		return {
+			price_average,
+			rating: rating_average,
+			rating_count: query.ratings.length,
+		};
+	} else {
+		return {
+			price_average: 0,
+			rating: 0,
+			rating_count: 0,
+		};
+	}
 };

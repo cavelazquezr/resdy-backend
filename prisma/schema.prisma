@@ -15,6 +15,7 @@ model User {
   firstname   String        @db.VarChar(20)
   lastname    String?       @db.VarChar(20)
   avatar_url  String?       @db.VarChar(65529)
+  phone       String?       @db.VarChar(10)
   password    String        @db.VarChar(20)
   created_at  DateTime      @default(now())
   is_active   Boolean       @default(true)
@@ -91,18 +92,18 @@ model RestaurantStadistics {
 }
 
 model Rating {
-  id            String     @id @default(uuid()) @db.VarChar(36)
-  rating        Int?       @db.Integer
-  title         String?    @db.VarChar(50)
-  comment       String?    @db.VarChar(400)
-  status        String     @db.VarChar(30)
-  answer        String?    @db.VarChar(400)
-  created_at    DateTime   @default(now())
-  updated_at    DateTime?  @updatedAt
-  user          User       @relation(fields: [user_id], references: [id])
-  user_id       String
-  restaurant    Restaurant @relation(fields: [restaurant_id], references: [id])
-  restaurant_id String
+  id             String      @id @default(uuid()) @db.VarChar(36)
+  rating         Int?        @db.Integer
+  title          String?     @db.VarChar(50)
+  comment        String?     @db.VarChar(400)
+  status         String      @db.VarChar(30)
+  answer         String?     @db.VarChar(400)
+  created_at     DateTime    @default(now())
+  updated_at     DateTime?   @updatedAt
+  user           User        @relation(fields: [user_id], references: [id])
+  user_id        String
+  restaurant     Restaurant  @relation(fields: [restaurant_id], references: [id])
+  restaurant_id  String
 
   @@map("rating")
   @@schema("rating")

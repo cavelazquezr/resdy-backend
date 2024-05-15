@@ -1,6 +1,6 @@
 import { DishProps } from "./dishes";
 
-export interface MenuOutput {
+export interface MenuRecord {
 	category: string;
 	dishes: DishProps[];
 }

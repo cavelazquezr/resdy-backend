@@ -1,6 +1,6 @@
 import {
-	MyRatingOutput,
 	MyRatingQueryParams,
+	RatingDetailOutput,
 	RatingRecord,
 	RatingStatsOutput,
 	RatingUpdateRecord,
@@ -15,6 +15,8 @@ import {
 import { getCurrentUserInfo } from "../models/auth-models";
 import { calculateRatingAverage, getStatsFromRatings } from "../../utils";
 import { getObjectSignedUrl } from "../../config/S3";
+import { getRestaurantSummary } from "../models/restaurant-models";
+import { RestaurantCardOutput } from "../../types/common";
 
 export const getRestaurantRatingsService = async (restaurant_name: string): Promise<RatingRecord[]> => {
 	const ratings = await getRestaurantRatings(restaurant_name);
@@ -57,42 +59,47 @@ export const getRestaurantRatingStatsService = async (restaurant_name: string): 
 export const getMyRatingsService = async (
 	authorization: string,
 	query_params: MyRatingQueryParams,
-): Promise<{ ratings: MyRatingOutput[] }> => {
+): Promise<Promise<Array<RestaurantCardOutput<RatingDetailOutput>>>> => {
 	const current_user = await getCurrentUserInfo(authorization);
 	if (current_user) {
 		const ratings = await getMyRatings(current_user.email, query_params);
-		const rating_records: MyRatingOutput[] = ratings.map((rating) => {
-			const {
-				restaurant: { name, customization, restaurant_information },
-				...ratingRecord
-			} = rating;
+		const rating_records: Array<RestaurantCardOutput<RatingDetailOutput>> = await Promise.all(
+			ratings.map(async (rating) => {
+				const {
+					restaurant: { id: restaurant_id, name, customization, restaurant_information },
+					...rating_record
+				} = rating;
 
-			return {
-				id: rating.id,
-				name,
-				brand_name: customization?.name ?? undefined,
-				header_url: customization?.header_url ?? undefined,
-				city: restaurant_information?.city ?? undefined,
-				address: restaurant_information?.address ?? undefined,
-				restaurant_type: restaurant_information?.restaurant_type ?? undefined,
-				rating_info: {
-					status: ratingRecord.status,
-					created_at: ratingRecord.created_at,
-					rating: ratingRecord.rating ?? null,
-					title: ratingRecord.title ?? null,
-					comment: ratingRecord.comment ?? null,
-					replied_at: ratingRecord.updated_at ?? null,
-					answer: ratingRecord.answer ?? null,
-				},
-			};
-		});
-		return {
-			ratings: rating_records,
-		};
+				const restaurant_summary = await getRestaurantSummary(restaurant_id);
+
+				return {
+					id: rating_record.id,
+					name: name,
+					status: rating_record.status,
+					brand_name: customization?.name ?? "",
+					address: restaurant_information?.address ?? "",
+					city: restaurant_information?.city ?? "",
+					header_url: customization?.header_url ?? null,
+					restaurant_type: restaurant_information?.restaurant_type ?? "",
+					summary: {
+						rating: restaurant_summary.rating,
+						rating_count: restaurant_summary.rating_count,
+						price_average: restaurant_summary.price_average,
+					},
+					detail: {
+						rating: rating_record.rating ?? null,
+						title: rating_record.title ?? null,
+						comment: rating_record.comment ?? null,
+						answer: rating_record.answer ?? null,
+						created_at: rating_record.created_at,
+						replied_at: rating_record.updated_at ?? null,
+					},
+				};
+			}),
+		);
+		return rating_records;
 	}
-	return {
-		ratings: [],
-	};
+	return [];
 };
 
 export const putRatingService = async (rating_id: string, rating_record: RatingUpdateRecord): Promise<any> => {

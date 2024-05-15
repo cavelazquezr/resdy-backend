@@ -5,23 +5,16 @@ export type RatingRecord = Omit<RatingsOutput, "user_id" | "updated_at" | "resta
 	user_info: UserRatingOutput;
 	replied_at: RatingsOutput["updated_at"];
 };
-export type MyRatingInfoRecord = Omit<RatingRecord, "user_info" | "restaurant_id" | "id">;
+export type MyRatingInfoRecord = Omit<RatingRecord, "user_info" | "restaurant_id" | "id" | "status">;
 export type RatingUpdateRecord = Pick<RatingRecord, "id" | "title" | "comment" | "rating">;
-
+export type RatingDetailOutput = Pick<
+	RatingRecord,
+	"title" | "comment" | "rating" | "answer" | "created_at" | "replied_at"
+>;
 export interface RatingStatsOutput {
 	rating: string;
 	rating_count: number;
 	stats?: Record<number, number>;
-}
-
-export interface MyRatingOutput {
-	name: string;
-	city?: string;
-	address?: string;
-	rating_info?: MyRatingInfoRecord;
-	header_url?: string;
-	brand_name?: string;
-	restaurant_type?: string;
 }
 
 export interface UserRatingOutput {
@@ -44,4 +37,6 @@ export interface MyRatingQueryParams {
 	status?: string;
 	city?: string;
 	search?: string;
+	start_date?: string;
+	end_date?: string;
 }

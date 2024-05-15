@@ -154,6 +154,7 @@ export const getMyReservations = async (user_email: string, query_params?: MyRes
 			number_of_person: true,
 			restaurant: {
 				select: {
+					id: true,
 					name: true,
 					restaurant_information: {
 						select: {
@@ -169,8 +170,6 @@ export const getMyReservations = async (user_email: string, query_params?: MyRes
 							header_url: true,
 						},
 					},
-					ratings: true,
-					dishes: true,
 				},
 			},
 		},

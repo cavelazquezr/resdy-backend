@@ -21,6 +21,10 @@
 						"type": "string",
 						"nullable": true
 					},
+					"avatar_url": {
+						"type": "string",
+						"nullable": true
+					},
 					"phone": {
 						"type": "string",
 						"nullable": true
@@ -41,6 +45,7 @@
 					"email",
 					"firstname",
 					"lastname",
+					"avatar_url",
 					"phone",
 					"created_at",
 					"is_active",
@@ -102,10 +107,13 @@
 						"type": "string",
 						"format": "date-time"
 					},
+					"password": {
+						"type": "string"
+					},
 					"phone": {
 						"type": "string"
 					},
-					"password": {
+					"avatar_url": {
 						"type": "string"
 					},
 					"lastname": {
@@ -125,8 +133,9 @@
 					"is_owner",
 					"is_active",
 					"created_at",
-					"phone",
 					"password",
+					"phone",
+					"avatar_url",
 					"lastname",
 					"firstname",
 					"email",
@@ -202,7 +211,7 @@
 			"UserUpdateInput": {
 				"$ref": "#/components/schemas/Partial_Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner-or-phone__"
 			},
-			"Partial_Category_": {
+			"Partial_CategoryOutput_": {
 				"properties": {
 					"id": {
 						"type": "string"
@@ -230,7 +239,7 @@
 				"description": "Make all properties in T optional"
 			},
 			"CategoryProps": {
-				"$ref": "#/components/schemas/Partial_Category_"
+				"$ref": "#/components/schemas/Partial_CategoryOutput_"
 			},
 			"WithIsUsed_CategoryProps_": {
 				"allOf": [
@@ -290,7 +299,7 @@
 			"CategoryOutput": {
 				"$ref": "#/components/schemas/Category"
 			},
-			"Pick_Category.label_": {
+			"Pick_CategoryOutput.label_": {
 				"properties": {
 					"label": {
 						"type": "string"
@@ -303,7 +312,7 @@
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
 			"CategoryCreateInput": {
-				"$ref": "#/components/schemas/Pick_Category.label_"
+				"$ref": "#/components/schemas/Pick_CategoryOutput.label_"
 			},
 			"Partial_Pick_CategoryProps.label__": {
 				"properties": {
@@ -416,7 +425,7 @@
 			"Prisma.Decimal": {
 				"type": "string"
 			},
-			"Pick_Dishes.name-or-photo_url-or-allergen-or-price-or-description_": {
+			"Pick_DishOutput.name-or-photo_url-or-allergen-or-price-or-description_": {
 				"properties": {
 					"name": {
 						"type": "string"
@@ -448,7 +457,7 @@
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
 			"DishCreateInput": {
-				"$ref": "#/components/schemas/Pick_Dishes.name-or-photo_url-or-allergen-or-price-or-description_"
+				"$ref": "#/components/schemas/Pick_DishOutput.name-or-photo_url-or-allergen-or-price-or-description_"
 			},
 			"Partial_Pick_DishProps.name-or-photo_url-or-allergen-or-price-or-description__": {
 				"properties": {
@@ -599,7 +608,7 @@
 			"FavListCreateInput": {
 				"$ref": "#/components/schemas/Pick_SaveList.name-or-emoji-or-color_"
 			},
-			"Partial_Dishes_": {
+			"Partial_DishOutput_": {
 				"properties": {
 					"id": {
 						"type": "string"
@@ -645,9 +654,9 @@
 				"description": "Make all properties in T optional"
 			},
 			"DishProps": {
-				"$ref": "#/components/schemas/Partial_Dishes_"
+				"$ref": "#/components/schemas/Partial_DishOutput_"
 			},
-			"MenuOutput": {
+			"MenuRecord": {
 				"properties": {
 					"category": {
 						"type": "string"
@@ -666,7 +675,29 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Pick_RatingRecord.Exclude_keyofRatingRecord.user_info-or-restaurant_id-or-id__": {
+			"RestaurantSummary": {
+				"properties": {
+					"price_average": {
+						"type": "number",
+						"format": "double"
+					},
+					"rating_count": {
+						"type": "number",
+						"format": "double"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"price_average",
+					"rating_count",
+					"rating"
+				],
+				"type": "object"
+			},
+			"Pick_RatingRecord.title-or-comment-or-rating-or-answer-or-created_at-or-replied_at_": {
 				"properties": {
 					"created_at": {
 						"type": "string",
@@ -685,9 +716,6 @@
 						"type": "string",
 						"nullable": true
 					},
-					"status": {
-						"type": "string"
-					},
 					"answer": {
 						"type": "string",
 						"nullable": true
@@ -703,46 +731,60 @@
 					"rating",
 					"title",
 					"comment",
-					"status",
 					"answer",
 					"replied_at"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
-			"Omit_RatingRecord.user_info-or-restaurant_id-or-id_": {
-				"$ref": "#/components/schemas/Pick_RatingRecord.Exclude_keyofRatingRecord.user_info-or-restaurant_id-or-id__",
-				"description": "Construct a type with the properties of T except for those in type K."
+			"RatingDetailOutput": {
+				"$ref": "#/components/schemas/Pick_RatingRecord.title-or-comment-or-rating-or-answer-or-created_at-or-replied_at_"
 			},
-			"MyRatingInfoRecord": {
-				"$ref": "#/components/schemas/Omit_RatingRecord.user_info-or-restaurant_id-or-id_"
-			},
-			"MyRatingOutput": {
+			"RestaurantCardOutput_RatingDetailOutput_": {
 				"properties": {
+					"id": {
+						"type": "string"
+					},
 					"name": {
 						"type": "string"
 					},
-					"city": {
-						"type": "string"
-					},
-					"address": {
-						"type": "string"
-					},
-					"rating_info": {
-						"$ref": "#/components/schemas/MyRatingInfoRecord"
-					},
-					"header_url": {
+					"status": {
 						"type": "string"
 					},
 					"brand_name": {
 						"type": "string"
 					},
+					"address": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"header_url": {
+						"type": "string",
+						"nullable": true
+					},
 					"restaurant_type": {
 						"type": "string"
+					},
+					"summary": {
+						"$ref": "#/components/schemas/RestaurantSummary"
+					},
+					"detail": {
+						"$ref": "#/components/schemas/RatingDetailOutput"
 					}
 				},
 				"required": [
-					"name"
+					"id",
+					"name",
+					"status",
+					"brand_name",
+					"address",
+					"city",
+					"header_url",
+					"restaurant_type",
+					"summary",
+					"detail"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -917,51 +959,103 @@
 			"RatingsOutput": {
 				"$ref": "#/components/schemas/Rating"
 			},
-			"MyReservationOutput": {
+			"Pick_RatingRecord.id-or-title-or-comment-or-rating_": {
 				"properties": {
-					"name": {
+					"id": {
 						"type": "string"
 					},
-					"price_average": {
+					"rating": {
+						"type": "number",
+						"format": "double",
+						"nullable": true
+					},
+					"title": {
+						"type": "string",
+						"nullable": true
+					},
+					"comment": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": [
+					"id",
+					"rating",
+					"title",
+					"comment"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"RatingUpdateRecord": {
+				"$ref": "#/components/schemas/Pick_RatingRecord.id-or-title-or-comment-or-rating_"
+			},
+			"Pick_Reservation.number_of_person-or-date_of_reservation_": {
+				"properties": {
+					"number_of_person": {
 						"type": "number",
 						"format": "double"
 					},
 					"date_of_reservation": {
 						"type": "string",
 						"format": "date-time"
-					},
-					"city": {
+					}
+				},
+				"required": [
+					"number_of_person",
+					"date_of_reservation"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"ReservationDetailOutput": {
+				"$ref": "#/components/schemas/Pick_Reservation.number_of_person-or-date_of_reservation_"
+			},
+			"RestaurantCardOutput_ReservationDetailOutput_": {
+				"properties": {
+					"id": {
 						"type": "string"
 					},
-					"address": {
+					"name": {
 						"type": "string"
 					},
 					"status": {
 						"type": "string"
 					},
-					"number_of_person": {
-						"type": "number",
-						"format": "double"
-					},
-					"rating_info": {
-						"$ref": "#/components/schemas/RatingStatsOutput"
-					},
-					"header_url": {
-						"type": "string"
-					},
 					"brand_name": {
 						"type": "string"
 					},
+					"address": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"header_url": {
+						"type": "string",
+						"nullable": true
+					},
 					"restaurant_type": {
 						"type": "string"
+					},
+					"summary": {
+						"$ref": "#/components/schemas/RestaurantSummary"
+					},
+					"detail": {
+						"$ref": "#/components/schemas/ReservationDetailOutput"
 					}
 				},
 				"required": [
+					"id",
 					"name",
-					"price_average",
-					"date_of_reservation",
 					"status",
-					"number_of_person"
+					"brand_name",
+					"address",
+					"city",
+					"header_url",
+					"restaurant_type",
+					"summary",
+					"detail"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1023,7 +1117,8 @@
 						"nullable": true
 					},
 					"avatar_url": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					}
 				},
 				"required": [
@@ -1058,26 +1153,8 @@
 			"ReservationOutput": {
 				"$ref": "#/components/schemas/WithUserInfo_Reservation_"
 			},
-			"Pick_Reservation.number_of_person-or-date_of_reservation_": {
-				"properties": {
-					"number_of_person": {
-						"type": "number",
-						"format": "double"
-					},
-					"date_of_reservation": {
-						"type": "string",
-						"format": "date-time"
-					}
-				},
-				"required": [
-					"number_of_person",
-					"date_of_reservation"
-				],
-				"type": "object",
-				"description": "From T, pick a set of properties whose keys are in the union K"
-			},
 			"ReservationCreateInput": {
-				"$ref": "#/components/schemas/Pick_Reservation.number_of_person-or-date_of_reservation_"
+				"$ref": "#/components/schemas/ReservationDetailOutput"
 			},
 			"Pick_Reservation.status_": {
 				"properties": {
@@ -1130,23 +1207,28 @@
 			"RestaurantRecord": {
 				"properties": {
 					"phone": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"description": {
 						"type": "string",
 						"nullable": true
 					},
 					"address": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"country": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"city": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"restaurant_type": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"location": {
 						"allOf": [
@@ -1208,16 +1290,20 @@
 						"format": "double"
 					},
 					"address": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"country": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"city": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"restaurant_type": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"header_url": {
 						"type": "string",
@@ -2656,7 +2742,7 @@
 									"anyOf": [
 										{
 											"items": {
-												"$ref": "#/components/schemas/MenuOutput"
+												"$ref": "#/components/schemas/MenuRecord"
 											},
 											"type": "array"
 										},
@@ -2755,25 +2841,10 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"ratings": {
-													"items": {
-														"$ref": "#/components/schemas/MyRatingOutput"
-													},
-													"type": "array"
-												}
-											},
-											"required": [
-												"ratings"
-											],
-											"type": "object"
-										},
-										{
-											"type": "string"
-										}
-									]
+									"items": {
+										"$ref": "#/components/schemas/RestaurantCardOutput_RatingDetailOutput_"
+									},
+									"type": "array"
 								}
 							}
 						}
@@ -3019,7 +3090,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/RatingRecord"
+								"$ref": "#/components/schemas/RatingUpdateRecord"
 							}
 						}
 					}
@@ -3035,17 +3106,10 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/MyReservationOutput"
-											},
-											"type": "array"
-										},
-										{
-											"type": "string"
-										}
-									]
+									"items": {
+										"$ref": "#/components/schemas/RestaurantCardOutput_ReservationDetailOutput_"
+									},
+									"type": "array"
 								}
 							}
 						}

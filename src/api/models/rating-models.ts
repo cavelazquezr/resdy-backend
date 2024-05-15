@@ -94,6 +94,7 @@ export const getMyRatings = async (user_email: string, query_params?: MyRatingQu
 			updated_at: true,
 			restaurant: {
 				select: {
+					id: true,
 					name: true,
 					restaurant_information: {
 						select: {
@@ -118,11 +119,12 @@ export const getMyRatings = async (user_email: string, query_params?: MyRatingQu
 };
 
 export const updateRating = async (rating_id: string, rating_record: RatingUpdateRecord) => {
+	const { id, ...rest } = rating_record;
 	const query = await rating.update({
 		where: { id: rating_id },
 		data: {
 			status: "finished",
-			...rating_record,
+			...rest,
 		},
 		select: {
 			rating: true,

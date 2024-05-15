@@ -1,10 +1,11 @@
 import { Controller, Get, Put, Body, Route, Path, Header, Res, Query, Tags, TsoaResponse } from "tsoa";
 import {
-	MyRatingOutput,
 	MyRatingQueryParams,
 	RatingStatsOutput,
 	RatingsOutput,
 	RatingRecord,
+	RatingUpdateRecord,
+	RatingDetailOutput,
 } from "../../types/rating";
 import {
 	getMyRatingsService,
@@ -18,6 +19,7 @@ import {
 	getRestaurantRatingsValidations,
 	putRatingValidations,
 } from "../validations/rating-validations";
+import { RestaurantCardOutput } from "../../types/common";
 
 @Tags("Rating service")
 @Route("rating")
@@ -29,7 +31,7 @@ export class RatingController extends Controller {
 		@Query() status?: string,
 		@Query() city?: string,
 		@Query() search?: string,
-	): Promise<{ ratings: MyRatingOutput[] } | string> {
+	): Promise<Array<RestaurantCardOutput<RatingDetailOutput>>> {
 		const query_params: MyRatingQueryParams = {
 			status,
 			city,
@@ -60,9 +62,10 @@ export class RatingController extends Controller {
 	public async putRating(
 		@Header() authorization: string,
 		@Path() rating_id: string,
-		@Body() rating_record: RatingRecord,
+		@Body() rating_record: RatingUpdateRecord,
 		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 	): Promise<RatingsOutput | string> {
+		console.log("body", rating_record);
 		await putRatingValidations(authorization, rating_id, unauthorizedCallback);
 		return putRatingService(rating_id, rating_record);
 	}

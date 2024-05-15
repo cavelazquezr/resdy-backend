@@ -41,11 +41,12 @@ export interface CreateRestaurantInput {
 	restaurant_information?: Prisma.RestaurantInformationCreateWithoutRestaurantInput;
 }
 
-export type RestaurantRatingsRecord = {
-	user_id: string; //id of the user
-	rating: number; //from 1 to 5
-	comment: string;
-};
+export type RestaurantSummary = {
+	rating: number;
+	rating_count: number;
+	price_average: number;
+}
+
 
 export type GetRestaurantsQueryParams = {
 	name?: string;

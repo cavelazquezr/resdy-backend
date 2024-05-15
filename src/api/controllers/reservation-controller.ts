@@ -1,8 +1,8 @@
 import { Controller, Get, Route, Path, Res, Tags, TsoaResponse, Post, Header, Body, Put, Query } from "tsoa";
 import {
-	MyReservationOutput,
 	MyReservationsQueryParams,
 	ReservationCreateInput,
+	ReservationDetailOutput,
 	ReservationOutput,
 	ReservationUpdateInput,
 } from "../../types/reservations";
@@ -19,6 +19,7 @@ import {
 	updateReservationValidation,
 } from "../validations/reservation-validations";
 import { Reservation } from "@prisma/client";
+import { RestaurantCardOutput } from "../../types/common";
 
 @Tags("Reservation service")
 @Route("reservation")
@@ -32,7 +33,7 @@ export class ReservationController extends Controller {
 		@Query() search?: string,
 		@Query() start_date?: string,
 		@Query() end_date?: string,
-	): Promise<MyReservationOutput[] | string> {
+	): Promise<Array<RestaurantCardOutput<ReservationDetailOutput>>> {
 		const query_params: MyReservationsQueryParams = {
 			status,
 			city,

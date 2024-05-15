@@ -1,5 +1,5 @@
 import { Controller, Res, Route, Tags, Path, TsoaResponse, Get } from "tsoa";
-import { MenuOutput } from "../../types/menu";
+import { MenuRecord } from "../../types/menu";
 import { getMenuService } from "../services/menu-services";
 import { getMenuValidations } from "../validations/menu-validations";
 
@@ -10,7 +10,7 @@ export class MenuController extends Controller {
 	public async getMenu(
 		@Path() restaurant_name: string,
 		@Res() notFoundCallback: TsoaResponse<404, { details: string }>,
-	): Promise<MenuOutput[] | string> {
+	): Promise<MenuRecord[] | string> {
 		await getMenuValidations(restaurant_name, notFoundCallback);
 		return getMenuService(restaurant_name);
 	}
