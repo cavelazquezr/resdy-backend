@@ -1,6 +1,13 @@
-import { GetRestaurantsQueryParams, RestaurantCardRecord, RestaurantSummary } from "../../types/restaurant";
+import {
+	GetRestaurantsQueryParams,
+	RestaurantCardRecord,
+	RestaurantCreateInput,
+	RestaurantOutput,
+} from "../../types/restaurant";
 import client from "../../config/client";
 import { calculatePriceAverage, calculateRatingAverage } from "../../utils";
+import { Point } from "geojson";
+import { Prisma } from "@prisma/client";
 
 const { restaurant } = client;
 
@@ -133,4 +140,52 @@ export const getRestaurantSummary = async (restaurant_id: string) => {
 			rating_count: 0,
 		};
 	}
+};
+
+export const createRestaurant = async (
+	payload: RestaurantCreateInput & { location: Prisma.InputJsonValue },
+): Promise<RestaurantOutput> => {
+	const query = await client.$transaction(async (tx) => {
+		const user = await tx.user.create({
+			data: {
+				email: payload.email,
+				password: payload.password,
+				firstname: payload.brand_name ?? "Admin",
+				is_owner: true,
+			},
+		});
+		const restaurant = await tx.restaurant.create({
+			data: {
+				name: payload.name,
+				admin_id: user.id,
+			},
+		});
+		await tx.customization.create({
+			data: {
+				name: payload.brand_name,
+				restaurant_id: restaurant.id,
+			},
+		});
+		await tx.restaurantInformation.create({
+			data: {
+				restaurant_id: restaurant.id,
+				phone: payload.phone,
+				address: payload.address,
+				country: payload.country,
+				city: payload.city,
+				restaurant_type: payload.restaurant_type,
+				location: payload.location,
+			},
+		});
+		await tx.restaurantStadistics.create({
+			data: {
+				total_bookings: 0,
+				restaurant_id: restaurant.id,
+			},
+		});
+
+		return restaurant;
+	});
+
+	return query;
 };

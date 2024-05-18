@@ -1,7 +1,18 @@
-import { Controller, Get, Query, Route, Tags } from "tsoa";
+import { Controller, Get, Post, Query, Body, Route, Tags } from "tsoa";
 
-import { GetRestaurantsQueryParams, LandingRestaurantInfo, RestaurantRecord } from "../../types/restaurant";
-import { getLandingRestaurantsService, getRestaurantsService } from "../services/restaurant-services";
+import {
+	GetRestaurantsQueryParams,
+	LandingRestaurantInfo,
+	RestaurantCreateInput,
+	RestaurantOutput,
+	RestaurantRecord,
+} from "../../types/restaurant";
+import {
+	createRestaurantService,
+	getLandingRestaurantsService,
+	getRestaurantsService,
+} from "../services/restaurant-services";
+import { createRestaurantValidations } from "../validations/restaurant-validations";
 
 @Tags("Restaurant service")
 @Route("restaurant")
@@ -31,5 +42,11 @@ export class RestaurantController extends Controller {
 			country,
 		};
 		return getLandingRestaurantsService(query_params);
+	}
+
+	@Post()
+	public async createRestaurant(@Body() restaurant: RestaurantCreateInput): Promise<RestaurantOutput | string> {
+		await createRestaurantValidations(restaurant);
+		return createRestaurantService(restaurant);
 	}
 }

@@ -1,12 +1,15 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, Restaurant } from "@prisma/client";
 import {
 	GetRestaurantsQueryParams,
 	LandingRestaurantInfo,
 	RestaurantCardRecord,
+	RestaurantCreateInput,
+	RestaurantOutput,
 	RestaurantRecord,
 } from "../../types/restaurant";
 import { calculatePriceAverage, calculateRatingAverage } from "../../utils";
-import { getRestaurants, getRestaurantsByRating } from "../models/restaurant-models";
+import { createRestaurant, getRestaurants, getRestaurantsByRating } from "../models/restaurant-models";
+import { getCoordinates } from "../../utils/getCoordinates";
 
 export const getRestaurantsService = async (
 	query_params: GetRestaurantsQueryParams,
@@ -76,5 +79,26 @@ export const getLandingRestaurantsService = async (
 	} catch (error) {
 		console.error("Error fetching landing restaurants:", error);
 		return "Error fetching landing restaurants";
+	}
+};
+
+export const createRestaurantService = async (
+	restaurant: RestaurantCreateInput,
+): Promise<RestaurantOutput | string> => {
+	try {
+		const location = await getCoordinates({
+			city: restaurant.city,
+			address: restaurant.address,
+			country: restaurant.country,
+		});
+		console.log("location", location);
+		const query = await createRestaurant({
+			...restaurant,
+			location: (location ?? { type: "Point", coordinates: [] }) as Prisma.InputJsonValue,
+		});
+		return query;
+	} catch (error) {
+		console.error("Error creating restaurant:", error);
+		return "Error creating restaurant";
 	}
 };

@@ -77,14 +77,14 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner-or-phone__": {
+    "Partial_Pick_User.email-or-firstname-or-lastname-or-password-or-phone__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"password":{"dataType":"string"},"email":{"dataType":"string"},"firstname":{"dataType":"string"},"lastname":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"phone":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"is_owner":{"dataType":"boolean"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"password":{"dataType":"string"},"email":{"dataType":"string"},"firstname":{"dataType":"string"},"lastname":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"phone":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserUpdateInput": {
         "dataType": "refAlias",
-        "type": {"ref":"Partial_Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner-or-phone__","validators":{}},
+        "type": {"ref":"Partial_Pick_User.email-or-firstname-or-lastname-or-password-or-phone__","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial_CategoryOutput_": {
@@ -484,6 +484,56 @@ const models: TsoaRoute.Models = {
     "LandingRestaurantInfo": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{},"additionalProperties":{"dataType":"array","array":{"dataType":"refAlias","ref":"RestaurantCardRecord"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "%24Result.DefaultSelection_Prisma.%24RestaurantPayload_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"admin_id":{"dataType":"string","required":true},"created_at":{"dataType":"datetime","required":true},"name":{"dataType":"string","required":true},"id":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Restaurant": {
+        "dataType": "refAlias",
+        "type": {"ref":"%24Result.DefaultSelection_Prisma.%24RestaurantPayload_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RestaurantOutput": {
+        "dataType": "refAlias",
+        "type": {"ref":"Restaurant","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_UserOutput.email-or-password_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"password":{"dataType":"string","required":true},"email":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "AdministratorInput": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_UserOutput.email-or-password_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_RestaurantProps.name_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"name":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RestaurantInput": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_RestaurantProps.name_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_InformationProps.phone-or-address-or-country-or-city-or-restaurant_type_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"phone":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"address":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"country":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"city":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"restaurant_type":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "InformationInput": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_InformationProps.phone-or-address-or-country-or-city-or-restaurant_type_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RestaurantCreateInput": {
+        "dataType": "refAlias",
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"AdministratorInput"},{"ref":"RestaurantInput"},{"ref":"InformationInput"},{"dataType":"nestedObjectLiteral","nestedProperties":{"brand_name":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true}}}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -1343,6 +1393,31 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.getLandingRestaurant.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/restaurant',
+            ...(fetchMiddlewares<RequestHandler>(RestaurantController)),
+            ...(fetchMiddlewares<RequestHandler>(RestaurantController.prototype.createRestaurant)),
+
+            function RestaurantController_createRestaurant(request: any, response: any, next: any) {
+            const args = {
+                    restaurant: {"in":"body","name":"restaurant","required":true,"ref":"RestaurantCreateInput"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new RestaurantController();
+
+
+              const promise = controller.createRestaurant.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

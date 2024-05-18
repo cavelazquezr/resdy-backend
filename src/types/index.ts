@@ -13,3 +13,7 @@ export type WithHide<T> = T & {
 export type WithUserInfo<T> = T & {
 	user: UserInfo;
 };
+
+export type NonNullableProperties<T> = {
+	[P in keyof T]: NonNullable<T[P]>;
+};

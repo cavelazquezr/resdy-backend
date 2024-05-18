@@ -182,7 +182,7 @@
 			"UserCreateInput": {
 				"$ref": "#/components/schemas/Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner_"
 			},
-			"Partial_Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner-or-phone__": {
+			"Partial_Pick_User.email-or-firstname-or-lastname-or-password-or-phone__": {
 				"properties": {
 					"password": {
 						"type": "string"
@@ -200,16 +200,13 @@
 					"phone": {
 						"type": "string",
 						"nullable": true
-					},
-					"is_owner": {
-						"type": "boolean"
 					}
 				},
 				"type": "object",
 				"description": "Make all properties in T optional"
 			},
 			"UserUpdateInput": {
-				"$ref": "#/components/schemas/Partial_Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner-or-phone__"
+				"$ref": "#/components/schemas/Partial_Pick_User.email-or-firstname-or-lastname-or-password-or-phone__"
 			},
 			"Partial_CategoryOutput_": {
 				"properties": {
@@ -1349,6 +1346,132 @@
 					"type": "array"
 				},
 				"type": "object"
+			},
+			"%24Result.DefaultSelection_Prisma.%24RestaurantPayload_": {
+				"properties": {
+					"admin_id": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"name": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"admin_id",
+					"created_at",
+					"name",
+					"id"
+				],
+				"type": "object"
+			},
+			"Restaurant": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24RestaurantPayload_",
+				"description": "Model Restaurant"
+			},
+			"RestaurantOutput": {
+				"$ref": "#/components/schemas/Restaurant"
+			},
+			"Pick_UserOutput.email-or-password_": {
+				"properties": {
+					"password": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"password",
+					"email"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"AdministratorInput": {
+				"$ref": "#/components/schemas/Pick_UserOutput.email-or-password_"
+			},
+			"Pick_RestaurantProps.name_": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"RestaurantInput": {
+				"$ref": "#/components/schemas/Pick_RestaurantProps.name_"
+			},
+			"Pick_InformationProps.phone-or-address-or-country-or-city-or-restaurant_type_": {
+				"properties": {
+					"phone": {
+						"type": "string",
+						"nullable": true
+					},
+					"address": {
+						"type": "string",
+						"nullable": true
+					},
+					"country": {
+						"type": "string",
+						"nullable": true
+					},
+					"city": {
+						"type": "string",
+						"nullable": true
+					},
+					"restaurant_type": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": [
+					"phone",
+					"address",
+					"country",
+					"city",
+					"restaurant_type"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"InformationInput": {
+				"$ref": "#/components/schemas/Pick_InformationProps.phone-or-address-or-country-or-city-or-restaurant_type_"
+			},
+			"RestaurantCreateInput": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/AdministratorInput"
+					},
+					{
+						"$ref": "#/components/schemas/RestaurantInput"
+					},
+					{
+						"$ref": "#/components/schemas/InformationInput"
+					},
+					{
+						"properties": {
+							"brand_name": {
+								"type": "string",
+								"nullable": true
+							}
+						},
+						"required": [
+							"brand_name"
+						],
+						"type": "object"
+					}
+				]
 			}
 		},
 		"securitySchemes": {}
@@ -3493,6 +3616,43 @@
 						}
 					}
 				]
+			},
+			"post": {
+				"operationId": "CreateRestaurant",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/RestaurantOutput"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Restaurant service"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RestaurantCreateInput"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/restaurant/landing": {

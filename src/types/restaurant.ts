@@ -1,8 +1,14 @@
 import { Customization, Prisma, Restaurant, RestaurantInformation } from "@prisma/client";
+import { UserOutput } from "./user";
+import { NonNullableProperties } from ".";
 
 export type RestaurantOutput = Restaurant;
 export type CustomizationOutput = Customization;
 export type InformationOutput = RestaurantInformation;
+
+export type RestaurantProps = NonNullableProperties<RestaurantOutput>;
+export type CustomizationProps = NonNullableProperties<CustomizationOutput>;
+export type InformationProps = NonNullableProperties<InformationOutput>;
 
 export interface RestaurantRecord
 	extends Pick<
@@ -35,6 +41,15 @@ export type LandingRestaurantInfo = {
 	[category: string]: Array<RestaurantCardRecord>;
 };
 
+//For restaurant creation
+type AdministratorInput = Pick<UserOutput, "email" | "password">;
+type RestaurantInput = Pick<RestaurantProps, "name">;
+type InformationInput = Pick<InformationProps, "phone" | "address" | "country" | "city" | "restaurant_type">;
+
+export type RestaurantCreateInput = AdministratorInput &
+	RestaurantInput &
+	InformationInput & { brand_name: CustomizationOutput["name"] };
+
 export interface CreateRestaurantInput {
 	name: string;
 	customization?: Prisma.CustomizationCreateWithoutRestaurantInput;
@@ -45,8 +60,7 @@ export type RestaurantSummary = {
 	rating: number;
 	rating_count: number;
 	price_average: number;
-}
-
+};
 
 export type GetRestaurantsQueryParams = {
 	name?: string;

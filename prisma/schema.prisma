@@ -67,6 +67,7 @@ model RestaurantInformation {
   phone             String?    @db.VarChar(10)
   address           String?    @db.VarChar(30)
   city              String?    @db.VarChar(30)
+  postal_code       String?    @db.VarChar(30)
   country           String?    @db.VarChar(30)
   social_media      Json?      @db.Json
   restaurant_type   String?    @db.VarChar(30)
