@@ -1,6 +1,7 @@
 import { Customization, Prisma, Restaurant, RestaurantInformation } from "@prisma/client";
 import { UserOutput } from "./user";
 import { NonNullableProperties } from ".";
+import { MapBoundsRecord } from "./map";
 
 export type RestaurantOutput = Restaurant;
 export type CustomizationOutput = Customization;
@@ -68,3 +69,16 @@ export type GetRestaurantsQueryParams = {
 	restaurant_type?: string;
 	country?: string;
 };
+
+export interface GetDiscoveryRestaurantsQueryParams {
+	city?: string;
+	country?: string;
+	swLat?: number;
+	swLng?: number;
+	neLat?: number;
+	neLng?: number;
+	restaurant_type?: string;
+	sortBy?: SortRestaurantBy;
+}
+
+export type SortRestaurantBy = 'rating' | 'visits' | 'new';

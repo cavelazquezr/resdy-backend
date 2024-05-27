@@ -156,12 +156,14 @@ export const getMyReservations = async (user_email: string, query_params?: MyRes
 				select: {
 					id: true,
 					name: true,
+					created_at: true,
 					restaurant_information: {
 						select: {
 							city: true,
 							country: true,
 							address: true,
 							restaurant_type: true,
+							location: true,
 						},
 					},
 					customization: {
@@ -170,6 +172,7 @@ export const getMyReservations = async (user_email: string, query_params?: MyRes
 							header_url: true,
 						},
 					},
+					restaurant_stadistic: true,
 				},
 			},
 		},

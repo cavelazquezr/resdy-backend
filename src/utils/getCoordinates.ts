@@ -6,12 +6,12 @@ type GetCoordinatesArgs = {
 	city: string;
 	address: string;
 	country: string;
-	postcode?: string;
+	postal_code?: string;
 };
 
 export const getCoordinates = async (args: GetCoordinatesArgs): Promise<Point | null> => {
-	const { city, address, country, postcode = "28013" } = args;
-	const query = `${address}, ${postcode}, ${city}, ${country}`;
+	const { city, address, country, postal_code} = args;
+	const query = `${address}, ${postal_code}, ${city}, ${country}`;
 	const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
 		query,
 	)}.json?access_token=${MAPBOX_ACCESS_KEY}`;

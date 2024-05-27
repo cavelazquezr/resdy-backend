@@ -285,14 +285,17 @@ const models: TsoaRoute.Models = {
         "properties": {
             "id": {"dataType":"string","required":true},
             "name": {"dataType":"string","required":true},
-            "status": {"dataType":"string","required":true},
+            "status": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
             "brand_name": {"dataType":"string","required":true},
             "address": {"dataType":"string","required":true},
             "city": {"dataType":"string","required":true},
             "header_url": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
             "restaurant_type": {"dataType":"string","required":true},
+            "location": {"dataType":"any","required":true},
             "summary": {"ref":"RestaurantSummary","required":true},
-            "detail": {"ref":"RatingDetailOutput","required":true},
+            "detail": {"dataType":"union","subSchemas":[{"ref":"RatingDetailOutput"},{"dataType":"enum","enums":[null]}],"required":true},
+            "created_at": {"dataType":"datetime","required":true},
+            "total_bookings": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
     },
@@ -377,14 +380,17 @@ const models: TsoaRoute.Models = {
         "properties": {
             "id": {"dataType":"string","required":true},
             "name": {"dataType":"string","required":true},
-            "status": {"dataType":"string","required":true},
+            "status": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
             "brand_name": {"dataType":"string","required":true},
             "address": {"dataType":"string","required":true},
             "city": {"dataType":"string","required":true},
             "header_url": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
             "restaurant_type": {"dataType":"string","required":true},
+            "location": {"dataType":"any","required":true},
             "summary": {"ref":"RestaurantSummary","required":true},
-            "detail": {"ref":"ReservationDetailOutput","required":true},
+            "detail": {"dataType":"union","subSchemas":[{"ref":"ReservationDetailOutput"},{"dataType":"enum","enums":[null]}],"required":true},
+            "created_at": {"dataType":"datetime","required":true},
+            "total_bookings": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
     },
@@ -484,6 +490,36 @@ const models: TsoaRoute.Models = {
     "LandingRestaurantInfo": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{},"additionalProperties":{"dataType":"array","array":{"dataType":"refAlias","ref":"RestaurantCardRecord"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RestaurantCardOutput_unknown_": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"string","required":true},
+            "name": {"dataType":"string","required":true},
+            "status": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
+            "brand_name": {"dataType":"string","required":true},
+            "address": {"dataType":"string","required":true},
+            "city": {"dataType":"string","required":true},
+            "header_url": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
+            "restaurant_type": {"dataType":"string","required":true},
+            "location": {"dataType":"any","required":true},
+            "summary": {"ref":"RestaurantSummary","required":true},
+            "detail": {"dataType":"union","subSchemas":[{"dataType":"any"},{"dataType":"enum","enums":[null]}],"required":true},
+            "created_at": {"dataType":"datetime","required":true},
+            "total_bookings": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ResultsSummary_RestaurantCardOutput_unknown__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"results":{"dataType":"array","array":{"dataType":"refObject","ref":"RestaurantCardOutput_unknown_"},"required":true},"options":{"dataType":"array","array":{"dataType":"string"},"required":true},"count":{"dataType":"double","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "SortRestaurantBy": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["rating"]},{"dataType":"enum","enums":["visits"]},{"dataType":"enum","enums":["new"]}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "%24Result.DefaultSelection_Prisma.%24RestaurantPayload_": {
@@ -1393,6 +1429,38 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.getLandingRestaurant.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/restaurant/discover',
+            ...(fetchMiddlewares<RequestHandler>(RestaurantController)),
+            ...(fetchMiddlewares<RequestHandler>(RestaurantController.prototype.getDiscoverRestaurant)),
+
+            function RestaurantController_getDiscoverRestaurant(request: any, response: any, next: any) {
+            const args = {
+                    city: {"in":"query","name":"city","dataType":"string"},
+                    country: {"in":"query","name":"country","dataType":"string"},
+                    swLat: {"in":"query","name":"swLat","dataType":"double"},
+                    swLng: {"in":"query","name":"swLng","dataType":"double"},
+                    neLat: {"in":"query","name":"neLat","dataType":"double"},
+                    neLng: {"in":"query","name":"neLng","dataType":"double"},
+                    restaurant_type: {"in":"query","name":"restaurant_type","dataType":"string"},
+                    sortBy: {"in":"query","name":"sortBy","ref":"SortRestaurantBy"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new RestaurantController();
+
+
+              const promise = controller.getDiscoverRestaurant.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

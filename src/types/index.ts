@@ -17,3 +17,9 @@ export type WithUserInfo<T> = T & {
 export type NonNullableProperties<T> = {
 	[P in keyof T]: NonNullable<T[P]>;
 };
+
+export type ResultsSummary<T> = {
+	count: number;
+	options: Array<string>;
+	results: Array<T>;
+};

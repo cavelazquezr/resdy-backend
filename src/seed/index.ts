@@ -1,6 +1,7 @@
 import client from "../config/client";
 import { Prisma } from "@prisma/client";
 import { parseSeedData } from "../utils/readCSVFile";
+import { getCoordinates } from "../utils/getCoordinates";
 
 const seedModel = async (seedData: Record<string, any[]>) => {
 	try {
@@ -43,6 +44,13 @@ const seedModel = async (seedData: Record<string, any[]>) => {
 				const { restaurant: restaurantFromStadistics, ...stadistics } = seedData["restaurantStadistic"].find(
 					(stadistic) => stadistic.restaurant === restaurantInput.id,
 				);
+
+				const location = await getCoordinates({
+					city: information.city,
+					address: information.address,
+					country: information.country,
+					postal_code: information.postal_code,
+				});
 
 				const categories = seedData["category"]
 					.filter((category) => category.restaurant === restaurantInput.id)
@@ -87,7 +95,7 @@ const seedModel = async (seedData: Record<string, any[]>) => {
 							},
 						},
 						restaurant_information: {
-							create: information,
+							create: { ...information, location },
 						},
 						customization: {
 							create: customization,

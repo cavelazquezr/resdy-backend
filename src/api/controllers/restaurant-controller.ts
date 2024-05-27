@@ -1,18 +1,24 @@
 import { Controller, Get, Post, Query, Body, Route, Tags } from "tsoa";
 
 import {
+	GetDiscoveryRestaurantsQueryParams,
 	GetRestaurantsQueryParams,
 	LandingRestaurantInfo,
 	RestaurantCreateInput,
 	RestaurantOutput,
 	RestaurantRecord,
+	SortRestaurantBy,
 } from "../../types/restaurant";
 import {
 	createRestaurantService,
+	getDiscoveryRestaurants,
 	getLandingRestaurantsService,
 	getRestaurantsService,
 } from "../services/restaurant-services";
 import { createRestaurantValidations } from "../validations/restaurant-validations";
+import { RestaurantCardOutput } from "../../types/common";
+import { MapBoundsRecord } from "../../types/map";
+import { ResultsSummary } from "../../types";
 
 @Tags("Restaurant service")
 @Route("restaurant")
@@ -42,6 +48,29 @@ export class RestaurantController extends Controller {
 			country,
 		};
 		return getLandingRestaurantsService(query_params);
+	}
+	@Get("discover")
+	public async getDiscoverRestaurant(
+		@Query() city?: string,
+		@Query() country?: string,
+		@Query() swLat?: number,
+		@Query() swLng?: number,
+		@Query() neLat?: number,
+		@Query() neLng?: number,
+		@Query() restaurant_type?: string,
+		@Query() sortBy?: SortRestaurantBy,
+	): Promise<ResultsSummary<RestaurantCardOutput<unknown>> | string> {
+		const query_params: GetDiscoveryRestaurantsQueryParams = {
+			city,
+			country,
+			swLat,
+			swLng,
+			neLat,
+			neLng,
+			restaurant_type,
+			sortBy,
+		};
+		return getDiscoveryRestaurants(query_params);
 	}
 
 	@Post()

@@ -746,7 +746,8 @@
 						"type": "string"
 					},
 					"status": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"brand_name": {
 						"type": "string"
@@ -764,11 +765,25 @@
 					"restaurant_type": {
 						"type": "string"
 					},
+					"location": {},
 					"summary": {
 						"$ref": "#/components/schemas/RestaurantSummary"
 					},
 					"detail": {
-						"$ref": "#/components/schemas/RatingDetailOutput"
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/RatingDetailOutput"
+							}
+						],
+						"nullable": true
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"total_bookings": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"required": [
@@ -780,8 +795,11 @@
 					"city",
 					"header_url",
 					"restaurant_type",
+					"location",
 					"summary",
-					"detail"
+					"detail",
+					"created_at",
+					"total_bookings"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1017,7 +1035,8 @@
 						"type": "string"
 					},
 					"status": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"brand_name": {
 						"type": "string"
@@ -1035,11 +1054,25 @@
 					"restaurant_type": {
 						"type": "string"
 					},
+					"location": {},
 					"summary": {
 						"$ref": "#/components/schemas/RestaurantSummary"
 					},
 					"detail": {
-						"$ref": "#/components/schemas/ReservationDetailOutput"
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/ReservationDetailOutput"
+							}
+						],
+						"nullable": true
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"total_bookings": {
+						"type": "number",
+						"format": "double"
 					}
 				},
 				"required": [
@@ -1051,8 +1084,11 @@
 					"city",
 					"header_url",
 					"restaurant_type",
+					"location",
 					"summary",
-					"detail"
+					"detail",
+					"created_at",
+					"total_bookings"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1346,6 +1382,102 @@
 					"type": "array"
 				},
 				"type": "object"
+			},
+			"RestaurantCardOutput_unknown_": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"status": {
+						"type": "string",
+						"nullable": true
+					},
+					"brand_name": {
+						"type": "string"
+					},
+					"address": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"header_url": {
+						"type": "string",
+						"nullable": true
+					},
+					"restaurant_type": {
+						"type": "string"
+					},
+					"location": {},
+					"summary": {
+						"$ref": "#/components/schemas/RestaurantSummary"
+					},
+					"detail": {
+						"nullable": true
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"total_bookings": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"status",
+					"brand_name",
+					"address",
+					"city",
+					"header_url",
+					"restaurant_type",
+					"location",
+					"summary",
+					"detail",
+					"created_at",
+					"total_bookings"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ResultsSummary_RestaurantCardOutput_unknown__": {
+				"properties": {
+					"results": {
+						"items": {
+							"$ref": "#/components/schemas/RestaurantCardOutput_unknown_"
+						},
+						"type": "array"
+					},
+					"options": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"count": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"results",
+					"options",
+					"count"
+				],
+				"type": "object"
+			},
+			"SortRestaurantBy": {
+				"type": "string",
+				"enum": [
+					"rating",
+					"visits",
+					"new"
+				]
 			},
 			"%24Result.DefaultSelection_Prisma.%24RestaurantPayload_": {
 				"properties": {
@@ -3696,6 +3828,104 @@
 						"required": false,
 						"schema": {
 							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/restaurant/discover": {
+			"get": {
+				"operationId": "GetDiscoverRestaurant",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ResultsSummary_RestaurantCardOutput_unknown__"
+										},
+										{
+											"type": "string"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Restaurant service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "city",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "country",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "swLat",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "swLng",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "neLat",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "neLng",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "restaurant_type",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "sortBy",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/SortRestaurantBy"
 						}
 					}
 				]

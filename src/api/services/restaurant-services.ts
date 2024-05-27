@@ -1,5 +1,6 @@
 import { Prisma, Restaurant } from "@prisma/client";
 import {
+	GetDiscoveryRestaurantsQueryParams,
 	GetRestaurantsQueryParams,
 	LandingRestaurantInfo,
 	RestaurantCardRecord,
@@ -8,13 +9,22 @@ import {
 	RestaurantRecord,
 } from "../../types/restaurant";
 import { calculatePriceAverage, calculateRatingAverage } from "../../utils";
-import { createRestaurant, getRestaurants, getRestaurantsByRating } from "../models/restaurant-models";
+import {
+	createRestaurant,
+	getAllRestaurantTypes,
+	getRestaurantSummary,
+	getRestaurants,
+	getRestaurantsByRating,
+} from "../models/restaurant-models";
 import { getCoordinates } from "../../utils/getCoordinates";
+import { RestaurantCardOutput } from "../../types/common";
+import { BoundRecord, filterResultsInBounds } from "../../utils/filterResultsInBounds";
+import { ResultsSummary } from "../../types";
 
 export const getRestaurantsService = async (
 	query_params: GetRestaurantsQueryParams,
 ): Promise<RestaurantRecord[] | string> => {
-	const restaurants = await getRestaurants(query_params);
+	const restaurants = (await getRestaurants(query_params)) as any;
 	const restaurantsRecord: RestaurantRecord[] = restaurants.map((restaurant) => {
 		const { name, restaurant_information, customization } = restaurant;
 		return {
@@ -91,7 +101,6 @@ export const createRestaurantService = async (
 			address: restaurant.address,
 			country: restaurant.country,
 		});
-		console.log("location", location);
 		const query = await createRestaurant({
 			...restaurant,
 			location: (location ?? { type: "Point", coordinates: [] }) as Prisma.InputJsonValue,
@@ -100,5 +109,81 @@ export const createRestaurantService = async (
 	} catch (error) {
 		console.error("Error creating restaurant:", error);
 		return "Error creating restaurant";
+	}
+};
+
+export const getDiscoveryRestaurants = async (
+	query_params: GetDiscoveryRestaurantsQueryParams,
+): Promise<ResultsSummary<RestaurantCardOutput<unknown>> | string> => {
+	const bounds: BoundRecord = {
+		sw: {
+			swLat: query_params.swLat ?? 0,
+			swLng: query_params.swLng ?? 0,
+		},
+		ne: {
+			neLat: query_params.neLat ?? 0,
+			neLng: query_params.neLng ?? 0,
+		},
+	};
+
+	const hasBounds = !!(query_params.swLat && query_params.swLng && query_params.neLat && query_params.neLng);
+
+	try {
+		const restaurants = await getRestaurants(query_params);
+
+		const result_restaurants = hasBounds
+			? (filterResultsInBounds(restaurants, bounds) as typeof restaurants)
+			: restaurants;
+
+		const restaurant_records: Array<RestaurantCardOutput<unknown>> = await Promise.all(
+			result_restaurants.map(async (restaurant) => {
+				const { id: restaurant_id, restaurant_information, customization } = restaurant;
+				const restaurant_summary = await getRestaurantSummary(restaurant_id);
+
+				return {
+					id: restaurant_id,
+					name: restaurant.name,
+					status: null,
+					brand_name: customization?.name ?? "",
+					address: restaurant_information?.address ?? "",
+					city: restaurant_information?.city ?? "",
+					header_url: customization?.header_url ?? null,
+					restaurant_type: restaurant_information?.restaurant_type ?? "",
+					location: restaurant_information?.location as any,
+					summary: {
+						rating: restaurant_summary.rating,
+						rating_count: restaurant_summary.rating_count,
+						price_average: restaurant_summary.price_average,
+					},
+					detail: null,
+					created_at: restaurant.created_at,
+					total_bookings: restaurant.restaurant_stadistic?.total_bookings ?? 0,
+				};
+			}),
+		);
+
+		const type_options = await getAllRestaurantTypes();
+
+		switch (query_params.sortBy) {
+			case "rating":
+				restaurant_records.sort((a, b) => b.summary.rating - a.summary.rating);
+				break;
+			case "visits":
+				restaurant_records.sort((a, b) => b.summary.rating_count - a.summary.rating_count);
+				break;
+			case "new":
+				restaurant_records.sort((a, b) => {
+					const dateA = new Date(a.created_at ?? 0).getTime();
+					const dateB = new Date(b.created_at ?? 0).getTime();
+					return dateB - dateA;
+				});
+				break;
+			default:
+				break;
+		}
+		return { count: restaurant_records.length, options: type_options, results: restaurant_records };
+	} catch (error) {
+		console.error("Error fetching discovery restaurants:", error);
+		return "Error fetching discovery restaurants";
 	}
 };

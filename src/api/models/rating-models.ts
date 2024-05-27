@@ -96,12 +96,14 @@ export const getMyRatings = async (user_email: string, query_params?: MyRatingQu
 				select: {
 					id: true,
 					name: true,
+					created_at: true,
 					restaurant_information: {
 						select: {
 							city: true,
 							country: true,
 							address: true,
 							restaurant_type: true,
+							location: true,
 						},
 					},
 					customization: {
@@ -110,6 +112,7 @@ export const getMyRatings = async (user_email: string, query_params?: MyRatingQu
 							header_url: true,
 						},
 					},
+					restaurant_stadistic: true,
 				},
 			},
 		},
