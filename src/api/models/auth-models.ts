@@ -35,9 +35,15 @@ export const createNewUser = async (user_record: UserCreateInput) => {
 };
 
 export const updateUser = async (user_email: string, payload: UserUpdateInput) => {
+	const updateData: Partial<UserUpdateInput> = { ...payload };
+	delete updateData.old_password; // Remove old_password before the update
+
 	const query = await user.update({
-		where: { email: user_email },
-		data: payload,
+		where: {
+			email: user_email,
+		},
+		data: updateData,
 	});
+
 	return query;
 };

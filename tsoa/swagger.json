@@ -182,7 +182,7 @@
 			"UserCreateInput": {
 				"$ref": "#/components/schemas/Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner_"
 			},
-			"Partial_Pick_User.email-or-firstname-or-lastname-or-password-or-phone__": {
+			"Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone__": {
 				"properties": {
 					"password": {
 						"type": "string"
@@ -200,13 +200,16 @@
 					"phone": {
 						"type": "string",
 						"nullable": true
+					},
+					"old_password": {
+						"type": "string"
 					}
 				},
 				"type": "object",
 				"description": "Make all properties in T optional"
 			},
 			"UserUpdateInput": {
-				"$ref": "#/components/schemas/Partial_Pick_User.email-or-firstname-or-lastname-or-password-or-phone__"
+				"$ref": "#/components/schemas/Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone__"
 			},
 			"Partial_CategoryOutput_": {
 				"properties": {
