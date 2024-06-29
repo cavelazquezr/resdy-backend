@@ -14,7 +14,7 @@ import {
 } from "../models/rating-models";
 import { getCurrentUserInfo } from "../models/auth-models";
 import { calculateRatingAverage, getStatsFromRatings } from "../../utils";
-import { getObjectSignedUrl } from "../../config/S3";
+import { getObjectSignedUrl } from "../../services/aws/s3";
 import { getRestaurantSummary } from "../models/restaurant-models";
 import { RestaurantCardOutput } from "../../types/common";
 

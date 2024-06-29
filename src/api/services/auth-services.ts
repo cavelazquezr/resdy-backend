@@ -2,12 +2,10 @@ import jwt from "jsonwebtoken";
 import { UserCreateInput, UserCredentials, UserOutput, UserRecord, UserUpdateInput } from "../../types/user";
 import { createNewUser, getCurrentUserInfo, updateUser } from "../models/auth-models";
 import { verifyToken } from "../../utils";
-import { getObjectSignedUrl } from "../../config/S3";
+import { getObjectSignedUrl } from "../../services/aws/s3";
 
 export const getCurrentUserService = async (authorization: string): Promise<UserRecord | null> => {
 	const current_user = (await getCurrentUserInfo(authorization)) as UserRecord;
-	const key = `users/${current_user.id}/${current_user.id}-avatar`;
-	current_user["avatar_url"] = await getObjectSignedUrl(key);
 	return current_user;
 };
 

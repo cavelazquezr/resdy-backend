@@ -1,4 +1,5 @@
-import { putObject } from "../../config/S3";
+import { AWS_BUCKET_NAME } from "../../config";
+import { deleteObject, getObjectSignedUrl, putObject, putURL } from "../../services/aws/s3";
 import { getCurrentUserInfo } from "../models/auth-models";
 
 import sharp from "sharp";
@@ -23,5 +24,39 @@ export const postAvatarHandler = async (authorization: string, image: Express.Mu
 		const bucket_key = `users/${user.id}/${image_name}`;
 
 		await putObject(bucket_key, buffer, mimetype);
+	}
+};
+
+export const getSignedUrlHandler = async (key: string) => {
+	try {
+		return await getObjectSignedUrl(key);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const createSignedUrlsHandler = async (files: { key: string; contentType: string; fileName: string }[]) => {
+	try {
+		const signedUrls: { [key: string]: string } = {};
+		for (const file of files) {
+			signedUrls[file.key] = await putURL(
+				file.key as string,
+				file.fileName as string,
+				file.contentType as string,
+				AWS_BUCKET_NAME,
+			);
+		}
+
+		return signedUrls;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const deleteFileHandler = async (key: string) => {
+	try {
+		await deleteObject(key);
+	} catch (error) {
+		console.log(error);
 	}
 };

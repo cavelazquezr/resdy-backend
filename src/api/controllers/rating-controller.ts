@@ -65,7 +65,6 @@ export class RatingController extends Controller {
 		@Body() rating_record: RatingUpdateRecord,
 		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
 	): Promise<RatingsOutput | string> {
-		console.log("body", rating_record);
 		await putRatingValidations(authorization, rating_id, unauthorizedCallback);
 		return putRatingService(rating_id, rating_record);
 	}

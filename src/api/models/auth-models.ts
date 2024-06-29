@@ -17,6 +17,7 @@ export const getCurrentUserInfo = async (authorization: string) => {
 			created_at: true,
 			is_active: true,
 			is_owner: true,
+			avatar_url: true,
 		},
 	});
 	return query;

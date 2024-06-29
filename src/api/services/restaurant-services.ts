@@ -1,4 +1,5 @@
-import { Prisma, Restaurant } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import jwt from "jsonwebtoken";
 import {
 	GetDiscoveryRestaurantsQueryParams,
 	GetRestaurantsQueryParams,
@@ -20,6 +21,7 @@ import { getCoordinates } from "../../utils/getCoordinates";
 import { RestaurantCardOutput } from "../../types/common";
 import { BoundRecord, filterResultsInBounds } from "../../utils/filterResultsInBounds";
 import { ResultsSummary } from "../../types";
+import { createNewUser } from "../models/auth-models";
 
 export const getRestaurantsService = async (
 	query_params: GetRestaurantsQueryParams,
@@ -94,18 +96,21 @@ export const getLandingRestaurantsService = async (
 
 export const createRestaurantService = async (
 	restaurant: RestaurantCreateInput,
-): Promise<RestaurantOutput | string> => {
+): Promise<{ token: string } | string> => {
 	try {
 		const location = await getCoordinates({
 			city: restaurant.city,
 			address: restaurant.address,
 			country: restaurant.country,
 		});
-		const query = await createRestaurant({
+
+		await createRestaurant({
 			...restaurant,
 			location: (location ?? { type: "Point", coordinates: [] }) as Prisma.InputJsonValue,
 		});
-		return query;
+
+		const token = jwt.sign({ email: restaurant.email }, "secretKey", { expiresIn: "1h" });
+		return { token: token };
 	} catch (error) {
 		console.error("Error creating restaurant:", error);
 		return "Error creating restaurant";
