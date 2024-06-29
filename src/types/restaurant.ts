@@ -1,7 +1,6 @@
 import { Customization, Prisma, Restaurant, RestaurantInformation } from "@prisma/client";
 import { UserOutput } from "./user";
 import { NonNullableProperties } from ".";
-import { MapBoundsRecord } from "./map";
 
 export type RestaurantOutput = Restaurant;
 export type CustomizationOutput = Customization;
@@ -43,9 +42,12 @@ export type LandingRestaurantInfo = {
 };
 
 //For restaurant creation
-type AdministratorInput = Pick<UserOutput, "email" | "password">;
+type AdministratorInput = Pick<UserOutput, "email" | "password" | "avatar_url">;
 type RestaurantInput = Pick<RestaurantProps, "name">;
-type InformationInput = Pick<InformationProps, "phone" | "address" | "country" | "city" | "restaurant_type">;
+type InformationInput = Pick<
+	InformationProps,
+	"phone" | "address" | "country" | "city" | "restaurant_type" | "postal_code"
+>;
 
 export type RestaurantCreateInput = AdministratorInput &
 	RestaurantInput &
@@ -81,4 +83,4 @@ export interface GetDiscoveryRestaurantsQueryParams {
 	sortBy?: SortRestaurantBy;
 }
 
-export type SortRestaurantBy = 'rating' | 'visits' | 'new';
+export type SortRestaurantBy = "rating" | "visits" | "new";

@@ -158,6 +158,7 @@ export const createRestaurant = async (
 				password: payload.password,
 				firstname: payload.brand_name ?? "Admin",
 				is_owner: true,
+				avatar_url: payload.avatar_url,
 			},
 		});
 		const restaurant = await tx.restaurant.create({

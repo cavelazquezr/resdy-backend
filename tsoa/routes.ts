@@ -522,29 +522,14 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["rating"]},{"dataType":"enum","enums":["visits"]},{"dataType":"enum","enums":["new"]}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "%24Result.DefaultSelection_Prisma.%24RestaurantPayload_": {
+    "Pick_UserOutput.email-or-password-or-avatar_url_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"admin_id":{"dataType":"string","required":true},"created_at":{"dataType":"datetime","required":true},"name":{"dataType":"string","required":true},"id":{"dataType":"string","required":true}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Restaurant": {
-        "dataType": "refAlias",
-        "type": {"ref":"%24Result.DefaultSelection_Prisma.%24RestaurantPayload_","validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "RestaurantOutput": {
-        "dataType": "refAlias",
-        "type": {"ref":"Restaurant","validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_UserOutput.email-or-password_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"password":{"dataType":"string","required":true},"email":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"password":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"avatar_url":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "AdministratorInput": {
         "dataType": "refAlias",
-        "type": {"ref":"Pick_UserOutput.email-or-password_","validators":{}},
+        "type": {"ref":"Pick_UserOutput.email-or-password-or-avatar_url_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_RestaurantProps.name_": {
@@ -557,14 +542,14 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"Pick_RestaurantProps.name_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_InformationProps.phone-or-address-or-country-or-city-or-restaurant_type_": {
+    "Pick_InformationProps.phone-or-address-or-country-or-city-or-restaurant_type-or-postal_code_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"phone":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"address":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"country":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"city":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"restaurant_type":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"phone":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"address":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"country":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"city":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"restaurant_type":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"postal_code":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "InformationInput": {
         "dataType": "refAlias",
-        "type": {"ref":"Pick_InformationProps.phone-or-address-or-country-or-city-or-restaurant_type_","validators":{}},
+        "type": {"ref":"Pick_InformationProps.phone-or-address-or-country-or-city-or-restaurant_type-or-postal_code_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "RestaurantCreateInput": {
@@ -1130,7 +1115,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/upload/avatar',
+        app.post('/microservices/avatar',
             upload.single('image'),
             ...(fetchMiddlewares<RequestHandler>(MicroservicesController)),
             ...(fetchMiddlewares<RequestHandler>(MicroservicesController.prototype.postAvatar)),
@@ -1151,6 +1136,81 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.postAvatar.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/microservices/getSignedUrl',
+            ...(fetchMiddlewares<RequestHandler>(MicroservicesController)),
+            ...(fetchMiddlewares<RequestHandler>(MicroservicesController.prototype.getSignedUrls)),
+
+            function MicroservicesController_getSignedUrls(request: any, response: any, next: any) {
+            const args = {
+                    input: {"in":"body","name":"input","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"key":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new MicroservicesController();
+
+
+              const promise = controller.getSignedUrls.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/microservices/putSignedUrls',
+            ...(fetchMiddlewares<RequestHandler>(MicroservicesController)),
+            ...(fetchMiddlewares<RequestHandler>(MicroservicesController.prototype.putFilesSignedUrl)),
+
+            function MicroservicesController_putFilesSignedUrl(request: any, response: any, next: any) {
+            const args = {
+                    files: {"in":"body","name":"files","required":true,"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"fileName":{"dataType":"string","required":true},"contentType":{"dataType":"string","required":true},"key":{"dataType":"string","required":true}}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new MicroservicesController();
+
+
+              const promise = controller.putFilesSignedUrl.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/microservices/deleteObject',
+            ...(fetchMiddlewares<RequestHandler>(MicroservicesController)),
+            ...(fetchMiddlewares<RequestHandler>(MicroservicesController.prototype.deleteObject)),
+
+            function MicroservicesController_deleteObject(request: any, response: any, next: any) {
+            const args = {
+                    input: {"in":"body","name":"input","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"key":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new MicroservicesController();
+
+
+              const promise = controller.deleteObject.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

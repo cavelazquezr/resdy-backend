@@ -17,7 +17,6 @@ import {
 } from "../services/restaurant-services";
 import { createRestaurantValidations } from "../validations/restaurant-validations";
 import { RestaurantCardOutput } from "../../types/common";
-import { MapBoundsRecord } from "../../types/map";
 import { ResultsSummary } from "../../types";
 
 @Tags("Restaurant service")
@@ -74,7 +73,7 @@ export class RestaurantController extends Controller {
 	}
 
 	@Post()
-	public async createRestaurant(@Body() restaurant: RestaurantCreateInput): Promise<RestaurantOutput | string> {
+	public async createRestaurant(@Body() restaurant: RestaurantCreateInput): Promise<{ token: string } | string> {
 		await createRestaurantValidations(restaurant);
 		return createRestaurantService(restaurant);
 	}

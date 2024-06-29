@@ -1479,55 +1479,29 @@
 					"new"
 				]
 			},
-			"%24Result.DefaultSelection_Prisma.%24RestaurantPayload_": {
-				"properties": {
-					"admin_id": {
-						"type": "string"
-					},
-					"created_at": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"name": {
-						"type": "string"
-					},
-					"id": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"admin_id",
-					"created_at",
-					"name",
-					"id"
-				],
-				"type": "object"
-			},
-			"Restaurant": {
-				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24RestaurantPayload_",
-				"description": "Model Restaurant"
-			},
-			"RestaurantOutput": {
-				"$ref": "#/components/schemas/Restaurant"
-			},
-			"Pick_UserOutput.email-or-password_": {
+			"Pick_UserOutput.email-or-password-or-avatar_url_": {
 				"properties": {
 					"password": {
 						"type": "string"
 					},
 					"email": {
 						"type": "string"
+					},
+					"avatar_url": {
+						"type": "string",
+						"nullable": true
 					}
 				},
 				"required": [
 					"password",
-					"email"
+					"email",
+					"avatar_url"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
 			"AdministratorInput": {
-				"$ref": "#/components/schemas/Pick_UserOutput.email-or-password_"
+				"$ref": "#/components/schemas/Pick_UserOutput.email-or-password-or-avatar_url_"
 			},
 			"Pick_RestaurantProps.name_": {
 				"properties": {
@@ -1544,7 +1518,7 @@
 			"RestaurantInput": {
 				"$ref": "#/components/schemas/Pick_RestaurantProps.name_"
 			},
-			"Pick_InformationProps.phone-or-address-or-country-or-city-or-restaurant_type_": {
+			"Pick_InformationProps.phone-or-address-or-country-or-city-or-restaurant_type-or-postal_code_": {
 				"properties": {
 					"phone": {
 						"type": "string",
@@ -1565,6 +1539,10 @@
 					"restaurant_type": {
 						"type": "string",
 						"nullable": true
+					},
+					"postal_code": {
+						"type": "string",
+						"nullable": true
 					}
 				},
 				"required": [
@@ -1572,13 +1550,14 @@
 					"address",
 					"country",
 					"city",
-					"restaurant_type"
+					"restaurant_type",
+					"postal_code"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
 			"InformationInput": {
-				"$ref": "#/components/schemas/Pick_InformationProps.phone-or-address-or-country-or-city-or-restaurant_type_"
+				"$ref": "#/components/schemas/Pick_InformationProps.phone-or-address-or-country-or-city-or-restaurant_type-or-postal_code_"
 			},
 			"RestaurantCreateInput": {
 				"allOf": [
@@ -3044,7 +3023,7 @@
 				]
 			}
 		},
-		"/upload/avatar": {
+		"/microservices/avatar": {
 			"post": {
 				"operationId": "PostAvatar",
 				"responses": {
@@ -3081,6 +3060,134 @@
 								"required": [
 									"image"
 								]
+							}
+						}
+					}
+				}
+			}
+		},
+		"/microservices/getSignedUrl": {
+			"post": {
+				"operationId": "GetSignedUrls",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Microservices"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"key": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"key"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/microservices/putSignedUrls": {
+			"post": {
+				"operationId": "PutFilesSignedUrl",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {},
+									"additionalProperties": {
+										"type": "string"
+									},
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Microservices"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"items": {
+									"properties": {
+										"fileName": {
+											"type": "string"
+										},
+										"contentType": {
+											"type": "string"
+										},
+										"key": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"fileName",
+										"contentType",
+										"key"
+									],
+									"type": "object"
+								},
+								"type": "array"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/microservices/deleteObject": {
+			"post": {
+				"operationId": "DeleteObject",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Microservices"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"key": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"key"
+								],
+								"type": "object"
 							}
 						}
 					}
@@ -3759,7 +3866,15 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/RestaurantOutput"
+											"properties": {
+												"token": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"token"
+											],
+											"type": "object"
 										},
 										{
 											"type": "string"
