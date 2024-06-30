@@ -22,7 +22,7 @@ export const createUserValidations = async (user_record: UserCreateInput): Promi
 	const user_exists = !!(await getUserByEmail(email));
 	if (user_exists) {
 		return handleCatchError({
-			status: 404,
+			status: 409,
 			message: UserStatus.USER_ALREADY_EXISTS,
 			path: "/authentication",
 		});
