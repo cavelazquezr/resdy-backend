@@ -107,7 +107,6 @@ export const deleteCategoriesValidation = async (
 			}
 		}),
 	);
-	console.log("usedCategoryIds", usedCategoryIds);
 	if (invalidCategoryIds.length > 0) {
 		return handleCatchError({
 			status: 404,

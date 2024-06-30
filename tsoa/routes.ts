@@ -20,6 +20,8 @@ import { RatingController } from './../src/api/controllers/rating-controller';
 import { ReservationController } from './../src/api/controllers/reservation-controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { RestaurantController } from './../src/api/controllers/restaurant-controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { VerificationController } from './../src/api/controllers/verification-controller';
 import type { RequestHandler, Router } from 'express';
 const multer = require('multer');
 const upload = multer();
@@ -1507,6 +1509,56 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.createRestaurant.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/verification/emailUsed',
+            ...(fetchMiddlewares<RequestHandler>(VerificationController)),
+            ...(fetchMiddlewares<RequestHandler>(VerificationController.prototype.verifyIfEmailIsUsed)),
+
+            function VerificationController_verifyIfEmailIsUsed(request: any, response: any, next: any) {
+            const args = {
+                    input: {"in":"body","name":"input","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"email":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new VerificationController();
+
+
+              const promise = controller.verifyIfEmailIsUsed.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/verification/restaurantNameUsed',
+            ...(fetchMiddlewares<RequestHandler>(VerificationController)),
+            ...(fetchMiddlewares<RequestHandler>(VerificationController.prototype.verifyIfNameIsUsed)),
+
+            function VerificationController_verifyIfNameIsUsed(request: any, response: any, next: any) {
+            const args = {
+                    input: {"in":"body","name":"input","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"name":{"dataType":"string","required":true}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new VerificationController();
+
+
+              const promise = controller.verifyIfNameIsUsed.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

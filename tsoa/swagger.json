@@ -3421,6 +3421,100 @@
 					}
 				]
 			}
+		},
+		"/verification/emailUsed": {
+			"post": {
+				"operationId": "VerifyIfEmailIsUsed",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"type": "boolean"
+										},
+										{
+											"$ref": "#/components/schemas/CatchErrorDetails"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Verification service"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"email": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"email"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/verification/restaurantNameUsed": {
+			"post": {
+				"operationId": "VerifyIfNameIsUsed",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"type": "boolean"
+										},
+										{
+											"$ref": "#/components/schemas/CatchErrorDetails"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Verification service"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"name": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"name"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"servers": [
