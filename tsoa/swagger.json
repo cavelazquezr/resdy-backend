@@ -76,6 +76,25 @@
 					}
 				]
 			},
+			"CatchErrorDetails": {
+				"properties": {
+					"status": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					},
+					"path": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"UserCredentials": {
 				"properties": {
 					"email": {
@@ -1313,76 +1332,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-header_url-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_": {
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"rating": {
-						"type": "number",
-						"format": "double"
-					},
-					"address": {
-						"type": "string",
-						"nullable": true
-					},
-					"country": {
-						"type": "string",
-						"nullable": true
-					},
-					"city": {
-						"type": "string",
-						"nullable": true
-					},
-					"restaurant_type": {
-						"type": "string",
-						"nullable": true
-					},
-					"header_url": {
-						"type": "string",
-						"nullable": true
-					},
-					"brand_name": {
-						"type": "string",
-						"nullable": true
-					},
-					"price_average": {
-						"type": "number",
-						"format": "double"
-					},
-					"rating_count": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"required": [
-					"name",
-					"rating",
-					"address",
-					"country",
-					"city",
-					"restaurant_type",
-					"header_url",
-					"brand_name",
-					"price_average",
-					"rating_count"
-				],
-				"type": "object",
-				"description": "From T, pick a set of properties whose keys are in the union K"
-			},
-			"RestaurantCardRecord": {
-				"$ref": "#/components/schemas/Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-header_url-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_"
-			},
-			"LandingRestaurantInfo": {
-				"properties": {},
-				"additionalProperties": {
-					"items": {
-						"$ref": "#/components/schemas/RestaurantCardRecord"
-					},
-					"type": "array"
-				},
-				"type": "object"
-			},
 			"RestaurantCardOutput_unknown_": {
 				"properties": {
 					"id": {
@@ -1609,9 +1558,12 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"allOf": [
+									"anyOf": [
 										{
 											"$ref": "#/components/schemas/UserRecord"
+										},
+										{
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									],
 									"nullable": true
@@ -1658,7 +1610,7 @@
 											"type": "object"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
 								}
@@ -1692,7 +1644,14 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UserOutput"
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/UserOutput"
+										},
+										{
+											"$ref": "#/components/schemas/CatchErrorDetails"
+										}
+									]
 								}
 							}
 						}
@@ -1724,7 +1683,14 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/UserOutput"
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/UserOutput"
+										},
+										{
+											"$ref": "#/components/schemas/CatchErrorDetails"
+										}
+									]
 								}
 							}
 						}
@@ -1773,27 +1739,9 @@
 											"type": "array"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -1827,45 +1775,9 @@
 											"$ref": "#/components/schemas/CategoryOutput"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -1919,63 +1831,9 @@
 											"$ref": "#/components/schemas/CategoryOutput"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
-								}
-							}
-						}
-					},
-					"422": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -2027,63 +1885,9 @@
 									"anyOf": [
 										{},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
-								}
-							}
-						}
-					},
-					"422": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -2143,27 +1947,9 @@
 											"type": "array"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -2199,45 +1985,9 @@
 											"$ref": "#/components/schemas/DishOutput"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -2299,63 +2049,9 @@
 											"$ref": "#/components/schemas/DishOutput"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
-								}
-							}
-						}
-					},
-					"422": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -2407,45 +2103,9 @@
 									"anyOf": [
 										{},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -2505,27 +2165,9 @@
 											"type": "array"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -2559,27 +2201,9 @@
 											"$ref": "#/components/schemas/FavListItem"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -2621,29 +2245,11 @@
 							"application/json": {
 								"schema": {
 									"anyOf": [
+										{},
 										{
-											"type": "string"
-										},
-										{}
-									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
+									]
 								}
 							}
 						}
@@ -2681,29 +2287,11 @@
 							"application/json": {
 								"schema": {
 									"anyOf": [
+										{},
 										{
-											"type": "string"
-										},
-										{}
-									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
+									]
 								}
 							}
 						}
@@ -2768,27 +2356,9 @@
 											"type": "array"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -2826,29 +2396,11 @@
 							"application/json": {
 								"schema": {
 									"anyOf": [
+										{},
 										{
-											"type": "string"
-										},
-										{}
-									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
+									]
 								}
 							}
 						}
@@ -2906,27 +2458,9 @@
 									"anyOf": [
 										{},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -2981,27 +2515,9 @@
 											"type": "array"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -3075,7 +2591,14 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "string"
+									"anyOf": [
+										{
+											"type": "string"
+										},
+										{
+											"$ref": "#/components/schemas/CatchErrorDetails"
+										}
+									]
 								}
 							}
 						}
@@ -3115,11 +2638,18 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"properties": {},
-									"additionalProperties": {
-										"type": "string"
-									},
-									"type": "object"
+									"anyOf": [
+										{
+											"properties": {},
+											"additionalProperties": {
+												"type": "string"
+											},
+											"type": "object"
+										},
+										{
+											"$ref": "#/components/schemas/CatchErrorDetails"
+										}
+									]
 								}
 							}
 						}
@@ -3165,8 +2695,20 @@
 			"post": {
 				"operationId": "DeleteObject",
 				"responses": {
-					"204": {
-						"description": "No content"
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{},
+										{
+											"$ref": "#/components/schemas/CatchErrorDetails"
+										}
+									]
+								}
+							}
+						}
 					}
 				},
 				"tags": [
@@ -3203,28 +2745,17 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/RestaurantCardOutput_RatingDetailOutput_"
-									},
-									"type": "array"
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/RestaurantCardOutput_RatingDetailOutput_"
+											},
+											"type": "array"
+										},
+										{
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
+									]
 								}
 							}
 						}
@@ -3287,27 +2818,9 @@
 											"type": "array"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -3343,27 +2856,9 @@
 											"$ref": "#/components/schemas/RatingStatsOutput"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -3399,27 +2894,9 @@
 											"$ref": "#/components/schemas/RatingsOutput"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"403": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"reason": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"reason"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -3468,28 +2945,17 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/RestaurantCardOutput_ReservationDetailOutput_"
-									},
-									"type": "array"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
+									"anyOf": [
+										{
+											"items": {
+												"$ref": "#/components/schemas/RestaurantCardOutput_ReservationDetailOutput_"
+											},
+											"type": "array"
+										},
+										{
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
+									]
 								}
 							}
 						}
@@ -3568,27 +3034,9 @@
 											"type": "array"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -3622,45 +3070,9 @@
 											"$ref": "#/components/schemas/Reservation"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
-								}
-							}
-						}
-					},
-					"422": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -3714,45 +3126,9 @@
 											"$ref": "#/components/schemas/Reservation"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"properties": {
-										"details": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"details"
-									],
-									"type": "object"
 								}
 							}
 						}
@@ -3809,7 +3185,7 @@
 											"type": "array"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
 								}
@@ -3877,7 +3253,7 @@
 											"type": "object"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
 								}
@@ -3913,10 +3289,10 @@
 								"schema": {
 									"anyOf": [
 										{
-											"$ref": "#/components/schemas/LandingRestaurantInfo"
+											"$ref": "#/components/schemas/ResultsSummary_RestaurantCardOutput_unknown__"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
 								}
@@ -3962,7 +3338,7 @@
 											"$ref": "#/components/schemas/ResultsSummary_RestaurantCardOutput_unknown__"
 										},
 										{
-											"type": "string"
+											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									]
 								}

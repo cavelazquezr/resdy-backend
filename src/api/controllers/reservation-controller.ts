@@ -20,6 +20,8 @@ import {
 } from "../validations/reservation-validations";
 import { Reservation } from "@prisma/client";
 import { RestaurantCardOutput } from "../../types/common";
+import { handleRequest } from "../../utils/handleRequest";
+import { CatchErrorDetails } from "../../utils/handleCatchError";
 
 @Tags("Reservation service")
 @Route("reservation")
@@ -27,13 +29,12 @@ export class ReservationController extends Controller {
 	@Get("myReservations")
 	public async getMyReservations(
 		@Header() authorization: string,
-		@Res() notFoundCallback: TsoaResponse<404, { details: string }>,
 		@Query() status?: string,
 		@Query() city?: string,
 		@Query() search?: string,
 		@Query() start_date?: string,
 		@Query() end_date?: string,
-	): Promise<Array<RestaurantCardOutput<ReservationDetailOutput>>> {
+	): Promise<Array<RestaurantCardOutput<ReservationDetailOutput>> | CatchErrorDetails> {
 		const query_params: MyReservationsQueryParams = {
 			status,
 			city,
@@ -41,16 +42,15 @@ export class ReservationController extends Controller {
 			start_date,
 			end_date,
 		};
-		await getMyReservationValidations(authorization, notFoundCallback);
+		await getMyReservationValidations(authorization);
 		return getMyReservationsService(authorization, query_params);
 	}
 	@Get("{restaurant_name}")
-	public async getReservations(
-		@Path() restaurant_name: string,
-		@Res() notFoundCallback: TsoaResponse<404, { details: string }>,
-	): Promise<ReservationOutput[] | string> {
-		await getRestaurantReservationsValidations(restaurant_name, notFoundCallback);
-		return getRestaurantReservationsService(restaurant_name);
+	public async getReservations(@Path() restaurant_name: string): Promise<ReservationOutput[] | CatchErrorDetails> {
+		return handleRequest<ReservationOutput[]>(this, async () => {
+			await getRestaurantReservationsValidations(restaurant_name);
+			return getRestaurantReservationsService(restaurant_name);
+		});
 	}
 
 	@Post("{restaurant_name}")
@@ -58,17 +58,11 @@ export class ReservationController extends Controller {
 		@Header() authorization: string,
 		@Path() restaurant_name: string,
 		@Body() reservation_input: ReservationCreateInput,
-		@Res() notFoundCallback: TsoaResponse<404, { details: string }>,
-		@Res() unprocessableCallback: TsoaResponse<422, { details: string }>,
-	): Promise<Reservation | string> {
-		await createReservationValidations(
-			authorization,
-			restaurant_name,
-			reservation_input,
-			notFoundCallback,
-			unprocessableCallback,
-		);
-		return createReservationService(authorization, restaurant_name, reservation_input);
+	): Promise<Reservation | CatchErrorDetails> {
+		return handleRequest<Reservation>(this, async () => {
+			await createReservationValidations(authorization, restaurant_name, reservation_input);
+			return createReservationService(authorization, restaurant_name, reservation_input);
+		});
 	}
 
 	@Put("{reservation_id}")
@@ -76,10 +70,10 @@ export class ReservationController extends Controller {
 		@Header() authorization: string,
 		@Path() reservation_id: string,
 		@Body() reservation_input: ReservationUpdateInput,
-		@Res() unauthorizedCallback: TsoaResponse<401, { details: string }>,
-		@Res() notFoundCallback: TsoaResponse<404, { details: string }>,
-	): Promise<Reservation | string> {
-		await updateReservationValidation(authorization, reservation_id, unauthorizedCallback, notFoundCallback);
-		return updateReservationService(reservation_id, reservation_input);
+	): Promise<Reservation | CatchErrorDetails> {
+		return handleRequest<Reservation>(this, async () => {
+			await updateReservationValidation(authorization, reservation_id);
+			return updateReservationService(reservation_id, reservation_input);
+		});
 	}
 }

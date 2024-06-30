@@ -1,4 +1,3 @@
-import { TsoaResponse } from "tsoa";
 import {
 	checkIfIsRestaurantAdmin,
 	checkIfRestaurantExists,
@@ -8,16 +7,15 @@ import {
 import { ReservationCreateInput } from "../../types/reservations";
 import { getReservationById } from "../models/reservation-models";
 import { verifyToken } from "../../utils";
+import { handleCatchError } from "../../utils/handleCatchError";
 
-export const getRestaurantReservationsValidations = async (
-	restaurant_name: string,
-	notFoundCallback: TsoaResponse<404, { details: string }>,
-): Promise<boolean | string> => {
+export const getRestaurantReservationsValidations = async (restaurant_name: string): Promise<boolean | string> => {
 	const restaurantExists = await checkIfRestaurantExists(restaurant_name);
 	if (!restaurantExists) {
-		return Promise.reject(
-			notFoundCallback(404, { details: `The restaurant with name "${restaurant_name}" does not exist.` }),
-		);
+		return handleCatchError({
+			status: 404,
+			message: `El restaurante con el nombre "${restaurant_name}" no existe`,
+		});
 	}
 	return true;
 };
@@ -26,20 +24,22 @@ export const createReservationValidations = async (
 	authorization: string,
 	restaurant_name: string,
 	reservation_input: ReservationCreateInput,
-	notFoundCallback: TsoaResponse<404, { details: string }>,
-	unprocessableCallback: TsoaResponse<422, { details: string }>,
 ): Promise<boolean | string> => {
 	const { date_of_reservation } = reservation_input;
 	const { email: user_email } = verifyToken(authorization);
 	const restaurantExists = await checkIfRestaurantExists(restaurant_name);
 	if (!restaurantExists) {
-		return Promise.reject(
-			notFoundCallback(404, { details: `The restaurant with name "${restaurant_name}" does not exist.` }),
-		);
+		return handleCatchError({
+			status: 404,
+			message: `El restaurante con el nombre "${restaurant_name}" no existe`,
+		});
 	}
 	const currentTimestamp = new Date().getTime();
 	if (date_of_reservation.getTime() < currentTimestamp) {
-		return Promise.reject(unprocessableCallback(422, { details: `You cannot create a reservation for past days` }));
+		return handleCatchError({
+			status: 422,
+			message: "No puedes crear una reserva para días pasados",
+		});
 	}
 	const existsReservationForDate = await checkIfThereAreUserReservationsForDate(
 		user_email,
@@ -47,7 +47,10 @@ export const createReservationValidations = async (
 		date_of_reservation,
 	);
 	if (existsReservationForDate) {
-		return Promise.reject(unprocessableCallback(422, { details: `You already have a reservation for this day` }));
+		return handleCatchError({
+			status: 422,
+			message: "Ya tienes una reserva para este día",
+		});
 	}
 	return true;
 };
@@ -55,28 +58,32 @@ export const createReservationValidations = async (
 export const updateReservationValidation = async (
 	authorization: string,
 	reservation_id: string,
-	unauthorizedCallback: TsoaResponse<401, { details: string }>,
-	notFoundCallback: TsoaResponse<404, { details: string }>,
 ): Promise<boolean | string> => {
 	const reservation = await getReservationById(reservation_id);
 	if (!reservation) {
-		return Promise.reject(notFoundCallback(404, { details: `Reservation of id ${reservation_id} does not exist.` }));
+		return handleCatchError({
+			status: 404,
+			message: `La reserva de id "${reservation_id}" no existe`,
+		});
 	}
 	const isRestaurantAdmin = await checkIfIsRestaurantAdmin(authorization, reservation.restaurant_id);
 	if (!isRestaurantAdmin) {
-		return Promise.reject(unauthorizedCallback(401, { details: `You are not authorized to update this reservation.` }));
+		return handleCatchError({
+			status: 401,
+			message: `No estas autorizado para realizar esta acción`,
+		});
 	}
 	return true;
 };
 
-export const getMyReservationValidations = async (
-	authorization: string,
-	notFoundCallback: TsoaResponse<404, { details: string }>,
-): Promise<boolean | string> => {
+export const getMyReservationValidations = async (authorization: string): Promise<boolean | string> => {
 	const { email } = verifyToken(authorization);
 	const userExists = await checkIfUserExists(undefined, email);
 	if (!userExists) {
-		return notFoundCallback(404, { details: "User with the provided email doesn't exist" });
+		return handleCatchError({
+			status: 404,
+			message: `No existe el usuario con el email "${email}"`,
+		});
 	}
 	return true;
 };
