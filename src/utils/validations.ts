@@ -35,7 +35,12 @@ export const checkIfDishExists = async (dish_id: string): Promise<boolean> => {
 };
 
 export const checkIfUserExists = async (user_id?: string, email?: string): Promise<boolean> => {
-	return !!(await user.findUnique({ where: { id: email ? undefined : user_id, email: email } }));
+	try {
+		return !!(await user.findUnique({ where: { id: email ? undefined : user_id, email: email } }));
+	} catch (error) {
+		console.error("Error in checkIfUserExists", error);
+		return false;
+	}
 };
 
 export const checkIfIsRestaurantAdmin = async (authorization: string, restaurant_id: string): Promise<boolean> => {
@@ -56,10 +61,7 @@ export const checkIfIsRatingOwner = async (authorization: string, rating_id: str
 	return user_query?.id === rating_query?.user_id;
 };
 
-export const checkIfIsUserHasRatedRestaurant = async (
-	user_id: string,
-	restaurant_name: string,
-): Promise<boolean> => {
+export const checkIfIsUserHasRatedRestaurant = async (user_id: string, restaurant_name: string): Promise<boolean> => {
 	const rating_query = await rating.findMany({
 		where: {
 			user: {
@@ -93,4 +95,9 @@ export const checkIfCredentialMatches = async (credentials: UserCredentials): Pr
 	const { email, password } = credentials;
 	const user_query = await getUserByEmail(email);
 	return password === user_query?.password;
+};
+
+export const checkIfRestaurantNameIsUsed = async (restaurant_name: string): Promise<boolean> => {
+	const restaurant_query = await restaurant.findUnique({ where: { name: restaurant_name } });
+	return !!restaurant_query;
 };
