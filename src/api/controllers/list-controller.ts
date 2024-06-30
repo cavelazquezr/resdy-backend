@@ -11,6 +11,8 @@ import {
 } from "../services/list-services";
 import { getMyFavListValidations } from "../validations/list-validations";
 import { FavListCreateInput } from "../../types/list";
+import { handleRequest } from "../../utils/handleRequest";
+import { CatchErrorDetails } from "../../utils/handleCatchError";
 
 @Tags("List Service")
 @Route("/lists")
@@ -18,48 +20,55 @@ export class ListController extends Controller {
 	@Get()
 	public async getList(
 		@Header() authorization: string,
-		@Res() unauthorizedCallback: TsoaResponse<401, { reason: string }>,
-	): Promise<FavListOutput[] | string> {
-		await getMyFavListValidations(authorization, unauthorizedCallback);
-		return getMyFavListService(authorization);
+	): Promise<FavListOutput[] | CatchErrorDetails> {
+		return handleRequest<FavListOutput[]>(this, async () => {
+			await getMyFavListValidations(authorization);
+			return getMyFavListService(authorization);
+		});
 	}
 
 	@Post()
 	public async postList(
 		@Header() authorization: string,
 		@Body() list_input: FavListCreateInput,
-		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
-	): Promise<FavListItem | string> {
-		return createFavListService(authorization, list_input);
+	): Promise<FavListItem | CatchErrorDetails> {
+		return handleRequest<FavListItem>(this, async () => {
+			return createFavListService(authorization, list_input);
+		});
 	}
 
 	@Delete("{user_id}")
 	public async deleteList(
 		@Header() authorization: string,
 		@Query() user_id: string,
-		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
-	): Promise<string | void> {
-		return deleteFromMyFavListService(user_id, authorization);
+	): Promise<void | CatchErrorDetails> {
+		return handleRequest<void>(this, async () => {
+			return deleteFromMyFavListService(user_id, authorization);
+		});
 	}
 
 	@Put("{user_id}")
 	public async putFavList(
+		// TODO: Authorization not used?
 		@Header() authorization: string,
 		@Query() user_id: string,
 		@Query() list_id: string,
 		@Body() list_name: string,
-		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
-	): Promise<string | void> {
-		return updateMyFavListService(user_id, list_id, list_name);
+	): Promise<void | CatchErrorDetails> {
+		return handleRequest<void>(this, async () => {
+			return updateMyFavListService(user_id, list_id, list_name);
+		});
 	}
 
 	@Get("{user_id}/{list_id}")
 	public async getListItem(
+		// TODO: Authorization not used?
 		@Header() authorization: string,
 		@Path() list_id: string,
-		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
-	): Promise<FavListOutput[] | string> {
-		return getFavListItemService(list_id);
+	): Promise<FavListOutput[] | CatchErrorDetails> {
+		return handleRequest<FavListOutput[]>(this, async () => {
+			return getFavListItemService(list_id);
+		});
 	}
 
 	@Post("{user_id}/{list_id}")
@@ -67,10 +76,13 @@ export class ListController extends Controller {
 		@Path() user_id: string,
 		@Path() list_id: string,
 		@Body() restaurant_id: string,
+		// TODO: Authorization not used?
 		@Header() authorization: string,
-		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
-	): Promise<string | void> {
-		return addItemToFavListService(user_id, list_id, restaurant_id);
+	): Promise<void | CatchErrorDetails> {
+		return handleRequest<void>(this, async () => {
+			// TODO: Validations?
+			return addItemToFavListService(user_id, list_id, restaurant_id);
+		});
 	}
 
 	@Delete("{user_id}/{list_id}")
@@ -78,8 +90,10 @@ export class ListController extends Controller {
 		@Path() user_id: string,
 		@Path() list_id: string,
 		@Header() authorization: string,
-		@Res() unauthorizedCallback: TsoaResponse<403, { reason: string }>,
-	): Promise<void | string> {
-		return deleteItemFromFavListService(user_id, list_id, authorization);
+	): Promise<void | CatchErrorDetails> {
+		return handleRequest<void>(this, async () => {
+			// TODO: Validations?
+			return deleteItemFromFavListService(user_id, list_id, authorization);
+		});
 	}
 }

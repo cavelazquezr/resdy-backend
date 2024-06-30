@@ -27,36 +27,27 @@ export const postAvatarHandler = async (authorization: string, image: Express.Mu
 	}
 };
 
-export const getSignedUrlHandler = async (key: string) => {
-	try {
-		return await getObjectSignedUrl(key);
-	} catch (error) {
-		console.log(error);
-	}
+export const getSignedUrlHandler = async (key: string): Promise<string> => {
+	return await getObjectSignedUrl(key);
 };
 
-export const createSignedUrlsHandler = async (files: { key: string; contentType: string; fileName: string }[]) => {
-	try {
-		const signedUrls: { [key: string]: string } = {};
-		for (const file of files) {
-			signedUrls[file.key] = await putURL(
-				file.key as string,
-				file.fileName as string,
-				file.contentType as string,
-				AWS_BUCKET_NAME,
-			);
-		}
-
-		return signedUrls;
-	} catch (error) {
-		console.log(error);
+export const createSignedUrlsHandler = async (
+	files: { key: string; contentType: string; fileName: string }[],
+): Promise<{
+	[key: string]: string;
+}> => {
+	const signedUrls: { [key: string]: string } = {};
+	for (const file of files) {
+		signedUrls[file.key] = await putURL(
+			file.key as string,
+			file.fileName as string,
+			file.contentType as string,
+			AWS_BUCKET_NAME,
+		);
 	}
+	return signedUrls;
 };
 
-export const deleteFileHandler = async (key: string) => {
-	try {
-		await deleteObject(key);
-	} catch (error) {
-		console.log(error);
-	}
+export const deleteFileHandler = async (key: string): Promise<void> => {
+	await deleteObject(key);
 };
