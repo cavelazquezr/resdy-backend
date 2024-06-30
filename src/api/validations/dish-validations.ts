@@ -7,9 +7,9 @@ import {
 import { getCategoryById } from "../models/category-models";
 import { DishUpdateInput } from "../../types/dishes";
 import { getDishById } from "../models/dish-models";
-import { handleCatchError } from "../../utils/handleCatchError";
+import { CatchErrorDetails, handleCatchError } from "../../utils/handleCatchError";
 
-export const getDishesValidations = async (restaurant_name: string): Promise<boolean | string> => {
+export const getDishesValidations = async (restaurant_name: string): Promise<boolean | CatchErrorDetails> => {
 	const restaurantExists = await checkIfRestaurantExists(restaurant_name);
 	if (!restaurantExists) {
 		return handleCatchError({
@@ -20,7 +20,7 @@ export const getDishesValidations = async (restaurant_name: string): Promise<boo
 	return true;
 };
 
-export const postDishesValidations = async (authorization: string, category_id: string): Promise<boolean | string> => {
+export const postDishesValidations = async (authorization: string, category_id: string): Promise<boolean | CatchErrorDetails> => {
 	const categoryExists = await checkIfCategoryExists(category_id);
 	if (!categoryExists) {
 		return handleCatchError({
@@ -46,7 +46,7 @@ export const updateDishValidation = async (
 	authorization: string,
 	dish_id: string,
 	dish_input: DishUpdateInput,
-): Promise<boolean | string> => {
+): Promise<boolean | CatchErrorDetails> => {
 	const { hide, ...input } = dish_input;
 	const dishExists = await checkIfDishExists(dish_id);
 	if (!dishExists) {
@@ -88,7 +88,7 @@ export const updateDishValidation = async (
 	return true;
 };
 
-export const deleteDishValidation = async (authorization: string, dish_ids: string[]): Promise<boolean | string> => {
+export const deleteDishValidation = async (authorization: string, dish_ids: string[]): Promise<boolean | CatchErrorDetails> => {
 	const invalidDishIds: string[] = [];
 	await Promise.all(
 		dish_ids.map(async (dish_id) => {
