@@ -63,14 +63,14 @@ export const updateUserValidations = async (
 		}
 		if (payload.old_password !== user.password && payload.password) {
 			console.log("password ingresada: ", payload.old_password, "password vieja", user.password);
-			return handleCatchError(422, {
+			return handleCatchError({
 				status: 422,
 				message: "The password you provided is incorrect",
 				path: "/authentication",
 			});
 		}
 		if (payload.password && payload.password.length < 6) {
-			return handleCatchError(422, {
+			return handleCatchError({
 				status: 422,
 				message: "The password you provided is too short",
 				path: "/authentication",
