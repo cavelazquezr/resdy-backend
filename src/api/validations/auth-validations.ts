@@ -62,7 +62,7 @@ export const updateUserValidations = async (
 				path: "/authentication",
 			});
 		}
-		if (payload.old_password !== user.password) {
+		if (payload.old_password !== user.password && payload.password) {
 			console.log("password ingresada: ", payload.old_password, "password vieja", user.password);
 			return handleCatchError(422, {
 				status: 422,
