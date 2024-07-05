@@ -1,4 +1,4 @@
-import { Reservation } from "@prisma/client";
+import { Prisma, Reservation } from "@prisma/client";
 import {
 	MyReservationsQueryParams,
 	ReservationCreateInput,
@@ -16,9 +16,10 @@ import {
 import { createRating } from "../models/rating-models";
 import { checkIfIsUserHasRatedRestaurant } from "../../utils/validations";
 import { getCurrentUserInfo } from "../models/auth-models";
-import { getObjectSignedUrl } from "../../config/S3";
+import { getObjectSignedUrl } from "../../services/aws/s3";
 import { getRestaurantSummary } from "../models/restaurant-models";
 import { RestaurantCardOutput } from "../../types/common";
+import { Point } from "geojson";
 
 export const getRestaurantReservationsService = async (restaurant_name: string): Promise<ReservationOutput[]> => {
 	const reservations = await getRestaurantReservations(restaurant_name);
@@ -86,7 +87,14 @@ export const getMyReservationsService = async (
 		const reservation_records: Array<RestaurantCardOutput<ReservationDetailOutput>> = await Promise.all(
 			reservations.map(async (reservation) => {
 				const {
-					restaurant: { id: restaurant_id, name, customization, restaurant_information },
+					restaurant: {
+						id: restaurant_id,
+						name,
+						customization,
+						restaurant_information,
+						created_at,
+						restaurant_stadistic,
+					},
 					...reservation_record
 				} = reservation;
 
@@ -101,6 +109,7 @@ export const getMyReservationsService = async (
 					city: restaurant_information?.city ?? "",
 					header_url: customization?.header_url ?? null,
 					restaurant_type: restaurant_information?.restaurant_type ?? "",
+					location: restaurant_information?.location as any,
 					summary: {
 						rating: restaurant_summary.rating,
 						rating_count: restaurant_summary.rating_count,
@@ -110,6 +119,8 @@ export const getMyReservationsService = async (
 						number_of_person: reservation_record.number_of_person,
 						date_of_reservation: reservation_record.date_of_reservation,
 					},
+					created_at: created_at,
+					total_bookings: restaurant_stadistic?.total_bookings ?? 0,
 				};
 			}),
 		);

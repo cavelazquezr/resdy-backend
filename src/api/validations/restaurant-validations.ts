@@ -5,17 +5,17 @@ import { checkIfRestaurantExists, checkIfUserExists } from "../../utils/validati
 export const createRestaurantValidations = async (payload: RestaurantCreateInput): Promise<boolean | string> => {
 	const restaurantExists = await checkIfRestaurantExists(payload.name);
 	if (restaurantExists) {
-		return handleCatchError(409, {
+		return handleCatchError({
 			status: 409,
-			message: `The restaurant of name '${payload.name}' already exists`,
+			message: `Ya existe un restaurante con el nombre "${payload.name}"`,
 			path: "/restaurant",
 		});
 	}
 	const userExists = await checkIfUserExists(undefined, payload.email);
 	if (userExists) {
-		return handleCatchError(409, {
+		return handleCatchError({
 			status: 409,
-			message: `The user with email '${payload.email}' already exists`,
+			message: `Ya existe un usuario con el email "${payload.email}"`,
 			path: "/restaurant",
 		});
 	}

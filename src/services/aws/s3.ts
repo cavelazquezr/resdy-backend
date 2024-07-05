@@ -1,6 +1,6 @@
-import { S3Client, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { AWS_ACCESS_KEY, AWS_REGION, AWS_SECRET_ACCESS_KEY, AWS_BUCKET_NAME } from ".";
+import { AWS_ACCESS_KEY, AWS_REGION, AWS_SECRET_ACCESS_KEY, AWS_BUCKET_NAME } from "../../config";
 
 export const s3Client = new S3Client({
 	region: AWS_REGION,
@@ -28,4 +28,22 @@ export const getObjectSignedUrl = async (key: string): Promise<string> => {
 	const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
 
 	return url;
+};
+
+export const putURL = (key: string, fileName: string, contentType: string, bucket: string) => {
+	const command = new PutObjectCommand({
+		Key: key,
+		Bucket: bucket,
+		ContentType: contentType,
+		Metadata: { filename: fileName },
+	});
+	return getSignedUrl(s3Client, command);
+};
+
+export const deleteObject = async (key: string): Promise<void> => {
+	const command = new DeleteObjectCommand({
+		Bucket: AWS_BUCKET_NAME,
+		Key: key,
+	});
+	await s3Client.send(command);
 };

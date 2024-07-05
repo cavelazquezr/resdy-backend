@@ -1,4 +1,5 @@
 import {
+	GetDiscoveryRestaurantsQueryParams,
 	GetRestaurantsQueryParams,
 	RestaurantCardRecord,
 	RestaurantCreateInput,
@@ -6,10 +7,9 @@ import {
 } from "../../types/restaurant";
 import client from "../../config/client";
 import { calculatePriceAverage, calculateRatingAverage } from "../../utils";
-import { Point } from "geojson";
 import { Prisma } from "@prisma/client";
 
-const { restaurant } = client;
+const { restaurant, restaurantInformation } = client;
 
 export const getCurrentRestaurantInfoByName = async (restaurant_name: string) => {
 	const query = await restaurant.findUnique({
@@ -26,13 +26,18 @@ type OrderBy =
 	  }
 	| Record<string, "asc" | "desc">;
 
-export const getRestaurants = async (query_params: GetRestaurantsQueryParams, limit?: number, orderBy?: OrderBy) => {
-	const { name, city, country, restaurant_type } = query_params;
+export const getRestaurants = async (
+	query_params: GetRestaurantsQueryParams & GetDiscoveryRestaurantsQueryParams,
+	limit?: number,
+	orderBy?: OrderBy,
+) => {
+	const { name, city, country, restaurant_type, swLat, swLng, neLat, neLng } = query_params;
 	const query = await restaurant.findMany({
 		take: limit ? limit : undefined,
 		select: {
 			id: true,
 			name: true,
+			created_at: true,
 			restaurant_information: {
 				select: {
 					city: true,
@@ -50,6 +55,7 @@ export const getRestaurants = async (query_params: GetRestaurantsQueryParams, li
 					header_url: true,
 				},
 			},
+			restaurant_stadistic: true,
 			dishes: true,
 			ratings: true,
 		},
@@ -152,6 +158,7 @@ export const createRestaurant = async (
 				password: payload.password,
 				firstname: payload.brand_name ?? "Admin",
 				is_owner: true,
+				avatar_url: payload.avatar_url,
 			},
 		});
 		const restaurant = await tx.restaurant.create({
@@ -188,4 +195,16 @@ export const createRestaurant = async (
 	});
 
 	return query;
+};
+
+export const getAllRestaurantTypes = async () => {
+	const query = await client.restaurantInformation
+		.findMany({
+			distinct: ["restaurant_type"],
+			select: {
+				restaurant_type: true,
+			},
+		})
+		.then((res) => res.filter((information) => information !== null).map((information) => information.restaurant_type));
+	return query as string[];
 };

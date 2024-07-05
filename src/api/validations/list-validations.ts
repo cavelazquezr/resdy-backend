@@ -1,16 +1,15 @@
-import { TsoaResponse } from "tsoa";
-import { UserStatus } from "../../types/messages";
 import { checkIfUserExists } from "../../utils/validations";
 import { verifyToken } from "../../utils";
+import { handleCatchError } from "../../utils/handleCatchError";
 
-export const getMyFavListValidations = async (
-	authorization: string,
-	unauthorizedCallback: TsoaResponse<401, { reason: string }>,
-): Promise<boolean | string> => {
+export const getMyFavListValidations = async (authorization: string): Promise<boolean | string> => {
 	const { email } = verifyToken(authorization);
 	const userExists = await checkIfUserExists(undefined, email);
 	if (!userExists) {
-		return unauthorizedCallback(401, { reason: UserStatus.USER_NOT_FOUND });
+		return handleCatchError({
+			status: 404,
+			message: "El usuario no existe",
+		});
 	}
 	return true;
 };

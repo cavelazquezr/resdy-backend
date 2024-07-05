@@ -42,9 +42,12 @@ export type LandingRestaurantInfo = {
 };
 
 //For restaurant creation
-type AdministratorInput = Pick<UserOutput, "email" | "password">;
+type AdministratorInput = Pick<UserOutput, "email" | "password" | "avatar_url">;
 type RestaurantInput = Pick<RestaurantProps, "name">;
-type InformationInput = Pick<InformationProps, "phone" | "address" | "country" | "city" | "restaurant_type">;
+type InformationInput = Pick<
+	InformationProps,
+	"phone" | "address" | "country" | "city" | "restaurant_type" | "postal_code"
+>;
 
 export type RestaurantCreateInput = AdministratorInput &
 	RestaurantInput &
@@ -68,3 +71,16 @@ export type GetRestaurantsQueryParams = {
 	restaurant_type?: string;
 	country?: string;
 };
+
+export interface GetDiscoveryRestaurantsQueryParams {
+	city?: string;
+	country?: string;
+	swLat?: number;
+	swLng?: number;
+	neLat?: number;
+	neLng?: number;
+	restaurant_type?: string;
+	sortBy?: SortRestaurantBy;
+}
+
+export type SortRestaurantBy = "rating" | "visits" | "new";

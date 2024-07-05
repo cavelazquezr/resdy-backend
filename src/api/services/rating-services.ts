@@ -14,7 +14,7 @@ import {
 } from "../models/rating-models";
 import { getCurrentUserInfo } from "../models/auth-models";
 import { calculateRatingAverage, getStatsFromRatings } from "../../utils";
-import { getObjectSignedUrl } from "../../config/S3";
+import { getObjectSignedUrl } from "../../services/aws/s3";
 import { getRestaurantSummary } from "../models/restaurant-models";
 import { RestaurantCardOutput } from "../../types/common";
 
@@ -66,7 +66,14 @@ export const getMyRatingsService = async (
 		const rating_records: Array<RestaurantCardOutput<RatingDetailOutput>> = await Promise.all(
 			ratings.map(async (rating) => {
 				const {
-					restaurant: { id: restaurant_id, name, customization, restaurant_information },
+					restaurant: {
+						id: restaurant_id,
+						name,
+						customization,
+						restaurant_information,
+						restaurant_stadistic,
+						created_at,
+					},
 					...rating_record
 				} = rating;
 
@@ -81,6 +88,7 @@ export const getMyRatingsService = async (
 					city: restaurant_information?.city ?? "",
 					header_url: customization?.header_url ?? null,
 					restaurant_type: restaurant_information?.restaurant_type ?? "",
+					location: restaurant_information?.location as any,
 					summary: {
 						rating: restaurant_summary.rating,
 						rating_count: restaurant_summary.rating_count,
@@ -94,6 +102,8 @@ export const getMyRatingsService = async (
 						created_at: rating_record.created_at,
 						replied_at: rating_record.updated_at ?? null,
 					},
+					created_at: created_at,
+					total_bookings: restaurant_stadistic?.total_bookings ?? 0,
 				};
 			}),
 		);

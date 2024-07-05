@@ -7,6 +7,8 @@ import {
 	postDishesValidations,
 	updateDishValidation,
 } from "../validations/dish-validations";
+import { handleRequest } from "../../utils/handleRequest";
+import { CatchErrorDetails } from "../../utils/handleCatchError";
 
 @Tags("Dishes service")
 @Route("dishes")
@@ -14,10 +16,11 @@ export class DishesController extends Controller {
 	@Get("{restaurant_name}")
 	public async getDishes(
 		@Path() restaurant_name: string,
-		@Res() notFoundCallback: TsoaResponse<404, { details: string }>,
-	): Promise<DishesByCategoryOutput[] | string> {
-		await getDishesValidations(restaurant_name, notFoundCallback);
-		return getDishesService(restaurant_name);
+	): Promise<DishesByCategoryOutput[] | CatchErrorDetails> {
+		return handleRequest<DishesByCategoryOutput[]>(this, async () => {
+			await getDishesValidations(restaurant_name);
+			return getDishesService(restaurant_name);
+		});
 	}
 
 	@Post("{restaurant_name}/{category_id}")
@@ -26,11 +29,11 @@ export class DishesController extends Controller {
 		@Path() restaurant_name: string,
 		@Path() category_id: string,
 		@Body() dish_input: DishCreateInput,
-		@Res() unauthorizedCallback: TsoaResponse<401, { details: string }>,
-		@Res() notFoundCallback: TsoaResponse<404, { details: string }>,
-	): Promise<DishOutput | string> {
-		await postDishesValidations(authorization, category_id, unauthorizedCallback, notFoundCallback);
-		return postDishesService(restaurant_name, category_id, dish_input);
+	): Promise<DishOutput | CatchErrorDetails> {
+		return handleRequest<DishOutput>(this, async () => {
+			await postDishesValidations(authorization, category_id);
+			return postDishesService(restaurant_name, category_id, dish_input);
+		});
 	}
 
 	@Put("{dish_id}")
@@ -38,30 +41,22 @@ export class DishesController extends Controller {
 		@Header() authorization: string,
 		@Path() dish_id: string,
 		@Body() dish_input: DishUpdateInput,
-		@Res() unauthorizedCallback: TsoaResponse<401, { details: string }>,
-		@Res() notFoundCallback: TsoaResponse<404, { details: string }>,
-		@Res() unprocessableCallback: TsoaResponse<422, { details: string }>,
-	): Promise<DishOutput | string> {
-		await updateDishValidation(
-			authorization,
-			dish_id,
-			dish_input,
-			unauthorizedCallback,
-			notFoundCallback,
-			unprocessableCallback,
-		);
-		return updateDishService(dish_id, dish_input);
+	): Promise<DishOutput | CatchErrorDetails> {
+		return handleRequest<DishOutput>(this, async () => {
+			await updateDishValidation(authorization, dish_id, dish_input);
+			return updateDishService(dish_id, dish_input);
+		});
 	}
 
 	@Delete()
 	public async deleteDish(
 		@Header() authorization: string,
 		@Body() body_params: { dish_ids: string[] },
-		@Res() unauthorizedCallback: TsoaResponse<401, { details: string }>,
-		@Res() notFoundCallback: TsoaResponse<404, { details: string }>,
-	): Promise<void | string> {
+	): Promise<void | CatchErrorDetails> {
 		const { dish_ids } = body_params;
-		await deleteDishValidation(authorization, dish_ids, unauthorizedCallback, notFoundCallback);
-		return deleteDishesService(dish_ids);
+		return handleRequest<void>(this, async () => {
+			await deleteDishValidation(authorization, dish_ids);
+			return deleteDishesService(dish_ids);
+		});
 	}
 }
