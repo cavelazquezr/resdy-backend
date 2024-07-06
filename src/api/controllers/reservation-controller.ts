@@ -20,8 +20,6 @@ import {
 } from "../validations/reservation-validations";
 import { Reservation } from "@prisma/client";
 import { RestaurantCardOutput } from "../../types/common";
-import { handleRequest } from "../../utils/handleRequest";
-import { CatchErrorDetails } from "../../utils/handleCatchError";
 
 @Tags("Reservation service")
 @Route("reservation")
@@ -34,7 +32,7 @@ export class ReservationController extends Controller {
 		@Query() search?: string,
 		@Query() start_date?: string,
 		@Query() end_date?: string,
-	): Promise<Array<RestaurantCardOutput<ReservationDetailOutput>> | CatchErrorDetails> {
+	): Promise<Array<RestaurantCardOutput<ReservationDetailOutput>>> {
 		const query_params: MyReservationsQueryParams = {
 			status,
 			city,
@@ -46,11 +44,9 @@ export class ReservationController extends Controller {
 		return getMyReservationsService(authorization, query_params);
 	}
 	@Get("{restaurant_name}")
-	public async getReservations(@Path() restaurant_name: string): Promise<ReservationOutput[] | CatchErrorDetails> {
-		return handleRequest<ReservationOutput[]>(this, async () => {
-			await getRestaurantReservationsValidations(restaurant_name);
-			return getRestaurantReservationsService(restaurant_name);
-		});
+	public async getReservations(@Path() restaurant_name: string): Promise<ReservationOutput[]> {
+		await getRestaurantReservationsValidations(restaurant_name);
+		return getRestaurantReservationsService(restaurant_name);
 	}
 
 	@Post("{restaurant_name}")
@@ -58,11 +54,9 @@ export class ReservationController extends Controller {
 		@Header() authorization: string,
 		@Path() restaurant_name: string,
 		@Body() reservation_input: ReservationCreateInput,
-	): Promise<Reservation | CatchErrorDetails> {
-		return handleRequest<Reservation>(this, async () => {
-			await createReservationValidations(authorization, restaurant_name, reservation_input);
-			return createReservationService(authorization, restaurant_name, reservation_input);
-		});
+	): Promise<Reservation> {
+		await createReservationValidations(authorization, restaurant_name, reservation_input);
+		return createReservationService(authorization, restaurant_name, reservation_input);
 	}
 
 	@Put("{reservation_id}")
@@ -70,10 +64,8 @@ export class ReservationController extends Controller {
 		@Header() authorization: string,
 		@Path() reservation_id: string,
 		@Body() reservation_input: ReservationUpdateInput,
-	): Promise<Reservation | CatchErrorDetails> {
-		return handleRequest<Reservation>(this, async () => {
-			await updateReservationValidation(authorization, reservation_id);
-			return updateReservationService(reservation_id, reservation_input);
-		});
+	): Promise<Reservation> {
+		await updateReservationValidation(authorization, reservation_id);
+		return updateReservationService(reservation_id, reservation_input);
 	}
 }

@@ -76,25 +76,6 @@
 					}
 				]
 			},
-			"CatchErrorDetails": {
-				"properties": {
-					"status": {
-						"type": "number",
-						"format": "double"
-					},
-					"name": {
-						"type": "string"
-					},
-					"message": {
-						"type": "string"
-					},
-					"path": {
-						"type": "string"
-					}
-				},
-				"type": "object",
-				"additionalProperties": false
-			},
 			"UserCredentials": {
 				"properties": {
 					"email": {
@@ -201,7 +182,7 @@
 			"UserCreateInput": {
 				"$ref": "#/components/schemas/Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner_"
 			},
-			"Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone__": {
+			"Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone-or-avatar_url__": {
 				"properties": {
 					"password": {
 						"type": "string"
@@ -213,6 +194,10 @@
 						"type": "string"
 					},
 					"lastname": {
+						"type": "string",
+						"nullable": true
+					},
+					"avatar_url": {
 						"type": "string",
 						"nullable": true
 					},
@@ -228,7 +213,7 @@
 				"description": "Make all properties in T optional"
 			},
 			"UserUpdateInput": {
-				"$ref": "#/components/schemas/Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone__"
+				"$ref": "#/components/schemas/Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone-or-avatar_url__"
 			},
 			"Partial_CategoryOutput_": {
 				"properties": {
@@ -519,113 +504,6 @@
 			},
 			"DishUpdateInput": {
 				"$ref": "#/components/schemas/WithHide_Partial_Pick_DishProps.name-or-photo_url-or-allergen-or-price-or-description___"
-			},
-			"FavListItemOut": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"list_id": {
-						"type": "string"
-					},
-					"list": {
-						"type": "string"
-					},
-					"restaurant_id": {
-						"type": "string"
-					},
-					"restaurant": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"id",
-					"list_id",
-					"restaurant_id"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"FavListOutput": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
-					},
-					"preview_photo_url": {
-						"type": "string"
-					},
-					"number_of_items": {
-						"type": "number",
-						"format": "double"
-					},
-					"SaveListItem": {
-						"items": {
-							"$ref": "#/components/schemas/FavListItemOut"
-						},
-						"type": "array"
-					}
-				},
-				"type": "object",
-				"additionalProperties": false
-			},
-			"FavListItem": {
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"brand_name": {
-						"type": "string"
-					},
-					"logo_url": {
-						"type": "string"
-					},
-					"city": {
-						"type": "string"
-					},
-					"address": {
-						"type": "string"
-					},
-					"rating": {
-						"type": "number",
-						"format": "double"
-					},
-					"rating_count": {
-						"type": "number",
-						"format": "double"
-					},
-					"price_average": {
-						"type": "number",
-						"format": "double"
-					}
-				},
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Pick_SaveList.name-or-emoji-or-color_": {
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"emoji": {
-						"type": "string"
-					},
-					"color": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"name",
-					"emoji",
-					"color"
-				],
-				"type": "object",
-				"description": "From T, pick a set of properties whose keys are in the union K"
-			},
-			"FavListCreateInput": {
-				"$ref": "#/components/schemas/Pick_SaveList.name-or-emoji-or-color_"
 			},
 			"Partial_DishOutput_": {
 				"properties": {
@@ -1335,6 +1213,76 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-header_url-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"address": {
+						"type": "string",
+						"nullable": true
+					},
+					"country": {
+						"type": "string",
+						"nullable": true
+					},
+					"city": {
+						"type": "string",
+						"nullable": true
+					},
+					"restaurant_type": {
+						"type": "string",
+						"nullable": true
+					},
+					"header_url": {
+						"type": "string",
+						"nullable": true
+					},
+					"brand_name": {
+						"type": "string",
+						"nullable": true
+					},
+					"price_average": {
+						"type": "number",
+						"format": "double"
+					},
+					"rating_count": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"name",
+					"rating",
+					"address",
+					"country",
+					"city",
+					"restaurant_type",
+					"header_url",
+					"brand_name",
+					"price_average",
+					"rating_count"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"RestaurantCardRecord": {
+				"$ref": "#/components/schemas/Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-header_url-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_"
+			},
+			"LandingRestaurantInfo": {
+				"properties": {},
+				"additionalProperties": {
+					"items": {
+						"$ref": "#/components/schemas/RestaurantCardRecord"
+					},
+					"type": "array"
+				},
+				"type": "object"
+			},
 			"RestaurantCardOutput_unknown_": {
 				"properties": {
 					"id": {
@@ -1561,12 +1509,9 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
+									"allOf": [
 										{
 											"$ref": "#/components/schemas/UserRecord"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
 										}
 									],
 									"nullable": true
@@ -1600,22 +1545,15 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"token": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"token"
-											],
-											"type": "object"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
+									"properties": {
+										"token": {
+											"type": "string"
 										}
-									]
+									},
+									"required": [
+										"token"
+									],
+									"type": "object"
 								}
 							}
 						}
@@ -1647,14 +1585,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/UserOutput"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"$ref": "#/components/schemas/UserOutput"
 								}
 							}
 						}
@@ -1686,14 +1617,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/UserOutput"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"$ref": "#/components/schemas/UserOutput"
 								}
 							}
 						}
@@ -1734,17 +1658,10 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/WithIsUsed_CategoryProps_"
-											},
-											"type": "array"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"items": {
+										"$ref": "#/components/schemas/WithIsUsed_CategoryProps_"
+									},
+									"type": "array"
 								}
 							}
 						}
@@ -1773,14 +1690,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/CategoryOutput"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"$ref": "#/components/schemas/CategoryOutput"
 								}
 							}
 						}
@@ -1829,14 +1739,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/CategoryOutput"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"$ref": "#/components/schemas/CategoryOutput"
 								}
 							}
 						}
@@ -1880,20 +1783,8 @@
 			"delete": {
 				"operationId": "DeleteCategory",
 				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
-								}
-							}
-						}
+					"204": {
+						"description": "No content"
 					}
 				},
 				"tags": [
@@ -1942,17 +1833,10 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/DishesByCategoryOutput"
-											},
-											"type": "array"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"items": {
+										"$ref": "#/components/schemas/DishesByCategoryOutput"
+									},
+									"type": "array"
 								}
 							}
 						}
@@ -1983,14 +1867,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/DishOutput"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"$ref": "#/components/schemas/DishOutput"
 								}
 							}
 						}
@@ -2047,14 +1924,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/DishOutput"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"$ref": "#/components/schemas/DishOutput"
 								}
 							}
 						}
@@ -2098,20 +1968,8 @@
 			"delete": {
 				"operationId": "DeleteDish",
 				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
-								}
-							}
-						}
+					"204": {
+						"description": "No content"
 					}
 				},
 				"tags": [
@@ -2151,356 +2009,6 @@
 				}
 			}
 		},
-		"/lists": {
-			"get": {
-				"operationId": "GetList",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/FavListOutput"
-											},
-											"type": "array"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"List Service"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			},
-			"post": {
-				"operationId": "PostList",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/FavListItem"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"List Service"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/FavListCreateInput"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/lists/{user_id}": {
-			"delete": {
-				"operationId": "DeleteList",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"List Service"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "user_id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			},
-			"put": {
-				"operationId": "PutFavList",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"List Service"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "user_id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "list_id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "string"
-							}
-						}
-					}
-				}
-			}
-		},
-		"/lists/{user_id}/{list_id}": {
-			"get": {
-				"operationId": "GetListItem",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/FavListOutput"
-											},
-											"type": "array"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"List Service"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "path",
-						"name": "list_id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			},
-			"post": {
-				"operationId": "PostListItem",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"List Service"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "user_id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "path",
-						"name": "list_id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "string"
-							}
-						}
-					}
-				}
-			},
-			"delete": {
-				"operationId": "DeleteListItem",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"List Service"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "user_id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "path",
-						"name": "list_id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "header",
-						"name": "authorization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
 		"/menu/{restaurant_name}": {
 			"get": {
 				"operationId": "GetMenu",
@@ -2510,17 +2018,10 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/MenuRecord"
-											},
-											"type": "array"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"items": {
+										"$ref": "#/components/schemas/MenuRecord"
+									},
+									"type": "array"
 								}
 							}
 						}
@@ -2594,14 +2095,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"type": "string"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"type": "string"
 								}
 							}
 						}
@@ -2641,18 +2135,11 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"properties": {},
-											"additionalProperties": {
-												"type": "string"
-											},
-											"type": "object"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"properties": {},
+									"additionalProperties": {
+										"type": "string"
+									},
+									"type": "object"
 								}
 							}
 						}
@@ -2698,20 +2185,8 @@
 			"post": {
 				"operationId": "DeleteObject",
 				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"anyOf": [
-										{},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
-								}
-							}
-						}
+					"204": {
+						"description": "No content"
 					}
 				},
 				"tags": [
@@ -2748,17 +2223,10 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/RestaurantCardOutput_RatingDetailOutput_"
-											},
-											"type": "array"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"items": {
+										"$ref": "#/components/schemas/RestaurantCardOutput_RatingDetailOutput_"
+									},
+									"type": "array"
 								}
 							}
 						}
@@ -2813,17 +2281,10 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/RatingRecord"
-											},
-											"type": "array"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"items": {
+										"$ref": "#/components/schemas/RatingRecord"
+									},
+									"type": "array"
 								}
 							}
 						}
@@ -2854,14 +2315,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/RatingStatsOutput"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"$ref": "#/components/schemas/RatingStatsOutput"
 								}
 							}
 						}
@@ -2892,14 +2346,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/RatingsOutput"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"$ref": "#/components/schemas/RatingsOutput"
 								}
 							}
 						}
@@ -2948,17 +2395,10 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/RestaurantCardOutput_ReservationDetailOutput_"
-											},
-											"type": "array"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"items": {
+										"$ref": "#/components/schemas/RestaurantCardOutput_ReservationDetailOutput_"
+									},
+									"type": "array"
 								}
 							}
 						}
@@ -3029,17 +2469,10 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/ReservationOutput"
-											},
-											"type": "array"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"items": {
+										"$ref": "#/components/schemas/ReservationOutput"
+									},
+									"type": "array"
 								}
 							}
 						}
@@ -3068,14 +2501,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/Reservation"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"$ref": "#/components/schemas/Reservation"
 								}
 							}
 						}
@@ -3124,14 +2550,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/Reservation"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"$ref": "#/components/schemas/Reservation"
 								}
 							}
 						}
@@ -3180,17 +2599,10 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"items": {
-												"$ref": "#/components/schemas/RestaurantRecord"
-											},
-											"type": "array"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"items": {
+										"$ref": "#/components/schemas/RestaurantRecord"
+									},
+									"type": "array"
 								}
 							}
 						}
@@ -3243,22 +2655,15 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"properties": {
-												"token": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"token"
-											],
-											"type": "object"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
+									"properties": {
+										"token": {
+											"type": "string"
 										}
-									]
+									},
+									"required": [
+										"token"
+									],
+									"type": "object"
 								}
 							}
 						}
@@ -3290,14 +2695,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/ResultsSummary_RestaurantCardOutput_unknown__"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"$ref": "#/components/schemas/LandingRestaurantInfo"
 								}
 							}
 						}
@@ -3336,14 +2734,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"$ref": "#/components/schemas/ResultsSummary_RestaurantCardOutput_unknown__"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"$ref": "#/components/schemas/ResultsSummary_RestaurantCardOutput_unknown__"
 								}
 							}
 						}
@@ -3434,14 +2825,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"type": "boolean"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"type": "boolean"
 								}
 							}
 						}
@@ -3481,14 +2865,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{
-											"type": "boolean"
-										},
-										{
-											"$ref": "#/components/schemas/CatchErrorDetails"
-										}
-									]
+									"type": "boolean"
 								}
 							}
 						}

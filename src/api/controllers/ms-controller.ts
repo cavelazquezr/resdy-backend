@@ -5,8 +5,6 @@ import {
 	getSignedUrlHandler,
 	postAvatarHandler,
 } from "../services/micro-services";
-import { handleRequest } from "../../utils/handleRequest";
-import { CatchErrorDetails } from "../../utils/handleCatchError";
 
 @Tags("Microservices")
 @Route("microservices")
@@ -21,25 +19,17 @@ export class MicroservicesController extends Controller {
 	}
 	//
 	@Post("getSignedUrl")
-	public async getSignedUrls(@Body() input: { key: string }): Promise<string | CatchErrorDetails> {
-		return handleRequest<string>(this, async () => {
-			return getSignedUrlHandler(input.key);
-		});
+	public async getSignedUrls(@Body() input: { key: string }): Promise<string> {
+		return getSignedUrlHandler(input.key);
 	}
 	@Post("putSignedUrls")
 	public async putFilesSignedUrl(
 		@Body() files: { key: string; contentType: string; fileName: string }[],
-	): Promise<{ [key: string]: string } | CatchErrorDetails> {
-		return handleRequest<{
-			[key: string]: string;
-		}>(this, async () => {
-			return createSignedUrlsHandler(files);
-		});
+	): Promise<{ [key: string]: string }> {
+		return createSignedUrlsHandler(files);
 	}
 	@Post("deleteObject")
-	public async deleteObject(@Body() input: { key: string }): Promise<void | CatchErrorDetails> {
-		return handleRequest<void>(this, async () => {
-			return deleteFileHandler(input.key);
-		});
+	public async deleteObject(@Body() input: { key: string }): Promise<void> {
+		return deleteFileHandler(input.key);
 	}
 }

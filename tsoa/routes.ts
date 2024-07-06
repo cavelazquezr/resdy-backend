@@ -9,8 +9,6 @@ import { CategoriesController } from './../src/api/controllers/category-controll
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { DishesController } from './../src/api/controllers/dish-controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { ListController } from './../src/api/controllers/list-controller';
-// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { MenuController } from './../src/api/controllers/menu-controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { MicroservicesController } from './../src/api/controllers/ms-controller';
@@ -42,17 +40,6 @@ const models: TsoaRoute.Models = {
     "UserRecord": {
         "dataType": "refAlias",
         "type": {"dataType":"intersection","subSchemas":[{"ref":"Omit_UserOutput.password_"},{"dataType":"nestedObjectLiteral","nestedProperties":{"avatar_url":{"dataType":"string","required":true}}}],"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "CatchErrorDetails": {
-        "dataType": "refObject",
-        "properties": {
-            "status": {"dataType":"double"},
-            "name": {"dataType":"string"},
-            "message": {"dataType":"string"},
-            "path": {"dataType":"string"},
-        },
-        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserCredentials": {
@@ -90,14 +77,14 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone__": {
+    "Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone-or-avatar_url__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"password":{"dataType":"string"},"email":{"dataType":"string"},"firstname":{"dataType":"string"},"lastname":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"phone":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"old_password":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"password":{"dataType":"string"},"email":{"dataType":"string"},"firstname":{"dataType":"string"},"lastname":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"avatar_url":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"phone":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"old_password":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserUpdateInput": {
         "dataType": "refAlias",
-        "type": {"ref":"Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone__","validators":{}},
+        "type": {"ref":"Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone-or-avatar_url__","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial_CategoryOutput_": {
@@ -208,55 +195,6 @@ const models: TsoaRoute.Models = {
     "DishUpdateInput": {
         "dataType": "refAlias",
         "type": {"ref":"WithHide_Partial_Pick_DishProps.name-or-photo_url-or-allergen-or-price-or-description___","validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "FavListItemOut": {
-        "dataType": "refObject",
-        "properties": {
-            "id": {"dataType":"string","required":true},
-            "list_id": {"dataType":"string","required":true},
-            "list": {"dataType":"string"},
-            "restaurant_id": {"dataType":"string","required":true},
-            "restaurant": {"dataType":"string"},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "FavListOutput": {
-        "dataType": "refObject",
-        "properties": {
-            "id": {"dataType":"string"},
-            "name": {"dataType":"string"},
-            "preview_photo_url": {"dataType":"string"},
-            "number_of_items": {"dataType":"double"},
-            "SaveListItem": {"dataType":"array","array":{"dataType":"refObject","ref":"FavListItemOut"}},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "FavListItem": {
-        "dataType": "refObject",
-        "properties": {
-            "name": {"dataType":"string"},
-            "brand_name": {"dataType":"string"},
-            "logo_url": {"dataType":"string"},
-            "city": {"dataType":"string"},
-            "address": {"dataType":"string"},
-            "rating": {"dataType":"double"},
-            "rating_count": {"dataType":"double"},
-            "price_average": {"dataType":"double"},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_SaveList.name-or-emoji-or-color_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"name":{"dataType":"string","required":true},"emoji":{"dataType":"string","required":true},"color":{"dataType":"string","required":true}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "FavListCreateInput": {
-        "dataType": "refAlias",
-        "type": {"ref":"Pick_SaveList.name-or-emoji-or-color_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial_DishOutput_": {
@@ -488,6 +426,21 @@ const models: TsoaRoute.Models = {
             "rating_count": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-header_url-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"name":{"dataType":"string","required":true},"rating":{"dataType":"double","required":true},"address":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"country":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"city":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"restaurant_type":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"header_url":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"brand_name":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"price_average":{"dataType":"double","required":true},"rating_count":{"dataType":"double","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RestaurantCardRecord": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-header_url-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "LandingRestaurantInfo": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{},"additionalProperties":{"dataType":"array","array":{"dataType":"refAlias","ref":"RestaurantCardRecord"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "RestaurantCardOutput_unknown_": {
@@ -871,192 +824,6 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.deleteDish.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/lists',
-            ...(fetchMiddlewares<RequestHandler>(ListController)),
-            ...(fetchMiddlewares<RequestHandler>(ListController.prototype.getList)),
-
-            function ListController_getList(request: any, response: any, next: any) {
-            const args = {
-                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new ListController();
-
-
-              const promise = controller.getList.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/lists',
-            ...(fetchMiddlewares<RequestHandler>(ListController)),
-            ...(fetchMiddlewares<RequestHandler>(ListController.prototype.postList)),
-
-            function ListController_postList(request: any, response: any, next: any) {
-            const args = {
-                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
-                    list_input: {"in":"body","name":"list_input","required":true,"ref":"FavListCreateInput"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new ListController();
-
-
-              const promise = controller.postList.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.delete('/lists/:user_id',
-            ...(fetchMiddlewares<RequestHandler>(ListController)),
-            ...(fetchMiddlewares<RequestHandler>(ListController.prototype.deleteList)),
-
-            function ListController_deleteList(request: any, response: any, next: any) {
-            const args = {
-                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
-                    user_id: {"in":"query","name":"user_id","required":true,"dataType":"string"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new ListController();
-
-
-              const promise = controller.deleteList.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.put('/lists/:user_id',
-            ...(fetchMiddlewares<RequestHandler>(ListController)),
-            ...(fetchMiddlewares<RequestHandler>(ListController.prototype.putFavList)),
-
-            function ListController_putFavList(request: any, response: any, next: any) {
-            const args = {
-                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
-                    user_id: {"in":"query","name":"user_id","required":true,"dataType":"string"},
-                    list_id: {"in":"query","name":"list_id","required":true,"dataType":"string"},
-                    list_name: {"in":"body","name":"list_name","required":true,"dataType":"string"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new ListController();
-
-
-              const promise = controller.putFavList.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/lists/:user_id/:list_id',
-            ...(fetchMiddlewares<RequestHandler>(ListController)),
-            ...(fetchMiddlewares<RequestHandler>(ListController.prototype.getListItem)),
-
-            function ListController_getListItem(request: any, response: any, next: any) {
-            const args = {
-                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
-                    list_id: {"in":"path","name":"list_id","required":true,"dataType":"string"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new ListController();
-
-
-              const promise = controller.getListItem.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/lists/:user_id/:list_id',
-            ...(fetchMiddlewares<RequestHandler>(ListController)),
-            ...(fetchMiddlewares<RequestHandler>(ListController.prototype.postListItem)),
-
-            function ListController_postListItem(request: any, response: any, next: any) {
-            const args = {
-                    user_id: {"in":"path","name":"user_id","required":true,"dataType":"string"},
-                    list_id: {"in":"path","name":"list_id","required":true,"dataType":"string"},
-                    restaurant_id: {"in":"body","name":"restaurant_id","required":true,"dataType":"string"},
-                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new ListController();
-
-
-              const promise = controller.postListItem.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.delete('/lists/:user_id/:list_id',
-            ...(fetchMiddlewares<RequestHandler>(ListController)),
-            ...(fetchMiddlewares<RequestHandler>(ListController.prototype.deleteListItem)),
-
-            function ListController_deleteListItem(request: any, response: any, next: any) {
-            const args = {
-                    user_id: {"in":"path","name":"user_id","required":true,"dataType":"string"},
-                    list_id: {"in":"path","name":"list_id","required":true,"dataType":"string"},
-                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new ListController();
-
-
-              const promise = controller.deleteListItem.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

@@ -1,4 +1,4 @@
-import express, { Application } from "express";
+import express, { Application, Response as ExResponse, Request as ExRequest, NextFunction } from "express";
 import openapi from "../tsoa/swagger.json";
 import { RegisterRoutes } from "../tsoa/routes";
 import swaggerUi from "swagger-ui-express";
@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { PORT } from "./config";
 import dotenv from "dotenv";
+import { errorHandler } from "./config/errors";
 
 dotenv.config();
 
@@ -47,6 +48,9 @@ app.use(
 		validateResponses: true,
 	}),
 );
+
+// Error handler
+app.use(errorHandler);
 
 //Basic middleware
 app.listen(PORT, () => {
