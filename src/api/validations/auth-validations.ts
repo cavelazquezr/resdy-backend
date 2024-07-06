@@ -10,7 +10,7 @@ export const authenticateUserValidations = async (credentials: UserCredentials):
 	if (!credential_matches) {
 		return handleCatchError({
 			status: 401,
-			message: UserStatus.INCORRECT_CREDENTIALS,
+			message: "El correo o la contraseña son incorrectos",
 			path: "/authentication",
 		});
 	}
