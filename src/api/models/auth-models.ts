@@ -7,7 +7,7 @@ const { user } = client;
 export const getCurrentUserInfo = async (authorization: string) => {
 	const { email } = verifyToken(authorization);
 	const query = await user.findUnique({
-		where: { email: email as string },
+		where: { email: email },
 		select: {
 			id: true,
 			email: true,
@@ -34,11 +34,26 @@ export const createNewUser = async (user_record: UserCreateInput) => {
 	const query = await user.create({ data: user_record });
 	return query;
 };
-
 export const updateUser = async (user_email: string, payload: UserUpdateInput) => {
+	const updateData: Partial<UserUpdateInput> = { ...payload };
+	if (updateData.old_password) {
+		const { old_password, ...cleanedInput } = updateData;
+		const cleanData = cleanedInput;
+		const query = await user.update({
+			where: {
+				email: user_email,
+			},
+			data: cleanData,
+		});
+		return query;
+	}
+
 	const query = await user.update({
-		where: { email: user_email },
-		data: payload,
+		where: {
+			email: user_email,
+		},
+		data: updateData,
 	});
+
 	return query;
 };
