@@ -5,29 +5,31 @@ import {
 	GetRestaurantsQueryParams,
 	LandingRestaurantInfo,
 	RestaurantCreateInput,
+	RestaurantOutput,
 	RestaurantRecord,
+	UpdateRestaurantInput,
 } from "../../types/restaurant";
-import { calculatePriceAverage, calculateRatingAverage } from "../../utils";
+import { calculatePriceAverage, calculateRatingAverage, getEmail } from "../../utils";
 import {
 	createRestaurant,
 	getAllRestaurantTypes,
 	getRestaurantSummary,
 	getRestaurants,
 	getRestaurantsByRating,
+	updateRestaurant,
 } from "../models/restaurant-models";
 import { getCoordinates } from "../../utils/getCoordinates";
 import { RestaurantCardOutput } from "../../types/common";
 import { BoundRecord, filterResultsInBounds } from "../../utils/filterResultsInBounds";
 import { ResultsSummary } from "../../types";
 
-export const getRestaurantsService = async (
-	query_params: GetRestaurantsQueryParams,
-): Promise<RestaurantRecord[]> => {
+export const getRestaurantsService = async (query_params: GetRestaurantsQueryParams): Promise<RestaurantRecord[]> => {
 	const restaurants = (await getRestaurants(query_params)) as any;
 	const restaurantsRecord: RestaurantRecord[] = restaurants.map((restaurant) => {
-		const { name, restaurant_information, customization } = restaurant;
+		const { id, name, restaurant_information, customization } = restaurant;
 		return {
 			name,
+			id,
 			brand_name: customization?.name ?? null,
 			header_url: customization?.header_url ?? null,
 			city: restaurant_information?.city ?? "",
@@ -44,6 +46,33 @@ export const getRestaurantsService = async (
 	});
 
 	return restaurantsRecord;
+};
+
+export const getMyRestaurantService = async (authorization: string): Promise<RestaurantRecord> => {
+	const email = getEmail(authorization);
+	const restaurants = (await getRestaurants({ email })) as any;
+	const restaurantsRecord: RestaurantRecord[] = restaurants.map((restaurant) => {
+		const { id, name, restaurant_information, customization } = restaurant;
+		return {
+			id,
+			name,
+			brand_name: customization?.name ?? null,
+			header_url: customization?.header_url ?? null,
+			city: restaurant_information?.city ?? "",
+			address: restaurant_information?.address ?? "",
+			postal_code: restaurant_information?.postal_code ?? "",
+			phone: restaurant_information?.phone ?? "",
+			country: restaurant_information?.country ?? "",
+			restaurant_type: restaurant_information?.restaurant_type ?? "",
+			description: restaurant_information?.description ?? null,
+			rating: calculateRatingAverage(restaurant.ratings),
+			rating_count: restaurant.ratings.length,
+			price_average: calculatePriceAverage(restaurant.dishes),
+			location: restaurant_information?.location as Prisma.JsonObject | null,
+		};
+	});
+
+	return restaurantsRecord[0];
 };
 
 export const getLandingRestaurantsService = async (
@@ -86,20 +115,38 @@ export const getLandingRestaurantsService = async (
 	return result;
 };
 
-export const createRestaurantService = async (restaurant: RestaurantCreateInput): Promise<{ token: string }> => {
+export const createRestaurantService = async (restaurant_input: RestaurantCreateInput): Promise<{ token: string }> => {
 	const location = await getCoordinates({
-		city: restaurant.city,
-		address: restaurant.address,
-		country: restaurant.country,
+		city: restaurant_input.city,
+		address: restaurant_input.address,
+		country: restaurant_input.country,
 	});
 
 	await createRestaurant({
-		...restaurant,
+		...restaurant_input,
 		location: (location ?? { type: "Point", coordinates: [] }) as Prisma.InputJsonValue,
 	});
 
-	const token = jwt.sign({ email: restaurant.email }, "secretKey", { expiresIn: "1h" });
+	const token = jwt.sign({ email: restaurant_input.email }, "secretKey", { expiresIn: "1h" });
 	return { token: token };
+};
+
+export const updateRestaurantService = async (
+	restaurant_id: string,
+	restaurant_input: Partial<UpdateRestaurantInput>,
+): Promise<RestaurantOutput> => {
+	const location = await getCoordinates({
+		city: restaurant_input.city ?? "",
+		address: restaurant_input.address ?? "",
+		country: restaurant_input.country ?? "España",
+	});
+
+	const updatedRestaurant = await updateRestaurant(restaurant_id, {
+		...restaurant_input,
+		location: (location ?? { type: "Point", coordinates: [] }) as Prisma.InputJsonValue,
+	});
+
+	return updatedRestaurant;
 };
 
 export const getDiscoveryRestaurants = async (

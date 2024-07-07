@@ -4,6 +4,7 @@ import {
 	RestaurantCardRecord,
 	RestaurantCreateInput,
 	RestaurantOutput,
+	UpdateRestaurantInput,
 } from "../../types/restaurant";
 import client from "../../config/client";
 import { calculatePriceAverage, calculateRatingAverage } from "../../utils";
@@ -27,11 +28,11 @@ type OrderBy =
 	| Record<string, "asc" | "desc">;
 
 export const getRestaurants = async (
-	query_params: GetRestaurantsQueryParams & GetDiscoveryRestaurantsQueryParams,
+	query_params: GetRestaurantsQueryParams & GetDiscoveryRestaurantsQueryParams & { email?: string },
 	limit?: number,
 	orderBy?: OrderBy,
 ) => {
-	const { name, city, country, restaurant_type, swLat, swLng, neLat, neLng } = query_params;
+	const { name, city, country, restaurant_type, swLat, swLng, neLat, neLng, email } = query_params;
 	const query = await restaurant.findMany({
 		take: limit ? limit : undefined,
 		select: {
@@ -47,6 +48,7 @@ export const getRestaurants = async (
 					restaurant_type: true,
 					location: true,
 					description: true,
+					postal_code: true,
 				},
 			},
 			customization: {
@@ -65,6 +67,9 @@ export const getRestaurants = async (
 				city: { contains: city, mode: "insensitive" },
 				country: { contains: country, mode: "insensitive" },
 				restaurant_type: { contains: restaurant_type, mode: "insensitive" },
+			},
+			admin: {
+				email: email,
 			},
 		},
 		orderBy: orderBy,
@@ -177,6 +182,7 @@ export const createRestaurant = async (
 			data: {
 				restaurant_id: restaurant.id,
 				phone: payload.phone,
+				postal_code: payload.postal_code,
 				address: payload.address,
 				country: payload.country,
 				city: payload.city,
@@ -188,6 +194,49 @@ export const createRestaurant = async (
 			data: {
 				total_bookings: 0,
 				restaurant_id: restaurant.id,
+			},
+		});
+
+		return restaurant;
+	});
+
+	return query;
+};
+
+export const updateRestaurant = async (
+	restaurant_id: string,
+	payload: Partial<UpdateRestaurantInput> & { location: Prisma.InputJsonValue },
+) => {
+	const query = await client.$transaction(async (tx) => {
+		const restaurant = await tx.restaurant.update({
+			where: {
+				id: restaurant_id,
+			},
+			data: {
+				name: payload.name,
+			},
+		});
+		await tx.customization.update({
+			where: {
+				restaurant_id,
+			},
+			data: {
+				name: payload.brand_name,
+			},
+		});
+		await tx.restaurantInformation.update({
+			where: {
+				restaurant_id,
+			},
+			data: {
+				phone: payload.phone,
+				postal_code: payload.postal_code,
+				address: payload.address,
+				description: payload.description,
+				country: payload.country,
+				city: payload.city,
+				restaurant_type: payload.restaurant_type,
+				location: payload.location,
 			},
 		});
 

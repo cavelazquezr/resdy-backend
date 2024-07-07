@@ -1,6 +1,6 @@
-import { RestaurantCreateInput } from "../../types/restaurant";
+import { RestaurantCreateInput, UpdateRestaurantInput } from "../../types/restaurant";
 import { handleValidate } from "../../utils/handleValidate";
-import { checkIfRestaurantExists, checkIfUserExists } from "../../utils/validations";
+import { checkIfIsRestaurantAdmin, checkIfRestaurantExists, checkIfUserExists } from "../../utils/validations";
 
 export const createRestaurantValidations = async (payload: RestaurantCreateInput): Promise<void> => {
 	await handleValidate(async (errors) => {
@@ -17,6 +17,21 @@ export const createRestaurantValidations = async (payload: RestaurantCreateInput
 			errors.email = {
 				status: 409,
 				message: `Ya existe un usuario con el email "${payload.email}"`,
+			};
+		}
+	});
+};
+
+export const updateRestaurantValidations = async (
+	authorization: string,
+	restaurant_id: string,
+): Promise<void> => {
+	await handleValidate(async (errors) => {
+		const isRestaurantAdmin = await checkIfIsRestaurantAdmin(authorization, restaurant_id);
+		if (!isRestaurantAdmin) {
+			errors.authorization = {
+				message: `No estás autorizado para modificar categorías de este restaurante.`,
+				status: 401,
 			};
 		}
 	});

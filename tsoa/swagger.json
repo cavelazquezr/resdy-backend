@@ -1213,6 +1213,87 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"%24Result.DefaultSelection_Prisma.%24RestaurantPayload_": {
+				"properties": {
+					"admin_id": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"name": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"admin_id",
+					"created_at",
+					"name",
+					"id"
+				],
+				"type": "object"
+			},
+			"Restaurant": {
+				"$ref": "#/components/schemas/%24Result.DefaultSelection_Prisma.%24RestaurantPayload_",
+				"description": "Model Restaurant"
+			},
+			"RestaurantOutput": {
+				"$ref": "#/components/schemas/Restaurant"
+			},
+			"Partial_UpdateRestaurantInput_": {
+				"properties": {
+					"brand_name": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"avatar_url": {
+						"type": "string",
+						"nullable": true
+					},
+					"name": {
+						"type": "string"
+					},
+					"phone": {
+						"type": "string",
+						"nullable": true
+					},
+					"description": {
+						"type": "string",
+						"nullable": true
+					},
+					"address": {
+						"type": "string",
+						"nullable": true
+					},
+					"country": {
+						"type": "string",
+						"nullable": true
+					},
+					"city": {
+						"type": "string",
+						"nullable": true
+					},
+					"restaurant_type": {
+						"type": "string",
+						"nullable": true
+					},
+					"postal_code": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
 			"Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-header_url-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_": {
 				"properties": {
 					"name": {
@@ -1418,9 +1499,13 @@
 			"RestaurantInput": {
 				"$ref": "#/components/schemas/Pick_RestaurantProps.name_"
 			},
-			"Pick_InformationProps.phone-or-address-or-country-or-city-or-restaurant_type-or-postal_code_": {
+			"Pick_InformationProps.phone-or-address-or-country-or-city-or-restaurant_type-or-postal_code-or-description_": {
 				"properties": {
 					"phone": {
+						"type": "string",
+						"nullable": true
+					},
+					"description": {
 						"type": "string",
 						"nullable": true
 					},
@@ -1447,6 +1532,7 @@
 				},
 				"required": [
 					"phone",
+					"description",
 					"address",
 					"country",
 					"city",
@@ -1457,7 +1543,7 @@
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
 			"InformationInput": {
-				"$ref": "#/components/schemas/Pick_InformationProps.phone-or-address-or-country-or-city-or-restaurant_type-or-postal_code_"
+				"$ref": "#/components/schemas/Pick_InformationProps.phone-or-address-or-country-or-city-or-restaurant_type-or-postal_code-or-description_"
 			},
 			"RestaurantCreateInput": {
 				"allOf": [
@@ -1642,7 +1728,22 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/UserUpdateInput"
+								"allOf": [
+									{
+										"$ref": "#/components/schemas/UserUpdateInput"
+									},
+									{
+										"properties": {
+											"old_password": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"old_password"
+										],
+										"type": "object"
+									}
+								]
 							}
 						}
 					}
@@ -2684,6 +2785,86 @@
 						}
 					}
 				}
+			}
+		},
+		"/restaurant/{restaurant_id}": {
+			"put": {
+				"operationId": "UpdateRestaurant",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RestaurantOutput"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Restaurant service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "restaurant_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Partial_UpdateRestaurantInput_"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/restaurant/myRestaurant": {
+			"get": {
+				"operationId": "GetMyRestaurant",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RestaurantRecord"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Restaurant service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/restaurant/landing": {

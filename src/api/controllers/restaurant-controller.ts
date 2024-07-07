@@ -1,22 +1,26 @@
-import { Controller, Get, Post, Query, Body, Route, Tags } from "tsoa";
+import { Controller, Get, Post, Header, Query, Body, Route, Tags, Put, Path } from "tsoa";
 
 import {
 	GetDiscoveryRestaurantsQueryParams,
 	GetRestaurantsQueryParams,
 	LandingRestaurantInfo,
 	RestaurantCreateInput,
+	RestaurantOutput,
 	RestaurantRecord,
 	SortRestaurantBy,
+	UpdateRestaurantInput,
 } from "../../types/restaurant";
 import {
 	createRestaurantService,
 	getDiscoveryRestaurants,
 	getLandingRestaurantsService,
+	getMyRestaurantService,
 	getRestaurantsService,
+	updateRestaurantService,
 } from "../services/restaurant-services";
 import { RestaurantCardOutput } from "../../types/common";
 import { ResultsSummary } from "../../types";
-import { createRestaurantValidations } from "../validations/restaurant-validations";
+import { createRestaurantValidations, updateRestaurantValidations } from "../validations/restaurant-validations";
 
 @Tags("Restaurant service")
 @Route("restaurant")
@@ -35,6 +39,19 @@ export class RestaurantController extends Controller {
 			country,
 		};
 		return getRestaurantsService(query_params);
+	}
+	@Put("{restaurant_id}")
+	public async updateRestaurant(
+		@Header() authorization: string,
+		@Path() restaurant_id: string,
+		@Body() restaurant_input: Partial<UpdateRestaurantInput>,
+	): Promise<RestaurantOutput> {
+		await updateRestaurantValidations(authorization, restaurant_id);
+		return updateRestaurantService(restaurant_id, restaurant_input);
+	}
+	@Get("myRestaurant")
+	public async getMyRestaurant(@Header() authorization: string): Promise<RestaurantRecord> {
+		return getMyRestaurantService(authorization);
 	}
 	@Get("landing")
 	public async getLandingRestaurant(@Query() city?: string, @Query() country?: string): Promise<LandingRestaurantInfo> {

@@ -46,7 +46,7 @@ type AdministratorInput = Pick<UserOutput, "email" | "password" | "avatar_url">;
 type RestaurantInput = Pick<RestaurantProps, "name">;
 type InformationInput = Pick<
 	InformationProps,
-	"phone" | "address" | "country" | "city" | "restaurant_type" | "postal_code"
+	"phone" | "address" | "country" | "city" | "restaurant_type" | "postal_code" | "description"
 >;
 
 export type RestaurantCreateInput = AdministratorInput &
@@ -57,6 +57,10 @@ export interface CreateRestaurantInput {
 	name: string;
 	customization?: Prisma.CustomizationCreateWithoutRestaurantInput;
 	restaurant_information?: Prisma.RestaurantInformationCreateWithoutRestaurantInput;
+}
+
+export interface UpdateRestaurantInput extends AdministratorInput, RestaurantInput, InformationInput {
+	brand_name?: string;
 }
 
 export type RestaurantSummary = {
