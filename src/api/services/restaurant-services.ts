@@ -41,7 +41,10 @@ export const getRestaurantsService = async (query_params: GetRestaurantsQueryPar
 			rating: calculateRatingAverage(restaurant.ratings),
 			rating_count: restaurant.ratings.length,
 			price_average: calculatePriceAverage(restaurant.dishes),
-			location: restaurant_information?.location as Prisma.JsonObject | null,
+			location: restaurant_information?.location as any | null,
+			extra_information: restaurant_information?.extra_information ?? null,
+			postal_code: restaurant_information?.postal_code ?? "",
+			social_media: restaurant_information?.social_media ?? null,
 		};
 	});
 
@@ -68,7 +71,9 @@ export const getMyRestaurantService = async (authorization: string): Promise<Res
 			rating: calculateRatingAverage(restaurant.ratings),
 			rating_count: restaurant.ratings.length,
 			price_average: calculatePriceAverage(restaurant.dishes),
-			location: restaurant_information?.location as Prisma.JsonObject | null,
+			location: restaurant_information?.location as any | null,
+			extra_information: restaurant_information?.extra_information ?? null,
+			social_media: restaurant_information?.social_media ?? null,
 		};
 	});
 
@@ -135,6 +140,7 @@ export const updateRestaurantService = async (
 	restaurant_id: string,
 	restaurant_input: Partial<UpdateRestaurantInput>,
 ): Promise<RestaurantOutput> => {
+	console.log("restaurant_input", restaurant_input);
 	const location = await getCoordinates({
 		city: restaurant_input.city ?? "",
 		address: restaurant_input.address ?? "",

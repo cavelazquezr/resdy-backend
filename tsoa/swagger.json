@@ -1104,6 +1104,11 @@
 			"ReservationUpdateInput": {
 				"$ref": "#/components/schemas/Pick_Reservation.status_"
 			},
+			"Record_string.string_": {
+				"properties": {},
+				"type": "object",
+				"description": "Construct a type with a set of properties K of type T"
+			},
 			"JsonObject": {
 				"properties": {},
 				"type": "object",
@@ -1171,6 +1176,13 @@
 						],
 						"nullable": true
 					},
+					"postal_code": {
+						"type": "string",
+						"nullable": true
+					},
+					"id": {
+						"type": "string"
+					},
 					"name": {
 						"type": "string"
 					},
@@ -1193,6 +1205,22 @@
 					"rating_count": {
 						"type": "number",
 						"format": "double"
+					},
+					"extra_information": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Record_string.string_"
+							}
+						],
+						"nullable": true
+					},
+					"social_media": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Record_string.string_"
+							}
+						],
+						"nullable": true
 					}
 				},
 				"required": [
@@ -1203,12 +1231,16 @@
 					"city",
 					"restaurant_type",
 					"location",
+					"postal_code",
+					"id",
 					"name",
 					"header_url",
 					"brand_name",
 					"price_average",
 					"rating",
-					"rating_count"
+					"rating_count",
+					"extra_information",
+					"social_media"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1247,6 +1279,18 @@
 			"Partial_UpdateRestaurantInput_": {
 				"properties": {
 					"brand_name": {
+						"type": "string"
+					},
+					"extra_description": {
+						"type": "string"
+					},
+					"twitter": {
+						"type": "string"
+					},
+					"instagram": {
+						"type": "string"
+					},
+					"facebook": {
 						"type": "string"
 					},
 					"password": {

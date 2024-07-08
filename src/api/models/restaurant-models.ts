@@ -49,6 +49,8 @@ export const getRestaurants = async (
 					location: true,
 					description: true,
 					postal_code: true,
+					extra_information: true,
+					social_media: true,
 				},
 			},
 			customization: {
@@ -237,6 +239,9 @@ export const updateRestaurant = async (
 				city: payload.city,
 				restaurant_type: payload.restaurant_type,
 				location: payload.location,
+				extra_information: {
+					extra_description: payload.extra_description,
+				},
 			},
 		});
 
