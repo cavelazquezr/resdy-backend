@@ -242,6 +242,12 @@ export const updateRestaurant = async (
 				extra_information: {
 					extra_description: payload.extra_description,
 				},
+				social_media: {
+					instagram: payload.instagram,
+					twitter: payload.twitter,
+					tiktok: payload.tiktok,
+					facebook: payload.facebook,
+				},
 			},
 		});
 

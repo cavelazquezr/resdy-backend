@@ -140,7 +140,6 @@ export const updateRestaurantService = async (
 	restaurant_id: string,
 	restaurant_input: Partial<UpdateRestaurantInput>,
 ): Promise<RestaurantOutput> => {
-	console.log("restaurant_input", restaurant_input);
 	const location = await getCoordinates({
 		city: restaurant_input.city ?? "",
 		address: restaurant_input.address ?? "",

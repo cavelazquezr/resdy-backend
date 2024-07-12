@@ -66,6 +66,7 @@ export interface UpdateRestaurantInput extends AdministratorInput, RestaurantInp
 	extra_description?: string;
 	twitter?: string;
 	instagram?: string;
+	tiktok?: string;
 	facebook?: string;
 }
 
