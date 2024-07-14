@@ -73,7 +73,11 @@ export const getMyRestaurantService = async (authorization: string): Promise<Res
 			price_average: calculatePriceAverage(restaurant.dishes),
 			location: restaurant_information?.location as any | null,
 			extra_information: restaurant_information?.extra_information ?? null,
-			social_media: restaurant_information?.social_media ?? null,
+			social_media: restaurant_information?.social_media ?? {},
+			headers:
+				customization.extra_customization && customization.extra_customization.headers
+					? customization.extra_customization.headers
+					: [],
 		};
 	});
 

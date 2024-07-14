@@ -1,6 +1,7 @@
 import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { AWS_ACCESS_KEY, AWS_REGION, AWS_SECRET_ACCESS_KEY, AWS_BUCKET_NAME } from "../../config";
+import { Readable } from "stream";
 
 export const s3Client = new S3Client({
 	region: AWS_REGION,
@@ -9,6 +10,27 @@ export const s3Client = new S3Client({
 		secretAccessKey: AWS_SECRET_ACCESS_KEY,
 	},
 });
+
+export const getObject = async (key: string): Promise<Buffer> => {
+	const command = new GetObjectCommand({
+		Bucket: AWS_BUCKET_NAME,
+		Key: key,
+	});
+	const response = await s3Client.send(command);
+
+	if (!response.Body) {
+		throw new Error("Response body is undefined");
+	}
+
+	const stream = response.Body as Readable;
+
+	const chunks: Buffer[] = [];
+	for await (const chunk of stream) {
+		chunks.push(Buffer.from(chunk));
+	}
+
+	return Buffer.concat(chunks);
+};
 
 export const putObject = async (key: string, body: Buffer, contentType: string): Promise<void> => {
 	const command = new PutObjectCommand({

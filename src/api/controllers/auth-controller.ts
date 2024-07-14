@@ -32,7 +32,7 @@ export class AuthenticationController extends Controller {
 
 	@Put() public async updateUser(
 		@Header() authorization: string,
-		@Body() payload: UserUpdateInput & { old_password: string },
+		@Body() payload: UserUpdateInput & { old_password?: string },
 	): Promise<UserOutput> {
 		await updateUserValidations(authorization, payload);
 		return await updateUserInfo(authorization, payload);

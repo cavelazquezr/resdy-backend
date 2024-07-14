@@ -1,8 +1,12 @@
 import { AWS_BUCKET_NAME } from "../../config";
-import { deleteObject, getObjectSignedUrl, putObject, putURL } from "../../services/aws/s3";
+import { deleteObject, getObject, getObjectSignedUrl, putObject, putURL } from "../../services/aws/s3";
 import { getCurrentUserInfo } from "../models/auth-models";
 
 import sharp from "sharp";
+
+export const getObjectHandler = async (key: string): Promise<Buffer> => {
+	return await getObject(key);
+};
 
 export const postAvatarHandler = async (authorization: string, image: Express.Multer.File): Promise<void> => {
 	const user = await getCurrentUserInfo(authorization);

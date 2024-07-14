@@ -53,7 +53,7 @@ type InformationInput = Pick<
 
 export type RestaurantCreateInput = AdministratorInput &
 	RestaurantInput &
-	InformationInput & { brand_name: CustomizationOutput["name"] };
+	Omit<InformationInput, "description"> & { brand_name: CustomizationOutput["name"] };
 
 export interface CreateRestaurantInput {
 	name: string;
@@ -68,6 +68,7 @@ export interface UpdateRestaurantInput extends AdministratorInput, RestaurantInp
 	instagram?: string;
 	tiktok?: string;
 	facebook?: string;
+	headers?: string[];
 }
 
 export type RestaurantSummary = {

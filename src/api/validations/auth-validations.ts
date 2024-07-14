@@ -40,17 +40,19 @@ export const updateUserValidations = async (authorization: string, payload: User
 			if (payload.lastname && payload.lastname.length > 20) {
 				errors.lastname = { message: "El apellido proporcionado es demasiado largo", status: 422 };
 			}
-			if (payload.old_password !== user.password && payload.password) {
-				errors.old_password = { message: "La contraseña proporcionada es incorrecta", status: 422 };
-			}
-			if (payload.password && payload.password.length < 6) {
-				errors.password = { message: "La contraseña proporcionada es demasiado corta", status: 422 };
-			}
-			if (payload.old_password !== user.password) {
-				errors.old_password = { message: "La contraseña introducida es incorrecta", status: 422 };
-			}
-			if (payload.password && payload.password === user.password) {
-				errors.password = { message: "No puedes usar la misma contraseña", status: 422 };
+			if (payload.password && payload.old_password) {
+				if (payload.old_password !== user.password && payload.password) {
+					errors.old_password = { message: "La contraseña proporcionada es incorrecta", status: 422 };
+				}
+				if (payload.password && payload.password.length < 6) {
+					errors.password = { message: "La contraseña proporcionada es demasiado corta", status: 422 };
+				}
+				if (payload.old_password !== user.password) {
+					errors.old_password = { message: "La contraseña introducida es incorrecta", status: 422 };
+				}
+				if (payload.password && payload.password === user.password) {
+					errors.password = { message: "No puedes usar la misma contraseña", status: 422 };
+				}
 			}
 		} else {
 			errors.user = { message: "Usuario no encontrado", status: 404 };

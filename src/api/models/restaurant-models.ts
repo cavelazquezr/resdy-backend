@@ -57,6 +57,7 @@ export const getRestaurants = async (
 				select: {
 					name: true,
 					header_url: true,
+					extra_customization: true,
 				},
 			},
 			restaurant_stadistic: true,
@@ -224,6 +225,9 @@ export const updateRestaurant = async (
 			},
 			data: {
 				name: payload.brand_name,
+				extra_customization: {
+					headers: payload.headers,
+				},
 			},
 		});
 		await tx.restaurantInformation.update({
