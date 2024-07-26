@@ -59,7 +59,7 @@ export const getRestaurantRatingStatsService = async (restaurant_name: string): 
 export const getMyRatingsService = async (
 	authorization: string,
 	query_params: MyRatingQueryParams,
-): Promise<Promise<Array<RestaurantCardOutput<RatingDetailOutput>>>> => {
+): Promise<Array<RestaurantCardOutput<RatingDetailOutput>>> => {
 	const current_user = await getCurrentUserInfo(authorization);
 	if (current_user) {
 		const ratings = await getMyRatings(current_user.email, query_params);
@@ -79,6 +79,14 @@ export const getMyRatingsService = async (
 
 				const restaurant_summary = await getRestaurantSummary(restaurant_id);
 
+				const headersUrlPromises = customization
+					? customization.headers_path.map((path: string) => {
+							return getObjectSignedUrl(path);
+						})
+					: [];
+
+				const headers_url = await Promise.all(headersUrlPromises);
+
 				return {
 					id: rating_record.id,
 					name: name,
@@ -86,7 +94,8 @@ export const getMyRatingsService = async (
 					brand_name: customization?.name ?? "",
 					address: restaurant_information?.address ?? "",
 					city: restaurant_information?.city ?? "",
-					header_url: customization?.header_url ?? null,
+					headers_path: customization?.headers_path ?? null,
+					headers_url,
 					restaurant_type: restaurant_information?.restaurant_type ?? "",
 					location: restaurant_information?.location as any,
 					summary: {

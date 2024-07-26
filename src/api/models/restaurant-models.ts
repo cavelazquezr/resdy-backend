@@ -9,6 +9,7 @@ import {
 import client from "../../config/client";
 import { calculatePriceAverage, calculateRatingAverage } from "../../utils";
 import { Prisma } from "@prisma/client";
+import { getObjectSignedUrl } from "../../services/aws/s3";
 
 const { restaurant, restaurantInformation } = client;
 
@@ -56,7 +57,7 @@ export const getRestaurants = async (
 			customization: {
 				select: {
 					name: true,
-					header_url: true,
+					headers_path: true,
 					extra_customization: true,
 				},
 			},
@@ -91,7 +92,7 @@ export const getRestaurantsByRating = async (query_params: GetRestaurantsQueryPa
 			ri.country,
 			ri.city,
 			ri.restaurant_type,
-			c.header_url,
+			c.headers_path,
 			COALESCE(AVG(d.price), 0)::numeric AS price_average,
 			COALESCE(AVG(rt.rating), 0)::numeric AS rating,
 			COUNT(rt.rating)::numeric AS rating_count
@@ -116,12 +117,24 @@ export const getRestaurantsByRating = async (query_params: GetRestaurantsQueryPa
 			ri.country,
 			ri.city,
 			ri.restaurant_type,
-			c.header_url
+			c.headers_path
         ORDER BY rating DESC
         LIMIT ${limit ? limit : -1}
     `;
 
-	return restaurants;
+	const restaurantPromises = restaurants.map(async (restaurant) => {
+		const headersUrlPromises = restaurant
+			? restaurant.headers_path.map((path: string) => {
+					return getObjectSignedUrl(path);
+				})
+			: [];
+
+		const headers_url = await Promise.all(headersUrlPromises);
+
+		return { ...restaurant, headers_url };
+	});
+
+	return await Promise.all(restaurantPromises);
 };
 
 export const getRestaurantSummary = async (restaurant_id: string) => {
@@ -166,7 +179,7 @@ export const createRestaurant = async (
 				password: payload.password,
 				firstname: payload.brand_name ?? "Admin",
 				is_owner: true,
-				avatar_url: payload.avatar_url,
+				avatar_path: payload.avatar_path,
 			},
 		});
 		const restaurant = await tx.restaurant.create({
@@ -225,9 +238,7 @@ export const updateRestaurant = async (
 			},
 			data: {
 				name: payload.brand_name,
-				extra_customization: {
-					headers: payload.headers,
-				},
+				headers_path: payload.headers,
 			},
 		});
 		await tx.restaurantInformation.update({

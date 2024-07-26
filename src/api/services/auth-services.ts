@@ -6,7 +6,10 @@ import { getObjectSignedUrl } from "../../services/aws/s3";
 
 export const getCurrentUserService = async (authorization: string): Promise<UserRecord | null> => {
 	const current_user = (await getCurrentUserInfo(authorization)) as UserRecord;
-	return current_user;
+
+	const avatar_url = current_user.avatar_path ? await getObjectSignedUrl(current_user.avatar_path) : undefined;
+
+	return { ...current_user, avatar_url: avatar_url ? avatar_url : undefined };
 };
 
 export const authenticateUserService = async (credentials: UserCredentials): Promise<{ token: string }> => {

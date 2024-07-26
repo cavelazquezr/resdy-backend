@@ -20,7 +20,7 @@ export interface RatingStatsOutput {
 export interface UserRatingOutput {
 	firstname: string;
 	lastname?: string;
-	avatar_url?: string;
+	avatar_path?: string;
 }
 
 export interface MyRatingInfoOutput {

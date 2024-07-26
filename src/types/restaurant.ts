@@ -16,7 +16,7 @@ export interface RestaurantRecord
 			"phone" | "address" | "country" | "city" | "restaurant_type" | "description" | "location" | "postal_code"
 		>,
 		Pick<RestaurantOutput, "name" | "id">,
-		Pick<CustomizationOutput, "header_url"> {
+		Pick<CustomizationOutput, "headers_path"> {
 	brand_name: string | null;
 	price_average: number;
 	rating: number;
@@ -31,7 +31,7 @@ export type RestaurantCardRecord = Pick<
 	| "brand_name"
 	| "address"
 	| "price_average"
-	| "header_url"
+	| "headers_path"
 	| "rating"
 	| "rating_count"
 	| "city"
@@ -44,7 +44,7 @@ export type LandingRestaurantInfo = {
 };
 
 //For restaurant creation
-type AdministratorInput = Pick<UserOutput, "email" | "password" | "avatar_url">;
+type AdministratorInput = Pick<UserOutput, "email" | "password" | "avatar_path">;
 type RestaurantInput = Pick<RestaurantProps, "name">;
 type InformationInput = Pick<
 	InformationProps,

@@ -1,4 +1,4 @@
-import { Prisma, Reservation } from "@prisma/client";
+import { Reservation } from "@prisma/client";
 import {
 	MyReservationsQueryParams,
 	ReservationCreateInput,
@@ -6,7 +6,7 @@ import {
 	ReservationOutput,
 	ReservationUpdateInput,
 } from "../../types/reservations";
-import { calculatePriceAverage, calculateRatingAverage, verifyToken } from "../../utils";
+import { verifyToken } from "../../utils";
 import {
 	createReservation,
 	getMyReservations,
@@ -19,7 +19,7 @@ import { getCurrentUserInfo } from "../models/auth-models";
 import { getObjectSignedUrl } from "../../services/aws/s3";
 import { getRestaurantSummary } from "../models/restaurant-models";
 import { RestaurantCardOutput } from "../../types/common";
-import { Point } from "geojson";
+import { get } from "http";
 
 export const getRestaurantReservationsService = async (restaurant_name: string): Promise<ReservationOutput[]> => {
 	const reservations = await getRestaurantReservations(restaurant_name);
@@ -100,6 +100,14 @@ export const getMyReservationsService = async (
 
 				const restaurant_summary = await getRestaurantSummary(restaurant_id);
 
+				const headersUrlPromises = customization
+					? customization.headers_path.map((path: string) => {
+							return getObjectSignedUrl(path);
+						})
+					: [];
+
+				const headers_url = await Promise.all(headersUrlPromises);
+
 				return {
 					id: reservation_record.id,
 					name: name,
@@ -107,7 +115,8 @@ export const getMyReservationsService = async (
 					brand_name: customization?.name ?? "",
 					address: restaurant_information?.address ?? "",
 					city: restaurant_information?.city ?? "",
-					header_url: customization?.header_url ?? null,
+					headers_path: customization?.headers_path ?? null,
+					headers_url,
 					restaurant_type: restaurant_information?.restaurant_type ?? "",
 					location: restaurant_information?.location as any,
 					summary: {

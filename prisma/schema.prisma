@@ -14,7 +14,7 @@ model User {
   email       String        @unique @db.VarChar(254)
   firstname   String        @db.VarChar(20)
   lastname    String?       @db.VarChar(20)
-  avatar_url  String?       @db.VarChar(65529)
+  avatar_path String?       @db.VarChar(65529)
   phone       String?       @db.VarChar(10)
   password    String        @db.VarChar(20)
   created_at  DateTime      @default(now())
@@ -49,15 +49,12 @@ model Restaurant {
 }
 
 model Customization {
-  color_palette       Json?      @db.Json
-  font_families       Json?      @db.Json
-  extra_customization Json?      @db.Json
-  logo_url            String?    @db.VarChar(65529)
-  header_url          String?    @db.VarChar(65529)
-  name                String?    @db.VarChar(20)
-  updated_at          DateTime   @updatedAt
-  restaurant          Restaurant @relation(fields: [restaurant_id], references: [id])
-  restaurant_id       String     @unique
+  extra_customization       Json?      @db.Json
+  headers_path              String[]   @default([])
+  name                      String?    @db.VarChar(20)
+  updated_at                DateTime   @updatedAt
+  restaurant                Restaurant @relation(fields: [restaurant_id], references: [id])
+  restaurant_id             String     @unique
 
   @@map("customization")
   @@schema("restaurant")

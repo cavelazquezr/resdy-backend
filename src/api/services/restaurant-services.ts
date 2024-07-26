@@ -22,6 +22,7 @@ import { getCoordinates } from "../../utils/getCoordinates";
 import { RestaurantCardOutput } from "../../types/common";
 import { BoundRecord, filterResultsInBounds } from "../../utils/filterResultsInBounds";
 import { ResultsSummary } from "../../types";
+import { getObjectSignedUrl } from "../../services/aws/s3";
 
 export const getRestaurantsService = async (query_params: GetRestaurantsQueryParams): Promise<RestaurantRecord[]> => {
 	const restaurants = (await getRestaurants(query_params)) as any;
@@ -31,7 +32,7 @@ export const getRestaurantsService = async (query_params: GetRestaurantsQueryPar
 			name,
 			id,
 			brand_name: customization?.name ?? null,
-			header_url: customization?.header_url ?? null,
+			headers_path: customization?.headers_path ?? null,
 			city: restaurant_information?.city ?? "",
 			address: restaurant_information?.address ?? "",
 			phone: restaurant_information?.phone ?? "",
@@ -60,7 +61,7 @@ export const getMyRestaurantService = async (authorization: string): Promise<Res
 			id,
 			name,
 			brand_name: customization?.name ?? null,
-			header_url: customization?.header_url ?? null,
+			headers_path: customization?.headers_path ?? null,
 			city: restaurant_information?.city ?? "",
 			address: restaurant_information?.address ?? "",
 			postal_code: restaurant_information?.postal_code ?? "",
@@ -74,10 +75,7 @@ export const getMyRestaurantService = async (authorization: string): Promise<Res
 			location: restaurant_information?.location as any | null,
 			extra_information: restaurant_information?.extra_information ?? null,
 			social_media: restaurant_information?.social_media ?? {},
-			headers:
-				customization.extra_customization && customization.extra_customization.headers
-					? customization.extra_customization.headers
-					: [],
+			headers: customization.headers_path && customization.headers_path.length > 0 ? customization.headers_path : null,
 		};
 	});
 
@@ -99,26 +97,39 @@ export const getLandingRestaurantsService = async (
 		newestRestaurantsPromise,
 	]);
 
-	const mapToRestaurantCardRecord = (restaurants) => {
-		return restaurants.map((restaurant) => ({
-			name: restaurant.name,
-			brand_name: restaurant.customization?.name ?? null,
-			address: restaurant.restaurant_information?.address ?? null,
-			city: restaurant.restaurant_information?.city ?? null,
-			country: restaurant.restaurant_information?.country ?? null,
-			header_url: restaurant.customization?.header_url ?? null,
-			restaurant_type: restaurant.restaurant_information?.restaurant_type ?? null,
-			price_average: calculatePriceAverage(restaurant.dishes),
-			rating: calculateRatingAverage(restaurant.ratings),
-			rating_count: restaurant.ratings.length,
-		}));
+	const mapToRestaurantCardRecord = async (restaurants) => {
+		return Promise.all(
+			restaurants.map(async (restaurant) => {
+				const headersUrlPromises = restaurant.customization
+					? restaurant.customization.headers_path.map((path: string) => {
+							return getObjectSignedUrl(path);
+						})
+					: [];
+
+				const headers_url = await Promise.all(headersUrlPromises);
+
+				return {
+					name: restaurant.name,
+					brand_name: restaurant.customization?.name ?? null,
+					address: restaurant.restaurant_information?.address ?? null,
+					city: restaurant.restaurant_information?.city ?? null,
+					country: restaurant.restaurant_information?.country ?? null,
+					headers_path: restaurant.customization?.headers_path ?? [],
+					restaurant_type: restaurant.restaurant_information?.restaurant_type ?? null,
+					price_average: restaurant.dishes ? calculatePriceAverage(restaurant.dishes) : 0,
+					rating: restaurant.ratings ? calculateRatingAverage(restaurant.ratings) : 0,
+					rating_count: restaurant.ratings ? restaurant.ratings.length : 0,
+					headers_url,
+				};
+			}),
+		);
 	};
 
 	const result: LandingRestaurantInfo = {
-		best_rated: bestRated,
-		most_visited: mapToRestaurantCardRecord(mostVisited),
-		new_restaurants: mapToRestaurantCardRecord(newRestaurants),
-		book_tonight: mapToRestaurantCardRecord(mostVisited),
+		best_rated: bestRated as any,
+		most_visited: await mapToRestaurantCardRecord(mostVisited),
+		new_restaurants: await mapToRestaurantCardRecord(newRestaurants),
+		book_tonight: await mapToRestaurantCardRecord(mostVisited),
 	};
 
 	return result;
@@ -185,6 +196,14 @@ export const getDiscoveryRestaurants = async (
 			const { id: restaurant_id, restaurant_information, customization } = restaurant;
 			const restaurant_summary = await getRestaurantSummary(restaurant_id);
 
+			const headersUrlPromises = restaurant.customization
+					? restaurant.customization.headers_path.map((path: string) => {
+							return getObjectSignedUrl(path);
+						})
+					: [];
+
+				const headers_url = await Promise.all(headersUrlPromises);
+
 			return {
 				id: restaurant_id,
 				name: restaurant.name,
@@ -192,7 +211,8 @@ export const getDiscoveryRestaurants = async (
 				brand_name: customization?.name ?? "",
 				address: restaurant_information?.address ?? "",
 				city: restaurant_information?.city ?? "",
-				header_url: customization?.header_url ?? null,
+				headers_path: customization?.headers_path ?? null,
+				headers_url,
 				restaurant_type: restaurant_information?.restaurant_type ?? "",
 				location: restaurant_information?.location as any,
 				summary: {

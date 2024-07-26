@@ -29,7 +29,7 @@ const upload = multer();
 const models: TsoaRoute.Models = {
     "Pick_UserOutput.Exclude_keyofUserOutput.password__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"firstname":{"dataType":"string","required":true},"lastname":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"avatar_url":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"phone":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"created_at":{"dataType":"datetime","required":true},"is_active":{"dataType":"boolean","required":true},"is_owner":{"dataType":"boolean","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"firstname":{"dataType":"string","required":true},"lastname":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"avatar_path":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"phone":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"created_at":{"dataType":"datetime","required":true},"is_active":{"dataType":"boolean","required":true},"is_owner":{"dataType":"boolean","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Omit_UserOutput.password_": {
@@ -39,7 +39,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserRecord": {
         "dataType": "refAlias",
-        "type": {"dataType":"intersection","subSchemas":[{"ref":"Omit_UserOutput.password_"},{"dataType":"nestedObjectLiteral","nestedProperties":{"avatar_url":{"dataType":"string","required":true}}}],"validators":{}},
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"Omit_UserOutput.password_"},{"dataType":"nestedObjectLiteral","nestedProperties":{"avatar_url":{"dataType":"string"}}}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserCredentials": {
@@ -54,7 +54,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "%24Result.DefaultSelection_Prisma.%24UserPayload_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"is_owner":{"dataType":"boolean","required":true},"is_active":{"dataType":"boolean","required":true},"created_at":{"dataType":"datetime","required":true},"password":{"dataType":"string","required":true},"phone":{"dataType":"string","required":true},"avatar_url":{"dataType":"string","required":true},"lastname":{"dataType":"string","required":true},"firstname":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"id":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"is_owner":{"dataType":"boolean","required":true},"is_active":{"dataType":"boolean","required":true},"created_at":{"dataType":"datetime","required":true},"password":{"dataType":"string","required":true},"phone":{"dataType":"string","required":true},"avatar_path":{"dataType":"string","required":true},"lastname":{"dataType":"string","required":true},"firstname":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"id":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "User": {
@@ -77,14 +77,14 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone-or-avatar_url__": {
+    "Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone-or-avatar_path__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"password":{"dataType":"string"},"email":{"dataType":"string"},"firstname":{"dataType":"string"},"lastname":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"avatar_url":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"phone":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"old_password":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"password":{"dataType":"string"},"email":{"dataType":"string"},"firstname":{"dataType":"string"},"lastname":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"avatar_path":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"phone":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"old_password":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserUpdateInput": {
         "dataType": "refAlias",
-        "type": {"ref":"Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone-or-avatar_url__","validators":{}},
+        "type": {"ref":"Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone-or-avatar_path__","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial_CategoryOutput_": {
@@ -240,7 +240,7 @@ const models: TsoaRoute.Models = {
             "brand_name": {"dataType":"string","required":true},
             "address": {"dataType":"string","required":true},
             "city": {"dataType":"string","required":true},
-            "header_url": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
+            "headers_path": {"dataType":"union","subSchemas":[{"dataType":"array","array":{"dataType":"string"}},{"dataType":"enum","enums":[null]}],"required":true},
             "restaurant_type": {"dataType":"string","required":true},
             "location": {"dataType":"any","required":true},
             "summary": {"ref":"RestaurantSummary","required":true},
@@ -266,7 +266,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "firstname": {"dataType":"string","required":true},
             "lastname": {"dataType":"string"},
-            "avatar_url": {"dataType":"string"},
+            "avatar_path": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
@@ -335,7 +335,7 @@ const models: TsoaRoute.Models = {
             "brand_name": {"dataType":"string","required":true},
             "address": {"dataType":"string","required":true},
             "city": {"dataType":"string","required":true},
-            "header_url": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
+            "headers_path": {"dataType":"union","subSchemas":[{"dataType":"array","array":{"dataType":"string"}},{"dataType":"enum","enums":[null]}],"required":true},
             "restaurant_type": {"dataType":"string","required":true},
             "location": {"dataType":"any","required":true},
             "summary": {"ref":"RestaurantSummary","required":true},
@@ -358,7 +358,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_UserRecord.firstname-or-lastname-or-avatar_url_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"firstname":{"dataType":"string","required":true},"lastname":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"avatar_url":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"firstname":{"dataType":"string","required":true},"lastname":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"avatar_url":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserInfo": {
@@ -426,7 +426,7 @@ const models: TsoaRoute.Models = {
             "postal_code": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
             "id": {"dataType":"string","required":true},
             "name": {"dataType":"string","required":true},
-            "header_url": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
+            "headers_path": {"dataType":"array","array":{"dataType":"string"},"required":true},
             "brand_name": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
             "price_average": {"dataType":"double","required":true},
             "rating": {"dataType":"double","required":true},
@@ -454,17 +454,17 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial_UpdateRestaurantInput_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"brand_name":{"dataType":"string"},"extra_description":{"dataType":"string"},"twitter":{"dataType":"string"},"instagram":{"dataType":"string"},"tiktok":{"dataType":"string"},"facebook":{"dataType":"string"},"headers":{"dataType":"array","array":{"dataType":"string"}},"password":{"dataType":"string"},"email":{"dataType":"string"},"avatar_url":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"name":{"dataType":"string"},"phone":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"description":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"address":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"country":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"city":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"restaurant_type":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"postal_code":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"brand_name":{"dataType":"string"},"extra_description":{"dataType":"string"},"twitter":{"dataType":"string"},"instagram":{"dataType":"string"},"tiktok":{"dataType":"string"},"facebook":{"dataType":"string"},"headers":{"dataType":"array","array":{"dataType":"string"}},"password":{"dataType":"string"},"email":{"dataType":"string"},"avatar_path":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"name":{"dataType":"string"},"phone":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"description":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"address":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"country":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"city":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"restaurant_type":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},"postal_code":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-header_url-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_": {
+    "Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-headers_path-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"name":{"dataType":"string","required":true},"rating":{"dataType":"double","required":true},"address":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"country":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"city":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"restaurant_type":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"header_url":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"brand_name":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"price_average":{"dataType":"double","required":true},"rating_count":{"dataType":"double","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"name":{"dataType":"string","required":true},"rating":{"dataType":"double","required":true},"address":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"country":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"city":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"restaurant_type":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"headers_path":{"dataType":"array","array":{"dataType":"string"},"required":true},"brand_name":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},"price_average":{"dataType":"double","required":true},"rating_count":{"dataType":"double","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "RestaurantCardRecord": {
         "dataType": "refAlias",
-        "type": {"ref":"Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-header_url-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_","validators":{}},
+        "type": {"ref":"Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-headers_path-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "LandingRestaurantInfo": {
@@ -481,7 +481,7 @@ const models: TsoaRoute.Models = {
             "brand_name": {"dataType":"string","required":true},
             "address": {"dataType":"string","required":true},
             "city": {"dataType":"string","required":true},
-            "header_url": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
+            "headers_path": {"dataType":"union","subSchemas":[{"dataType":"array","array":{"dataType":"string"}},{"dataType":"enum","enums":[null]}],"required":true},
             "restaurant_type": {"dataType":"string","required":true},
             "location": {"dataType":"any","required":true},
             "summary": {"ref":"RestaurantSummary","required":true},
@@ -502,14 +502,14 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["rating"]},{"dataType":"enum","enums":["visits"]},{"dataType":"enum","enums":["new"]}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_UserOutput.email-or-password-or-avatar_url_": {
+    "Pick_UserOutput.email-or-password-or-avatar_path_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"password":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"avatar_url":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"password":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"avatar_path":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "AdministratorInput": {
         "dataType": "refAlias",
-        "type": {"ref":"Pick_UserOutput.email-or-password-or-avatar_url_","validators":{}},
+        "type": {"ref":"Pick_UserOutput.email-or-password-or-avatar_path_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_RestaurantProps.name_": {

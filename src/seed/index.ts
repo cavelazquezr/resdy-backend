@@ -10,7 +10,7 @@ const seedModel = async (seedData: Record<string, any[]>) => {
 				await client.user.upsert({
 					where: { email: user.email },
 					update: user,
-					create: user,
+					create: { ...user, avatar_path: `users/${user.id}/${user.id}-avatar` },
 				});
 			}),
 		);
@@ -98,7 +98,7 @@ const seedModel = async (seedData: Record<string, any[]>) => {
 							create: { ...information, location },
 						},
 						customization: {
-							create: customization,
+							create: { ...customization, headers_path: [`restaurants/${restaurantInput.name}/headers/header-1`] },
 						},
 						restaurant_stadistic: {
 							create: stadistics,

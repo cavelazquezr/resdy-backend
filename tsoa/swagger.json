@@ -21,7 +21,7 @@
 						"type": "string",
 						"nullable": true
 					},
-					"avatar_url": {
+					"avatar_path": {
 						"type": "string",
 						"nullable": true
 					},
@@ -45,7 +45,7 @@
 					"email",
 					"firstname",
 					"lastname",
-					"avatar_url",
+					"avatar_path",
 					"phone",
 					"created_at",
 					"is_active",
@@ -69,9 +69,6 @@
 								"type": "string"
 							}
 						},
-						"required": [
-							"avatar_url"
-						],
 						"type": "object"
 					}
 				]
@@ -113,7 +110,7 @@
 					"phone": {
 						"type": "string"
 					},
-					"avatar_url": {
+					"avatar_path": {
 						"type": "string"
 					},
 					"lastname": {
@@ -135,7 +132,7 @@
 					"created_at",
 					"password",
 					"phone",
-					"avatar_url",
+					"avatar_path",
 					"lastname",
 					"firstname",
 					"email",
@@ -182,7 +179,7 @@
 			"UserCreateInput": {
 				"$ref": "#/components/schemas/Pick_User.email-or-firstname-or-lastname-or-password-or-is_owner_"
 			},
-			"Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone-or-avatar_url__": {
+			"Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone-or-avatar_path__": {
 				"properties": {
 					"password": {
 						"type": "string"
@@ -197,7 +194,7 @@
 						"type": "string",
 						"nullable": true
 					},
-					"avatar_url": {
+					"avatar_path": {
 						"type": "string",
 						"nullable": true
 					},
@@ -213,7 +210,7 @@
 				"description": "Make all properties in T optional"
 			},
 			"UserUpdateInput": {
-				"$ref": "#/components/schemas/Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone-or-avatar_url__"
+				"$ref": "#/components/schemas/Partial_Pick_UserUpdateInputWithOldPassword.old_password-or-email-or-firstname-or-lastname-or-password-or-phone-or-avatar_path__"
 			},
 			"Partial_CategoryOutput_": {
 				"properties": {
@@ -658,8 +655,11 @@
 					"city": {
 						"type": "string"
 					},
-					"header_url": {
-						"type": "string",
+					"headers_path": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
 						"nullable": true
 					},
 					"restaurant_type": {
@@ -693,7 +693,7 @@
 					"brand_name",
 					"address",
 					"city",
-					"header_url",
+					"headers_path",
 					"restaurant_type",
 					"location",
 					"summary",
@@ -758,7 +758,7 @@
 					"lastname": {
 						"type": "string"
 					},
-					"avatar_url": {
+					"avatar_path": {
 						"type": "string"
 					}
 				},
@@ -947,8 +947,11 @@
 					"city": {
 						"type": "string"
 					},
-					"header_url": {
-						"type": "string",
+					"headers_path": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
 						"nullable": true
 					},
 					"restaurant_type": {
@@ -982,7 +985,7 @@
 					"brand_name",
 					"address",
 					"city",
-					"header_url",
+					"headers_path",
 					"restaurant_type",
 					"location",
 					"summary",
@@ -1050,14 +1053,12 @@
 						"nullable": true
 					},
 					"avatar_url": {
-						"type": "string",
-						"nullable": true
+						"type": "string"
 					}
 				},
 				"required": [
 					"firstname",
-					"lastname",
-					"avatar_url"
+					"lastname"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
@@ -1186,9 +1187,11 @@
 					"name": {
 						"type": "string"
 					},
-					"header_url": {
-						"type": "string",
-						"nullable": true
+					"headers_path": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
 					},
 					"brand_name": {
 						"type": "string",
@@ -1234,7 +1237,7 @@
 					"postal_code",
 					"id",
 					"name",
-					"header_url",
+					"headers_path",
 					"brand_name",
 					"price_average",
 					"rating",
@@ -1308,7 +1311,7 @@
 					"email": {
 						"type": "string"
 					},
-					"avatar_url": {
+					"avatar_path": {
 						"type": "string",
 						"nullable": true
 					},
@@ -1347,7 +1350,7 @@
 				"type": "object",
 				"description": "Make all properties in T optional"
 			},
-			"Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-header_url-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_": {
+			"Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-headers_path-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_": {
 				"properties": {
 					"name": {
 						"type": "string"
@@ -1372,9 +1375,11 @@
 						"type": "string",
 						"nullable": true
 					},
-					"header_url": {
-						"type": "string",
-						"nullable": true
+					"headers_path": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
 					},
 					"brand_name": {
 						"type": "string",
@@ -1396,7 +1401,7 @@
 					"country",
 					"city",
 					"restaurant_type",
-					"header_url",
+					"headers_path",
 					"brand_name",
 					"price_average",
 					"rating_count"
@@ -1405,7 +1410,7 @@
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
 			"RestaurantCardRecord": {
-				"$ref": "#/components/schemas/Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-header_url-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_"
+				"$ref": "#/components/schemas/Pick_RestaurantRecord.-or-name-or-brand_name-or-address-or-price_average-or-headers_path-or-rating-or-rating_count-or-city-or-country-or-restaurant_type_"
 			},
 			"LandingRestaurantInfo": {
 				"properties": {},
@@ -1438,8 +1443,11 @@
 					"city": {
 						"type": "string"
 					},
-					"header_url": {
-						"type": "string",
+					"headers_path": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
 						"nullable": true
 					},
 					"restaurant_type": {
@@ -1468,7 +1476,7 @@
 					"brand_name",
 					"address",
 					"city",
-					"header_url",
+					"headers_path",
 					"restaurant_type",
 					"location",
 					"summary",
@@ -1513,7 +1521,7 @@
 					"new"
 				]
 			},
-			"Pick_UserOutput.email-or-password-or-avatar_url_": {
+			"Pick_UserOutput.email-or-password-or-avatar_path_": {
 				"properties": {
 					"password": {
 						"type": "string"
@@ -1521,7 +1529,7 @@
 					"email": {
 						"type": "string"
 					},
-					"avatar_url": {
+					"avatar_path": {
 						"type": "string",
 						"nullable": true
 					}
@@ -1529,13 +1537,13 @@
 				"required": [
 					"password",
 					"email",
-					"avatar_url"
+					"avatar_path"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
 			"AdministratorInput": {
-				"$ref": "#/components/schemas/Pick_UserOutput.email-or-password-or-avatar_url_"
+				"$ref": "#/components/schemas/Pick_UserOutput.email-or-password-or-avatar_path_"
 			},
 			"Pick_RestaurantProps.name_": {
 				"properties": {

@@ -17,6 +17,7 @@ export class DetailedValidateError extends ValidateError {
 }
 
 export const errorHandler = (err: unknown, req: ExRequest, res: ExResponse, next: NextFunction): ExResponse | void => {
+	console.error(`❌ Caught Error for ${req.path}:`, err);
 	if (err instanceof DetailedValidateError) {
 		console.error(`❌ Caught Validation Error for ${req.path}:`, err.fields);
 

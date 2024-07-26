@@ -7,7 +7,7 @@ export interface RestaurantCardOutput<T> {
 	brand_name: string;
 	address: string;
 	city: string;
-	header_url: string | null;
+	headers_path: string[] | null;
 	restaurant_type: string;
 	location: any;
 	summary: RestaurantSummary;
