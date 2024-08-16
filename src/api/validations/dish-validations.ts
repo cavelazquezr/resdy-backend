@@ -67,34 +67,13 @@ export const updateDishValidation = async (
 			if (is_active === false && hide === true) {
 				errors.dish_input = { message: "No puedes ocultar un platillo que ya está oculto", status: 422 };
 			}
-			const unprocessableBody = Object.values(input).length > 0 && !!dish_input.hide;
-			if (unprocessableBody) {
-				errors.dish_input = {
-					message: "No puedes modificar las propiedades de un platillo y ocultar/mostrar al mismo tiempo",
-					status: 422,
-				};
-			}
 		}
 	});
 };
 
-export const deleteDishValidation = async (authorization: string, dish_ids: string[]): Promise<void> => {
+export const deleteDishValidation = async (authorization: string, dish_id: string): Promise<void> => {
 	await handleValidate(async (errors) => {
-		const invalidDishIds: string[] = [];
-		await Promise.all(
-			dish_ids.map(async (dish_id) => {
-				const dishExists = await checkIfDishExists(dish_id);
-				if (!dishExists) {
-					invalidDishIds.push(dish_id);
-				}
-			}),
-		);
-
-		if (invalidDishIds.length > 0) {
-			errors.dish_ids = { message: `Los platillos con los id(s) ${invalidDishIds.join(", ")} no existen`, status: 404 };
-		}
-
-		const dish = await getDishById(dish_ids[0]);
+		const dish = await getDishById(dish_id);
 		if (dish) {
 			const { restaurant_id } = dish;
 			const isRestaurantAdmin = await checkIfIsRestaurantAdmin(authorization, restaurant_id);

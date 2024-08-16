@@ -1,6 +1,20 @@
 import { WithIsUsed } from "../../types";
-import { CategoryCreateInput, CategoryOutput, CategoryProps, CategoryUpdateInput } from "../../types/categories";
-import { createCategory, deleteCategories, getRestaurantCategories, updateCategory } from "../models/category-models";
+import {
+	CategoryCreateInput,
+	CategoryOutput,
+	CategoryProps,
+	CategoryUpdateInput,
+	MyCategoriesRecord,
+} from "../../types/categories";
+import { getEmail } from "../../utils";
+import { checkIfCategoryIsUsed } from "../../utils/validations";
+import {
+	createCategory,
+	deleteCategories,
+	getMyRestaurantCategories,
+	getRestaurantCategories,
+	updateCategory,
+} from "../models/category-models";
 
 export const getRestautantCategoriesService = async (restaurant_name: string): Promise<WithIsUsed<CategoryProps>[]> => {
 	const { categories, dishes } = await getRestaurantCategories(restaurant_name);
@@ -18,6 +32,24 @@ export const getRestautantCategoriesService = async (restaurant_name: string): P
 	return categoriesRecords;
 };
 
+export const getMyRestautantCategoriesService = async (
+	authorization: string,
+): Promise<WithIsUsed<MyCategoriesRecord>[]> => {
+	const email = getEmail(authorization);
+	const { categories, dishes } = await getMyRestaurantCategories(email);
+	const categoriesRecords: WithIsUsed<MyCategoriesRecord>[] = await Promise.all(
+		categories.map(async (category) => {
+			const isUsed = await checkIfCategoryIsUsed(category.id);
+			return {
+				...category,
+				dishes: dishes.filter((dish) => dish.category_id === category.id).length,
+				is_used: isUsed,
+			};
+		}),
+	);
+	return categoriesRecords;
+};
+
 export const updateCategoryService = async (category_id: string, category_input: CategoryUpdateInput) => {
 	const updatedCategory: CategoryOutput = await updateCategory(category_id, category_input);
 	return updatedCategory;
@@ -28,7 +60,6 @@ export const createCategoryService = async (category_id: string, category_input:
 	return newCategory;
 };
 
-export const deleteCategoriesService = async (category_ids: string[]): Promise<void> => {
-	await deleteCategories(category_ids);
+export const deleteCategoriesService = async (category_id: string): Promise<void> => {
+	await deleteCategories(category_id);
 };
-

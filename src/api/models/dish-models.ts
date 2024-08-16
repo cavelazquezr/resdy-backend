@@ -27,6 +27,33 @@ export const getRestaurantDishesByCategories = async (restaurant_name: string) =
 	return query;
 };
 
+export const getMyDishes = async (email: string) => {
+	const query = await dishes.findMany({
+		where: {
+			restaurant: {
+				admin: {
+					email,
+				},
+			},
+		},
+		select: {
+			id: true,
+			restaurant_id: true,
+			category_id: true,
+			name: true,
+			price: true,
+			is_active: true,
+			photo_url: true,
+			allergen: true,
+			description: true,
+			created_at: true,
+			updated_at: true,
+			category: true,
+		},
+	});
+	return query;
+};
+
 export const updateDish = async (dish_id: string, dish_input: DishUpdateInput) => {
 	const { hide, ...input } = dish_input;
 	const query = await dishes.update({
@@ -36,6 +63,20 @@ export const updateDish = async (dish_id: string, dish_input: DishUpdateInput) =
 		data: {
 			...input,
 			is_active: hide ? false : true,
+		},
+		select: {
+			id: true,
+			restaurant_id: true,
+			category_id: true,
+			name: true,
+			price: true,
+			is_active: true,
+			photo_url: true,
+			allergen: true,
+			description: true,
+			created_at: true,
+			updated_at: true,
+			category: true,
 		},
 	});
 	return query;
@@ -56,16 +97,28 @@ export const createDish = async (restaurant_name: string, category_id: string, d
 				},
 			},
 		},
+		select: {
+			id: true,
+			restaurant_id: true,
+			category_id: true,
+			name: true,
+			price: true,
+			is_active: true,
+			photo_url: true,
+			allergen: true,
+			description: true,
+			created_at: true,
+			updated_at: true,
+			category: true,
+		},
 	});
 	return query;
 };
 
-export const deleteDishes = async (dish_ids: string[]) => {
-	await dishes.deleteMany({
+export const deleteDishes = async (dish_id: string) => {
+	await dishes.delete({
 		where: {
-			id: {
-				in: dish_ids,
-			},
+			id: dish_id,
 		},
 	});
 };

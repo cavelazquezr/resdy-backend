@@ -11,7 +11,7 @@ import { calculatePriceAverage, calculateRatingAverage } from "../../utils";
 import { Prisma } from "@prisma/client";
 import { getObjectSignedUrl } from "../../services/aws/s3";
 
-const { restaurant, restaurantInformation } = client;
+const { restaurant } = client;
 
 export const getCurrentRestaurantInfoByName = async (restaurant_name: string) => {
 	const query = await restaurant.findUnique({

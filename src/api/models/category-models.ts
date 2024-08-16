@@ -43,6 +43,41 @@ export const getRestaurantCategories = async (restaurant_name: string) => {
 	return transaction;
 };
 
+export const getMyRestaurantCategories = async (email: string) => {
+	const transaction = await client.$transaction(async (tx) => {
+		const categoriesQuery = await tx.category.findMany({
+			where: {
+				restaurant: {
+					admin: {
+						email: email,
+					},
+				},
+			},
+			select: {
+				id: true,
+				label: true,
+				is_active: true,
+				created_at: true,
+				updated_at: true,
+			},
+		});
+		const dishesQuery = await tx.dishes.findMany({
+			where: {
+				restaurant: {
+					admin: {
+						email: email,
+					},
+				},
+			},
+			select: {
+				category_id: true,
+			},
+		});
+		return { categories: categoriesQuery, dishes: dishesQuery };
+	});
+	return transaction;
+};
+
 export const updateCategory = async (category_id: string, category_input: CategoryUpdateInput) => {
 	const { hide, ...input } = category_input;
 	const query = await category.update({
@@ -71,12 +106,10 @@ export const createCategory = async (restaurant_name: string, category_input: Ca
 	return query;
 };
 
-export const deleteCategories = async (category_ids: string[]) => {
-	await category.deleteMany({
+export const deleteCategories = async (category_id: string) => {
+	await category.delete({
 		where: {
-			id: {
-				in: category_ids,
-			},
+			id: category_id,
 		},
 	});
 };

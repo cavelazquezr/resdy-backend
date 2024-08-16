@@ -4,6 +4,7 @@ import { WithIsUsed } from "../../types";
 import {
 	createCategoryService,
 	deleteCategoriesService,
+	getMyRestautantCategoriesService,
 	getRestautantCategoriesService,
 	updateCategoryService,
 } from "../services/category-services";
@@ -22,7 +23,10 @@ export class CategoriesController extends Controller {
 		await getRestautantCategoriesValidations(restaurant_name);
 		return getRestautantCategoriesService(restaurant_name);
 	}
-
+	@Get("/admin/myCategories")
+	public async getMyRestautantCategories(@Header() authorization: string): Promise<WithIsUsed<CategoryProps>[]> {
+		return getMyRestautantCategoriesService(authorization);
+	}
 	@Post("{restaurant_name}")
 	public async postCategory(
 		@Header() authorization: string,
@@ -43,13 +47,9 @@ export class CategoriesController extends Controller {
 		return updateCategoryService(category_id, category_input);
 	}
 
-	@Delete()
-	public async deleteCategory(
-		@Header() authorization: string,
-		@Body() body_params: { category_ids: string[] },
-	): Promise<void> {
-		const { category_ids } = body_params;
-		await deleteCategoriesValidation(authorization, category_ids);
-		return deleteCategoriesService(category_ids);
+	@Delete("{category_id}")
+	public async deleteCategory(@Header() authorization: string, @Path() category_id: string): Promise<void> {
+		await deleteCategoriesValidation(authorization, category_id);
+		return deleteCategoriesService(category_id);
 	}
 }

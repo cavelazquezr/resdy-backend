@@ -1,6 +1,12 @@
 import { Header, Controller, Body, Route, Tags, Path, Post, Get, Put, Delete } from "tsoa";
 import { DishCreateInput, DishesByCategoryOutput, DishOutput, DishUpdateInput } from "../../types/dishes";
-import { deleteDishesService, getDishesService, postDishesService, updateDishService } from "../services/dish-services";
+import {
+	deleteDishesService,
+	getDishesService,
+	getMyDishesService,
+	postDishesService,
+	updateDishService,
+} from "../services/dish-services";
 import {
 	deleteDishValidation,
 	getDishesValidations,
@@ -15,6 +21,10 @@ export class DishesController extends Controller {
 	public async getDishes(@Path() restaurant_name: string): Promise<DishesByCategoryOutput[]> {
 		await getDishesValidations(restaurant_name);
 		return getDishesService(restaurant_name);
+	}
+	@Get("admin/myDishes")
+	public async getMyDishes(@Header() authorization: string): Promise<Array<DishOutput>> {
+		return getMyDishesService(authorization);
 	}
 
 	@Post("{restaurant_name}/{category_id}")
@@ -38,10 +48,9 @@ export class DishesController extends Controller {
 		return updateDishService(dish_id, dish_input);
 	}
 
-	@Delete()
-	public async deleteDish(@Header() authorization: string, @Body() body_params: { dish_ids: string[] }): Promise<void> {
-		const { dish_ids } = body_params;
-		await deleteDishValidation(authorization, dish_ids);
-		return deleteDishesService(dish_ids);
+	@Delete("{dish_id}")
+	public async deleteDish(@Header() authorization: string, @Path() dish_id: string): Promise<void> {
+		await deleteDishValidation(authorization, dish_id);
+		return deleteDishesService(dish_id);
 	}
 }
