@@ -34,10 +34,9 @@ export const updateDishService = async (dish_id: string, dish_input: DishUpdateI
 
 export const postDishesService = async (
 	restaurant_name: string,
-	category_id: string,
 	dish_input: DishCreateInput,
 ): Promise<DishOutput> => {
-	const newDish: DishOutput = await createDish(restaurant_name, category_id, dish_input);
+	const newDish: DishOutput = await createDish(restaurant_name, dish_input);
 	return newDish;
 };
 

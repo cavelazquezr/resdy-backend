@@ -1,4 +1,9 @@
-import { checkIfIsRatingOwner, checkIfRestaurantExists, checkIfUserExists } from "../../utils/validations";
+import {
+	checkIfCanAnswer,
+	checkIfIsRatingOwner,
+	checkIfRestaurantExists,
+	checkIfUserExists,
+} from "../../utils/validations";
 import { verifyToken } from "../../utils";
 import { getRatingById } from "../models/rating-models";
 import { handleValidate } from "../../utils/handleValidate";
@@ -34,15 +39,15 @@ export const getRestaurantRatingStatsValidations = async (restaurant_name: strin
 export const putRatingValidations = async (authorization: string, rating_id: string): Promise<void> => {
 	await handleValidate(async (errors) => {
 		const rating = await getRatingById(rating_id);
-		if (rating?.status === "finished") {
-			errors.rating = { status: 422, message: "No puedes modificar una reseña que ya ha sido finalizada" };
-		}
 		if (!rating) {
 			errors.rating = { status: 422, message: "La reseña no existe" };
 		}
 		const isOwner = await checkIfIsRatingOwner(authorization, rating_id);
 		if (!isOwner) {
-			errors.authorization = { status: 403, message: "No tienes permisos para modificar esta reseña" };
+			const canAnswer = await checkIfCanAnswer(authorization, rating_id);
+			if (!canAnswer) {
+				errors.authorization = { status: 403, message: "No tienes permisos para modificar esta reseña" };
+			}
 		}
 	});
 };

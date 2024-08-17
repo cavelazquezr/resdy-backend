@@ -27,15 +27,14 @@ export class DishesController extends Controller {
 		return getMyDishesService(authorization);
 	}
 
-	@Post("{restaurant_name}/{category_id}")
+	@Post("{restaurant_name}")
 	public async postDishes(
 		@Header() authorization: string,
 		@Path() restaurant_name: string,
-		@Path() category_id: string,
 		@Body() dish_input: DishCreateInput,
 	): Promise<DishOutput> {
-		await postDishesValidations(authorization, category_id);
-		return postDishesService(restaurant_name, category_id, dish_input);
+		await postDishesValidations(authorization, dish_input);
+		return postDishesService(restaurant_name, dish_input);
 	}
 
 	@Put("{dish_id}")

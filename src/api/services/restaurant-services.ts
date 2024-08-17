@@ -26,30 +26,41 @@ import { getObjectSignedUrl } from "../../services/aws/s3";
 
 export const getRestaurantsService = async (query_params: GetRestaurantsQueryParams): Promise<RestaurantRecord[]> => {
 	const restaurants = (await getRestaurants(query_params)) as any;
-	const restaurantsRecord: RestaurantRecord[] = restaurants.map((restaurant) => {
-		const { id, name, restaurant_information, customization } = restaurant;
-		return {
-			name,
-			id,
-			brand_name: customization?.name ?? null,
-			headers_path: customization?.headers_path ?? null,
-			city: restaurant_information?.city ?? "",
-			address: restaurant_information?.address ?? "",
-			phone: restaurant_information?.phone ?? "",
-			country: restaurant_information?.country ?? "",
-			restaurant_type: restaurant_information?.restaurant_type ?? "",
-			description: restaurant_information?.description ?? null,
-			rating: calculateRatingAverage(restaurant.ratings),
-			rating_count: restaurant.ratings.length,
-			price_average: calculatePriceAverage(restaurant.dishes),
-			location: restaurant_information?.location as any | null,
-			extra_information: restaurant_information?.extra_information ?? null,
-			postal_code: restaurant_information?.postal_code ?? "",
-			social_media: restaurant_information?.social_media ?? null,
-		};
-	});
 
-	return restaurantsRecord;
+	return await Promise.all(
+		restaurants.map(async (restaurant) => {
+			const { id, name, restaurant_information, customization } = restaurant;
+
+			const headersUrlPromises = restaurant.customization
+				? restaurant.customization.headers_path.map((path: string) => {
+						return getObjectSignedUrl(path);
+					})
+				: [];
+
+			const headers_url = await Promise.all(headersUrlPromises);
+
+			return {
+				name,
+				id,
+				brand_name: customization?.name ?? null,
+				headers_path: customization?.headers_path ?? null,
+				city: restaurant_information?.city ?? "",
+				address: restaurant_information?.address ?? "",
+				phone: restaurant_information?.phone ?? "",
+				country: restaurant_information?.country ?? "",
+				restaurant_type: restaurant_information?.restaurant_type ?? "",
+				description: restaurant_information?.description ?? null,
+				rating: calculateRatingAverage(restaurant.ratings),
+				rating_count: restaurant.ratings.length,
+				price_average: calculatePriceAverage(restaurant.dishes),
+				location: restaurant_information?.location as any | null,
+				extra_information: restaurant_information?.extra_information ?? null,
+				postal_code: restaurant_information?.postal_code ?? "",
+				social_media: restaurant_information?.social_media ?? null,
+				headers_url,
+			};
+		}),
+	);
 };
 
 export const getMyRestaurantService = async (authorization: string): Promise<RestaurantRecord> => {
@@ -197,12 +208,12 @@ export const getDiscoveryRestaurants = async (
 			const restaurant_summary = await getRestaurantSummary(restaurant_id);
 
 			const headersUrlPromises = restaurant.customization
-					? restaurant.customization.headers_path.map((path: string) => {
-							return getObjectSignedUrl(path);
-						})
-					: [];
+				? restaurant.customization.headers_path.map((path: string) => {
+						return getObjectSignedUrl(path);
+					})
+				: [];
 
-				const headers_url = await Promise.all(headersUrlPromises);
+			const headers_url = await Promise.all(headersUrlPromises);
 
 			return {
 				id: restaurant_id,

@@ -4,7 +4,7 @@ import { CategoryOutput } from "./categories";
 
 export type DishOutput = Dishes & { category: CategoryOutput };
 export type DishProps = Partial<DishOutput>;
-export type DishCreateInput = Pick<DishOutput, "name" | "photo_url" | "allergen" | "price" | "description">;
+export type DishCreateInput = Pick<DishOutput, "name" | "allergen" | "description" | "category_id"> & { price: number };
 export type DishUpdateInput = WithHide<
 	Partial<Pick<DishProps, "name" | "photo_url" | "allergen" | "price" | "description">>
 >;

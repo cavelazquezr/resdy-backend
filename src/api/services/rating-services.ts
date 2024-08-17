@@ -52,6 +52,8 @@ export const getRestaurantRatingStatsService = async (restaurant_name: string): 
 		rating: calculateRatingAverage(ratings).toString(),
 		rating_count: ratings_count,
 		stats: getStatsFromRatings(ratings),
+		answered_ratings: ratings.filter((rating) => rating.answer).length,
+		unanswered_ratings: ratings.filter((rating) => !rating.answer).length,
 	};
 	return rating_records;
 };

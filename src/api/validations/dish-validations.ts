@@ -5,7 +5,7 @@ import {
 	checkIfRestaurantExists,
 } from "../../utils/validations";
 import { getCategoryById } from "../models/category-models";
-import { DishUpdateInput } from "../../types/dishes";
+import { DishCreateInput, DishUpdateInput } from "../../types/dishes";
 import { getDishById } from "../models/dish-models";
 import { handleValidate } from "../../utils/handleValidate";
 
@@ -18,14 +18,14 @@ export const getDishesValidations = async (restaurant_name: string): Promise<voi
 	});
 };
 
-export const postDishesValidations = async (authorization: string, category_id: string): Promise<void> => {
+export const postDishesValidations = async (authorization: string, input: DishCreateInput): Promise<void> => {
 	await handleValidate(async (errors) => {
-		const categoryExists = await checkIfCategoryExists(category_id);
+		const categoryExists = await checkIfCategoryExists(input.category_id);
 		if (!categoryExists) {
-			errors.category = { message: `La categoría con el id "${category_id}" no existe`, status: 404 };
+			errors.category = { message: `La categoría con el id "${input.category_id}" no existe`, status: 404 };
 		}
 
-		const category = await getCategoryById(category_id);
+		const category = await getCategoryById(input.category_id);
 		if (category) {
 			const { restaurant_id } = category;
 			const isRestaurantAdmin = await checkIfIsRestaurantAdmin(authorization, restaurant_id);

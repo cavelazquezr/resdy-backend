@@ -61,6 +61,16 @@ export const checkIfIsRatingOwner = async (authorization: string, rating_id: str
 	return user_query?.id === rating_query?.user_id;
 };
 
+export const checkIfCanAnswer = async (authorization: string, rating_id: string): Promise<boolean> => {
+	const { email } = verifyToken(authorization);
+	const user_query = await user.findUnique({ where: { email: email } });
+	const rating_query = await rating.findUnique({
+		where: { id: rating_id },
+		select: { restaurant: { select: { admin_id: true } } },
+	});
+	return user_query?.id === rating_query?.restaurant.admin_id;
+};
+
 export const checkIfIsUserHasRatedRestaurant = async (user_id: string, restaurant_name: string): Promise<boolean> => {
 	const rating_query = await rating.findMany({
 		where: {

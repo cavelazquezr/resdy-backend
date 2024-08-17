@@ -82,10 +82,11 @@ export const updateDish = async (dish_id: string, dish_input: DishUpdateInput) =
 	return query;
 };
 
-export const createDish = async (restaurant_name: string, category_id: string, dish: DishCreateInput) => {
+export const createDish = async (restaurant_name: string, dish: DishCreateInput) => {
+	const { category_id, ...input } = dish;
 	const query = await dishes.create({
 		data: {
-			...dish,
+			...input,
 			category: {
 				connect: {
 					id: category_id,
