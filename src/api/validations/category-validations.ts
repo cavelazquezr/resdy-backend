@@ -9,7 +9,7 @@ import { getCategoryById } from "../models/category-models";
 import { getCurrentRestaurantInfoByName } from "../models/restaurant-models";
 import { handleValidate } from "../../utils/handleValidate";
 
-export const getRestautantCategoriesValidations = async (restaurant_name: string): Promise<void> => {
+export const getRestaurantCategoriesValidations = async (restaurant_name: string): Promise<void> => {
 	await handleValidate(async (errors) => {
 		const restaurantExists = await checkIfRestaurantExists(restaurant_name);
 		if (!restaurantExists) {
@@ -83,6 +83,41 @@ export const deleteCategoriesValidation = async (authorization: string, category
 			}
 		} else {
 			errors.category = { message: `La categoría con el id ${category_id} no existe`, status: 404 };
+		}
+	});
+};
+
+export const reorderCategoriesValidation = async (
+	authorization: string,
+	categories: { id: string; order: number }[],
+): Promise<void> => {
+	await handleValidate(async (errors) => {
+		// Verifica que la lista de categorías tenga el formato correcto
+		if (
+			!Array.isArray(categories) ||
+			categories.some((cat) => typeof cat.id !== "string" || typeof cat.order !== "number")
+		) {
+			errors.categories = { message: "Formato de datos inválido.", status: 400 };
+		}
+
+		// Verifica si el usuario tiene permisos para modificar las categorías
+		for (const category of categories) {
+			const categoryExists = await checkIfCategoryExists(category.id);
+			if (!categoryExists) {
+				errors.categories = { message: `La categoría con el id ${category.id} no existe`, status: 404 };
+			} else {
+				const categoryData = await getCategoryById(category.id);
+				if (categoryData) {
+					const isRestaurantAdmin = await checkIfIsRestaurantAdmin(authorization, categoryData.restaurant_id);
+					if (!isRestaurantAdmin) {
+						errors.authorization = {
+							message: `No estás autorizado para reordenar categorías en este restaurante.`,
+							status: 401,
+						};
+						break;
+					}
+				}
+			}
 		}
 	});
 };

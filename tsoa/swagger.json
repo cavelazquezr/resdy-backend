@@ -232,6 +232,10 @@
 						"format": "date-time",
 						"nullable": true
 					},
+					"order": {
+						"type": "number",
+						"format": "double"
+					},
 					"restaurant_id": {
 						"type": "string"
 					}
@@ -265,6 +269,10 @@
 					"restaurant_id": {
 						"type": "string"
 					},
+					"order": {
+						"type": "number",
+						"format": "double"
+					},
 					"updated_at": {
 						"type": "string",
 						"format": "date-time"
@@ -285,6 +293,7 @@
 				},
 				"required": [
 					"restaurant_id",
+					"order",
 					"updated_at",
 					"created_at",
 					"is_active",
@@ -1904,7 +1913,7 @@
 		},
 		"/category/{restaurant_name}": {
 			"get": {
-				"operationId": "GetRestautantCategories",
+				"operationId": "GetRestaurantCategories",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -1985,7 +1994,7 @@
 		},
 		"/category/admin/myCategories": {
 			"get": {
-				"operationId": "GetMyRestautantCategories",
+				"operationId": "GetMyRestaurantCategories",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -2094,6 +2103,56 @@
 						}
 					}
 				]
+			}
+		},
+		"/category/reorder": {
+			"put": {
+				"operationId": "ReorderCategories",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Category service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "authorization",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"items": {
+									"properties": {
+										"order": {
+											"type": "number",
+											"format": "double"
+										},
+										"id": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"order",
+										"id"
+									],
+									"type": "object"
+								},
+								"type": "array"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/dishes/{restaurant_name}": {

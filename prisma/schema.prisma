@@ -49,12 +49,12 @@ model Restaurant {
 }
 
 model Customization {
-  extra_customization       Json?      @db.Json
-  headers_path              String[]   @default([])
-  name                      String?    @db.VarChar(20)
-  updated_at                DateTime   @updatedAt
-  restaurant                Restaurant @relation(fields: [restaurant_id], references: [id])
-  restaurant_id             String     @unique
+  extra_customization Json?      @db.Json
+  headers_path        String[]   @default([])
+  name                String?    @db.VarChar(20)
+  updated_at          DateTime   @updatedAt
+  restaurant          Restaurant @relation(fields: [restaurant_id], references: [id])
+  restaurant_id       String     @unique
 
   @@map("customization")
   @@schema("restaurant")
@@ -80,28 +80,27 @@ model RestaurantInformation {
 }
 
 model RestaurantStadistics {
-
-  total_bookings  Int        @db.Integer
-  restaurant      Restaurant @relation(fields: [restaurant_id], references: [id])
-  restaurant_id   String     @unique
+  total_bookings Int        @db.Integer
+  restaurant     Restaurant @relation(fields: [restaurant_id], references: [id])
+  restaurant_id  String     @unique
 
   @@map("restaurant_stadistics")
   @@schema("restaurant")
 }
 
 model Rating {
-  id             String      @id @default(uuid()) @db.VarChar(36)
-  rating         Int?        @db.Integer
-  title          String?     @db.VarChar(50)
-  comment        String?     @db.VarChar(400)
-  status         String      @db.VarChar(30)
-  answer         String?     @db.VarChar(400)
-  created_at     DateTime    @default(now())
-  updated_at     DateTime?   @updatedAt
-  user           User        @relation(fields: [user_id], references: [id])
-  user_id        String
-  restaurant     Restaurant  @relation(fields: [restaurant_id], references: [id])
-  restaurant_id  String
+  id            String     @id @default(uuid()) @db.VarChar(36)
+  rating        Int?       @db.Integer
+  title         String?    @db.VarChar(50)
+  comment       String?    @db.VarChar(400)
+  status        String     @db.VarChar(30)
+  answer        String?    @db.VarChar(400)
+  created_at    DateTime   @default(now())
+  updated_at    DateTime?  @updatedAt
+  user          User       @relation(fields: [user_id], references: [id])
+  user_id       String
+  restaurant    Restaurant @relation(fields: [restaurant_id], references: [id])
+  restaurant_id String
 
   @@map("rating")
   @@schema("rating")
@@ -129,6 +128,7 @@ model Category {
   is_active     Boolean    @default(true)
   created_at    DateTime   @default(now())
   updated_at    DateTime?  @updatedAt
+  order         Int        @default(0)
   restaurant    Restaurant @relation(fields: [restaurant_id], references: [id])
   restaurant_id String
   dishes        Dishes[]

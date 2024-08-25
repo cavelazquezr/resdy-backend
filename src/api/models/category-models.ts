@@ -59,6 +59,10 @@ export const getMyRestaurantCategories = async (email: string) => {
 				is_active: true,
 				created_at: true,
 				updated_at: true,
+				order: true,
+			},
+			orderBy: {
+				order: "asc",
 			},
 		});
 		const dishesQuery = await tx.dishes.findMany({
@@ -112,4 +116,16 @@ export const deleteCategories = async (category_id: string) => {
 			id: category_id,
 		},
 	});
+};
+
+export const updateCategoryOrder = async (categories: { id: string; order: number }[]) => {
+	const transaction = await client.$transaction(
+		categories.map((category) =>
+			client.category.update({
+				where: { id: category.id },
+				data: { order: category.order },
+			}),
+		),
+	);
+	return transaction;
 };

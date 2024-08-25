@@ -89,7 +89,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial_CategoryOutput_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"string"},"label":{"dataType":"string"},"is_active":{"dataType":"boolean"},"created_at":{"dataType":"datetime"},"updated_at":{"dataType":"union","subSchemas":[{"dataType":"datetime"},{"dataType":"enum","enums":[null]}]},"restaurant_id":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"string"},"label":{"dataType":"string"},"is_active":{"dataType":"boolean"},"created_at":{"dataType":"datetime"},"updated_at":{"dataType":"union","subSchemas":[{"dataType":"datetime"},{"dataType":"enum","enums":[null]}]},"order":{"dataType":"double"},"restaurant_id":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "CategoryProps": {
@@ -104,7 +104,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "%24Result.DefaultSelection_Prisma.%24CategoryPayload_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"restaurant_id":{"dataType":"string","required":true},"updated_at":{"dataType":"datetime","required":true},"created_at":{"dataType":"datetime","required":true},"is_active":{"dataType":"boolean","required":true},"label":{"dataType":"string","required":true},"id":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"restaurant_id":{"dataType":"string","required":true},"order":{"dataType":"double","required":true},"updated_at":{"dataType":"datetime","required":true},"created_at":{"dataType":"datetime","required":true},"is_active":{"dataType":"boolean","required":true},"label":{"dataType":"string","required":true},"id":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Category": {
@@ -657,9 +657,9 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/category/:restaurant_name',
             ...(fetchMiddlewares<RequestHandler>(CategoriesController)),
-            ...(fetchMiddlewares<RequestHandler>(CategoriesController.prototype.getRestautantCategories)),
+            ...(fetchMiddlewares<RequestHandler>(CategoriesController.prototype.getRestaurantCategories)),
 
-            function CategoriesController_getRestautantCategories(request: any, response: any, next: any) {
+            function CategoriesController_getRestaurantCategories(request: any, response: any, next: any) {
             const args = {
                     restaurant_name: {"in":"path","name":"restaurant_name","required":true,"dataType":"string"},
             };
@@ -673,7 +673,7 @@ export function RegisterRoutes(app: Router) {
                 const controller = new CategoriesController();
 
 
-              const promise = controller.getRestautantCategories.apply(controller, validatedArgs as any);
+              const promise = controller.getRestaurantCategories.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
@@ -682,9 +682,9 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/category/admin/myCategories',
             ...(fetchMiddlewares<RequestHandler>(CategoriesController)),
-            ...(fetchMiddlewares<RequestHandler>(CategoriesController.prototype.getMyRestautantCategories)),
+            ...(fetchMiddlewares<RequestHandler>(CategoriesController.prototype.getMyRestaurantCategories)),
 
-            function CategoriesController_getMyRestautantCategories(request: any, response: any, next: any) {
+            function CategoriesController_getMyRestaurantCategories(request: any, response: any, next: any) {
             const args = {
                     authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
             };
@@ -698,7 +698,7 @@ export function RegisterRoutes(app: Router) {
                 const controller = new CategoriesController();
 
 
-              const promise = controller.getMyRestautantCategories.apply(controller, validatedArgs as any);
+              const promise = controller.getMyRestaurantCategories.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
@@ -753,6 +753,32 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.putCategory.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.put('/category/reorder',
+            ...(fetchMiddlewares<RequestHandler>(CategoriesController)),
+            ...(fetchMiddlewares<RequestHandler>(CategoriesController.prototype.reorderCategories)),
+
+            function CategoriesController_reorderCategories(request: any, response: any, next: any) {
+            const args = {
+                    authorization: {"in":"header","name":"authorization","required":true,"dataType":"string"},
+                    categories: {"in":"body","name":"categories","required":true,"dataType":"array","array":{"dataType":"nestedObjectLiteral","nestedProperties":{"order":{"dataType":"double","required":true},"id":{"dataType":"string","required":true}}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new CategoriesController();
+
+
+              const promise = controller.reorderCategories.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

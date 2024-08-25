@@ -4,14 +4,16 @@ import { WithIsUsed } from "../../types";
 import {
 	createCategoryService,
 	deleteCategoriesService,
-	getMyRestautantCategoriesService,
-	getRestautantCategoriesService,
+	getMyRestaurantCategoriesService,
+	getRestaurantCategoriesService,
 	updateCategoryService,
+	updateCategoryOrderService,
 } from "../services/category-services";
 import {
 	createCategoryValidations,
 	deleteCategoriesValidation,
-	getRestautantCategoriesValidations,
+	getRestaurantCategoriesValidations,
+	reorderCategoriesValidation,
 	updateCategoryValidation,
 } from "../validations/category-validations";
 
@@ -19,13 +21,13 @@ import {
 @Route("category")
 export class CategoriesController extends Controller {
 	@Get("/{restaurant_name}")
-	public async getRestautantCategories(@Path() restaurant_name: string): Promise<WithIsUsed<CategoryProps>[]> {
-		await getRestautantCategoriesValidations(restaurant_name);
-		return getRestautantCategoriesService(restaurant_name);
+	public async getRestaurantCategories(@Path() restaurant_name: string): Promise<WithIsUsed<CategoryProps>[]> {
+		await getRestaurantCategoriesValidations(restaurant_name);
+		return getRestaurantCategoriesService(restaurant_name);
 	}
 	@Get("/admin/myCategories")
-	public async getMyRestautantCategories(@Header() authorization: string): Promise<WithIsUsed<CategoryProps>[]> {
-		return getMyRestautantCategoriesService(authorization);
+	public async getMyRestaurantCategories(@Header() authorization: string): Promise<WithIsUsed<CategoryProps>[]> {
+		return getMyRestaurantCategoriesService(authorization);
 	}
 	@Post("{restaurant_name}")
 	public async postCategory(
@@ -45,6 +47,15 @@ export class CategoriesController extends Controller {
 	): Promise<CategoryOutput> {
 		await updateCategoryValidation(authorization, category_id, category_input);
 		return updateCategoryService(category_id, category_input);
+	}
+
+	@Put("/reorder")
+	public async reorderCategories(
+		@Header() authorization: string,
+		@Body() categories: { id: string; order: number }[],
+	): Promise<void> {
+		await reorderCategoriesValidation(authorization, categories);
+		return updateCategoryOrderService(categories);
 	}
 
 	@Delete("{category_id}")

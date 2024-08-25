@@ -14,9 +14,10 @@ import {
 	getMyRestaurantCategories,
 	getRestaurantCategories,
 	updateCategory,
+	updateCategoryOrder,
 } from "../models/category-models";
 
-export const getRestautantCategoriesService = async (restaurant_name: string): Promise<WithIsUsed<CategoryProps>[]> => {
+export const getRestaurantCategoriesService = async (restaurant_name: string): Promise<WithIsUsed<CategoryProps>[]> => {
 	const { categories, dishes } = await getRestaurantCategories(restaurant_name);
 	const categoriesRecords: WithIsUsed<CategoryProps>[] = categories.map((category) => {
 		const { id } = category;
@@ -32,7 +33,7 @@ export const getRestautantCategoriesService = async (restaurant_name: string): P
 	return categoriesRecords;
 };
 
-export const getMyRestautantCategoriesService = async (
+export const getMyRestaurantCategoriesService = async (
 	authorization: string,
 ): Promise<WithIsUsed<MyCategoriesRecord>[]> => {
 	const email = getEmail(authorization);
@@ -62,4 +63,8 @@ export const createCategoryService = async (category_id: string, category_input:
 
 export const deleteCategoriesService = async (category_id: string): Promise<void> => {
 	await deleteCategories(category_id);
+};
+
+export const updateCategoryOrderService = async (categories: { id: string; order: number }[]) => {
+	await updateCategoryOrder(categories);
 };
